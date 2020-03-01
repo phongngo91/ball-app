@@ -22,3 +22,23 @@ In addition, the project will include:
 
 ##  Wireframes
 
+This app will consist of a single screen with a play screen, nav links to the Github, LinkedIn and the controls, a controls help screen, and a timer countdown on the upper left, and a current power on the left side.
+
+<img width="812" alt="Screen Shot 2020-03-01 at 6 12 15 PM" src="https://user-images.githubusercontent.com/43156715/75635921-39e3eb80-5be8-11ea-9089-67a215e542cd.png">
+
+## Architecture and Technologies
+
+* JavaScript for game logic
+
+## Implementation Timeline
+
+Date 1: Setup all necessary Node modules, including getting webpack up and running. Write a basic entry file and how to implement 3d rendering using JavaScript.
+
+* Get app running
+* Create a ball model
+
+Date 2: Get a ball moving and build a few obstacle models, and build the finish line model and collision/end game logic.
+
+* Finish building level 1.
+
+Day 3-5: Make awesome levels and power ups, and make the game challenging for players. Make the game fun and colorful using styling packs.
