@@ -3,9 +3,11 @@ import ball from "./ball";
 import level_1 from "./level_1";
 import cube from "./cube";
 import cube2 from "./cube2";
+import yellowBall from "./yellow_ball";
+import blueBall from "./blue_ball";
 import '../styles/game.scss';
 
-// let timer = 0;
+let soccerBallHealth = 100;
 
 const gameContainer = document.createElement("div");
 gameContainer.classList.add("game-container");
@@ -16,6 +18,19 @@ let camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
+
+const randx = [0.3, 0.2, 0.1, 0.001, -0.1, -0.2, -0.3];
+const randy = [0.3, 0.2, 0.1, 0.001, -0.1, -0.2, -0.3];
+
+let xTrajectoryBank = 0;
+let yTrajectoryBank = 0;
+let xDir = 0;
+let yDir = 0;
+
+let blueXTrajectoryBank = 0;
+let blueYTrajectoryBank = 0;
+let blueXDir = 0;
+let blueYDir = 0;
 
 const topNav = document.getElementsByClassName("top-nav");
 
@@ -37,6 +52,8 @@ function restart() {
   scene.add(level_1);
   scene.add(cube);
   scene.add(cube2);
+  scene.add(yellowBall);
+  scene.add(blueBall);
 
   cube.position.x = 3;
   cube.position.y = 10;
@@ -45,6 +62,13 @@ function restart() {
   cube2.position.x = -3;
   cube2.position.y = 10;
   cube2.position.z = 1;
+
+  yellowBall.position.y = 10;
+  yellowBall.position.z = 1;
+
+  blueBall.position.y = 10;
+  blueBall.position.x = -2;
+  blueBall.position.z = 1;
 
   level_1.position.y = 10;
 
@@ -68,43 +92,45 @@ function restart() {
       level_1.position.y += moveSpeed;
       cube.position.y += moveSpeed;
       cube2.position.y += moveSpeed;
+      yellowBall.position.y += moveSpeed;
+      blueBall.position.y += moveSpeed;
+
       ball.rotation.x += moveSpeed;
     } else if (keyCode == UP_ARROW) {
       level_1.position.y -= moveSpeed;
       cube.position.y -= moveSpeed;
       cube2.position.y -= moveSpeed;
+      yellowBall.position.y -= moveSpeed;
+      blueBall.position.y -= moveSpeed;
+
       ball.rotation.x -= moveSpeed;
     } else if (keyCode == RIGHT_ARROW) {
-      // Collision check
-      if (Math.round(ball.position.x) !== Math.round(cube.position.x - 1)) {
+
         console.log("Hello");
         level_1.position.x -= moveSpeed;
         cube.position.x -= moveSpeed;
         cube2.position.x -= moveSpeed;
+        yellowBall.position.x -= moveSpeed;
+        blueBall.position.x -= moveSpeed;
+
         ball.rotation.y -= moveSpeed;
-      } else {
-        console.log("COLLISION");
-      }
+
     } else if (keyCode == LEFT_ARROW) {
-      if (Math.round(ball.position.x) !== Math.round(cube2.position.x + 1)){
-        console.log("Hello");
+
 
         level_1.position.x += moveSpeed;
         cube.position.x += moveSpeed;
         cube2.position.x += moveSpeed;
+        yellowBall.position.x += moveSpeed;
+        blueBall.position.x += moveSpeed;
+
         ball.rotation.y += moveSpeed;
-      } else {
-        console.log("COLLISION");
-      }
+
     } else if (keyCode == R_KEY) {
       restart();
     }
 
     if (level_1.position.y < -10) {
-      // var gameWindow = document.querySelector("canvas");
-      // if (gameWindow) {
-      //   gameContainer.removeChild(gameWindow);
-
       
       const gameOver = document.createElement("div");
       gameOver.classList.add("game-over-text");
@@ -116,17 +142,11 @@ function restart() {
         gameContainer[0].appendChild(gameOver);
 
       }
-      // gameContainer.appendChild(gameOver);
-      // }
+
     }
     console.log(ball.position.x, ball.position.y);
     console.log(cube.position.x, cube.position.y);
 
-    // if (Math.round(ball.position.y) === Math.round(cube.position.y)) {
-    //   ball.position.y -= 2;
-    //   camera.position.y -= 2;
-    //   console.log("COLLISION");
-    // }
 
     renderer.render(scene, camera);
   });
@@ -134,20 +154,70 @@ function restart() {
   var animate = function() {
     id = requestAnimationFrame(animate);
 
-    // const oldTimeTrack = document.getElementsByClassName("timer");
-    // if (oldTimeTrack.length > 0 && topNav.length > 0) {
-    //   topNav[0].removeChild(oldTimeTrack[0]);
-    // }
+    // YELLOW BALL Y
+    if (yTrajectoryBank === 0){
+      yTrajectoryBank = 30;
+      yDir = randy[Math.floor(Math.random() * randy.length)];
+    } else {
+      yellowBall.position.y += yDir;
 
-    // timer += 0.1;
+      if (yellowBall.position.y > 20 || yellowBall.position.y < -20) {
+        console.log(yellowBall.position.y);
+        yDir = yDir * -1;
+      }
 
-    // const timeTrack = document.createElement("div");
-    // timeTrack.innerHTML = Math.floor(timer);
-    // timeTrack.classList.add("timer");
+      yTrajectoryBank -= 1;
+    }
 
-    // if (topNav.length > 0){
-    //   topNav[0].appendChild(timeTrack);
-    // }
+    // YELLOW BALL X
+    if (xTrajectoryBank === 0){
+      xTrajectoryBank = 30;
+      xDir = randx[Math.floor(Math.random() * randx.length)];
+    } else {
+      yellowBall.position.x += xDir;
+
+      // if it is going out of bounds, flip the direction
+      if (yellowBall.position.x > 20 || yellowBall.position.x < -20){
+        console.log(yellowBall.position.x);
+        xDir = xDir * -1;
+      }
+
+      xTrajectoryBank -= 1;
+    }
+
+    // BLUE BALL Y
+    if (blueYTrajectoryBank === 0){
+      blueYTrajectoryBank = 30;
+      blueYDir = randy[Math.floor(Math.random() * randy.length)];
+    } else {
+      blueBall.position.y += blueYDir;
+
+      if (blueBall.position.y > 20 || blueBall.position.y < -20) {
+        console.log(blueBall.position.y);
+        blueYDir = blueYDir * -1;
+      }
+
+      blueYTrajectoryBank -= 1;
+    }
+
+    // BLUE BALL X
+
+    if (blueXTrajectoryBank === 0){
+      blueXTrajectoryBank = 30;
+      blueXDir = randx[Math.floor(Math.random() * randx.length)];
+    } else {
+      blueBall.position.x += blueXDir;
+
+      // if it is going out of bounds, flip the direction
+      if (blueBall.position.x > 20 || blueBall.position.x < -20){
+        console.log(blueBall.position.x);
+        blueXDir  = blueXDir  * -1;
+      }
+
+      blueXTrajectoryBank -= 1;
+    }
+
+    
 
     renderer.render(scene, camera);
   };

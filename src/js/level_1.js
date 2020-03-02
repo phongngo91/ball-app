@@ -1,6 +1,6 @@
 import * as THREE from "./three";
 
-var texture = new THREE.TextureLoader().load("src/images/pikachu.jpg");
+var texture = new THREE.TextureLoader().load("src/images/soccer_field.png");
 var geometry = new THREE.PlaneGeometry(5, 20, 32);
 
 var material = new THREE.MeshBasicMaterial({ map: texture });
