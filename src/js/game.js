@@ -5,7 +5,7 @@ import cube from "./cube";
 import cube2 from "./cube2";
 import yellowBall from "./yellow_ball";
 import blueBall from "./blue_ball";
-import '../styles/game.scss';
+import "../styles/game.scss";
 
 let soccerBallHealth = 100;
 
@@ -57,23 +57,19 @@ function restart() {
 
   cube.position.x = 3;
   cube.position.y = 10;
-  cube.position.z = 1;
 
   cube2.position.x = -3;
   cube2.position.y = 10;
-  cube2.position.z = 1;
 
   yellowBall.position.y = 10;
-  yellowBall.position.z = 1;
 
   blueBall.position.y = 10;
   blueBall.position.x = -2;
-  blueBall.position.z = 1;
 
   level_1.position.y = 10;
+  level_1.position.z = -1;
 
-  camera.position.z = 7;
-
+  camera.position.z = 6;
   camera.rotation.x = (55 * Math.PI) / 180;
   camera.position.y = -5;
 
@@ -92,34 +88,18 @@ function restart() {
       ball.rotation.x += moveSpeed;
       ball.position.y -= moveSpeed;
       camera.position.y -= moveSpeed;
-
     } else if (keyCode == UP_ARROW) {
-
       ball.rotation.x -= moveSpeed;
       ball.position.y += moveSpeed;
       camera.position.y += moveSpeed;
     } else if (keyCode == RIGHT_ARROW) {
-
-        console.log("Hello");
-        level_1.position.x -= moveSpeed;
-        cube.position.x -= moveSpeed;
-        cube2.position.x -= moveSpeed;
-        yellowBall.position.x -= moveSpeed;
-        blueBall.position.x -= moveSpeed;
-
-        ball.rotation.y -= moveSpeed;
-
+      ball.rotation.y -= moveSpeed;
+      ball.position.x += moveSpeed;
+      camera.position.x += moveSpeed;
     } else if (keyCode == LEFT_ARROW) {
-
-
-        level_1.position.x += moveSpeed;
-        cube.position.x += moveSpeed;
-        cube2.position.x += moveSpeed;
-        yellowBall.position.x += moveSpeed;
-        blueBall.position.x += moveSpeed;
-
-        ball.rotation.y += moveSpeed;
-
+      ball.rotation.y += moveSpeed;
+      ball.position.x -= moveSpeed;
+      camera.position.x -= moveSpeed;
     } else if (keyCode == R_KEY) {
       restart();
     }
@@ -138,7 +118,7 @@ function restart() {
     yellowBall.rotation.y -= 0.1;
 
     // YELLOW BALL Y
-    if (yTrajectoryBank === 0){
+    if (yTrajectoryBank === 0) {
       yTrajectoryBank = 30;
       yDir = randy[Math.floor(Math.random() * randy.length)];
     } else {
@@ -153,14 +133,14 @@ function restart() {
     }
 
     // YELLOW BALL X
-    if (xTrajectoryBank === 0){
+    if (xTrajectoryBank === 0) {
       xTrajectoryBank = 30;
       xDir = randx[Math.floor(Math.random() * randx.length)];
     } else {
       yellowBall.position.x += xDir;
 
       // if it is going out of bounds, flip the direction
-      if (yellowBall.position.x > 20 || yellowBall.position.x < -20){
+      if (yellowBall.position.x > 20 || yellowBall.position.x < -20) {
         console.log(yellowBall.position.x);
         xDir = xDir * -1;
       }
@@ -169,7 +149,7 @@ function restart() {
     }
 
     // BLUE BALL Y
-    if (blueYTrajectoryBank === 0){
+    if (blueYTrajectoryBank === 0) {
       blueYTrajectoryBank = 30;
       blueYDir = randy[Math.floor(Math.random() * randy.length)];
     } else {
@@ -185,16 +165,16 @@ function restart() {
 
     // BLUE BALL X
 
-    if (blueXTrajectoryBank === 0){
+    if (blueXTrajectoryBank === 0) {
       blueXTrajectoryBank = 30;
       blueXDir = randx[Math.floor(Math.random() * randx.length)];
     } else {
       blueBall.position.x += blueXDir;
 
       // if it is going out of bounds, flip the direction
-      if (blueBall.position.x > 20 || blueBall.position.x < -20){
+      if (blueBall.position.x > 20 || blueBall.position.x < -20) {
         console.log(blueBall.position.x);
-        blueXDir  = blueXDir  * -1;
+        blueXDir = blueXDir * -1;
       }
 
       blueXTrajectoryBank -= 1;
