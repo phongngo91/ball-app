@@ -4,7 +4,7 @@
   box-shadow: 3px 3px 5px 5px $color, 1px 0px 1px $color;
 }
 
-$main-color: green;
+$main-color: white;
 $accent-color: darken($main-color, 10%);
 $background-color: lighten($main-color, 40%);
 
@@ -36,7 +36,9 @@ body {
 }
 
 .image-card {
-  background-image: url("../images/yoda-stitch.jpg");
+  background-image: url("../images/pikachu.jpg");
+  background-size: cover;
+  background-position: 50% 50%;
   background-position: center;
 }
 
