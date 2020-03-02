@@ -72,10 +72,10 @@ function restart() {
 
   level_1.position.y = 10;
 
-  camera.position.z = 4;
+  camera.position.z = 7;
 
   camera.rotation.x = (55 * Math.PI) / 180;
-  camera.position.y = -3;
+  camera.position.y = -5;
 
   const moveSpeed = 0.5;
 
@@ -89,21 +89,15 @@ function restart() {
     var keyCode = e.which;
 
     if (keyCode == DOWN_ARROW) {
-      level_1.position.y += moveSpeed;
-      cube.position.y += moveSpeed;
-      cube2.position.y += moveSpeed;
-      yellowBall.position.y += moveSpeed;
-      blueBall.position.y += moveSpeed;
-
       ball.rotation.x += moveSpeed;
+      ball.position.y -= moveSpeed;
+      camera.position.y -= moveSpeed;
+
     } else if (keyCode == UP_ARROW) {
-      level_1.position.y -= moveSpeed;
-      cube.position.y -= moveSpeed;
-      cube2.position.y -= moveSpeed;
-      yellowBall.position.y -= moveSpeed;
-      blueBall.position.y -= moveSpeed;
 
       ball.rotation.x -= moveSpeed;
+      ball.position.y += moveSpeed;
+      camera.position.y += moveSpeed;
     } else if (keyCode == RIGHT_ARROW) {
 
         console.log("Hello");
@@ -130,29 +124,18 @@ function restart() {
       restart();
     }
 
-    if (level_1.position.y < -10) {
-      
-      const gameOver = document.createElement("div");
-      gameOver.classList.add("game-over-text");
-      gameOver.innerHTML = "GAME OVER, press r to Restart";
-      // timer = 0;
-      cancelAnimationFrame( id );
-      var gameContainer = document.getElementsByClassName('content-container');
-      if (gameContainer.length > 0){
-        gameContainer[0].appendChild(gameOver);
-
-      }
-
-    }
-    console.log(ball.position.x, ball.position.y);
-    console.log(cube.position.x, cube.position.y);
-
-
     renderer.render(scene, camera);
   });
 
   var animate = function() {
     id = requestAnimationFrame(animate);
+
+    //Rotations
+    blueBall.rotation.x += 0.1;
+    blueBall.rotation.y += 0.1;
+
+    yellowBall.rotation.x -= 0.1;
+    yellowBall.rotation.y -= 0.1;
 
     // YELLOW BALL Y
     if (yTrajectoryBank === 0){
@@ -216,8 +199,6 @@ function restart() {
 
       blueXTrajectoryBank -= 1;
     }
-
-    
 
     renderer.render(scene, camera);
   };
