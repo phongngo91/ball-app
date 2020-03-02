@@ -1,8 +1,9 @@
 import * as THREE from "./three";
 import ball from "./ball";
 import level_1 from "./level_1";
+import cube from "./cube";
 
-let timer = 0;
+// let timer = 0;
 
 const gameContainer = document.createElement("div");
 gameContainer.classList.add("game-container");
@@ -14,7 +15,7 @@ let camera = new THREE.PerspectiveCamera(
   1000
 );
 
-const topNav = document.getElementsByClassName('top-nav');
+const topNav = document.getElementsByClassName("top-nav");
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth * (6 / 10), window.innerHeight * (6 / 10));
@@ -22,7 +23,6 @@ renderer.setSize(window.innerWidth * (6 / 10), window.innerHeight * (6 / 10));
 let id;
 
 function restart() {
-  
   const oldGameOver = document.getElementsByClassName("game-over-text");
 
   if (oldGameOver.length > 0) {
@@ -33,9 +33,18 @@ function restart() {
 
   scene.add(ball);
   scene.add(level_1);
+  scene.add(cube);
+
+  cube.position.x = 3;
+  cube.position.y = 10;
+  cube.position.z = 1;
+
   level_1.position.y = 10;
 
-  camera.position.z = 5;
+  camera.position.z = 4;
+
+  camera.rotation.x = (55 * Math.PI) / 180;
+  camera.position.y = -3;
 
   const moveSpeed = 0.5;
 
@@ -49,54 +58,78 @@ function restart() {
     var keyCode = e.which;
     if (keyCode == DOWN_ARROW) {
       level_1.position.y += moveSpeed;
+      cube.position.y += moveSpeed;
+
       ball.rotation.x += moveSpeed;
     } else if (keyCode == UP_ARROW) {
       level_1.position.y -= moveSpeed;
+      cube.position.y -= moveSpeed;
+
       ball.rotation.x -= moveSpeed;
     } else if (keyCode == RIGHT_ARROW) {
       level_1.position.x -= moveSpeed;
+      cube.position.x -= moveSpeed;
+
       ball.rotation.y -= moveSpeed;
     } else if (keyCode == LEFT_ARROW) {
       level_1.position.x += moveSpeed;
+      cube.position.x += moveSpeed;
+
       ball.rotation.y += moveSpeed;
     } else if (keyCode == R_KEY) {
       restart();
     }
 
-    if (level_1.position.y < -10) {
-      var gameWindow = document.querySelector("canvas");
-      if (gameWindow) {
-        gameContainer.removeChild(gameWindow);
+    // if (level_1.position.y < -10) {
+    //   var gameWindow = document.querySelector("canvas");
+    //   if (gameWindow) {
+    //     gameContainer.removeChild(gameWindow);
 
-        const gameOver = document.createElement("div");
-        gameOver.classList.add("game-over-text");
-        gameOver.innerHTML = "GAME OVER, press r to restart";
-        timer = 0;
-        cancelAnimationFrame( id );
-        gameContainer.appendChild(gameOver);
-      }
+    //     const gameOver = document.createElement("div");
+    //     gameOver.classList.add("game-over-text");
+    //     gameOver.innerHTML = "GAME OVER, press r to restart";
+    //     // timer = 0;
+    //     cancelAnimationFrame( id );
+    //     gameContainer.appendChild(gameOver);
+    //   }
+    // }
+    console.log(ball.position.x, ball.position.y);
+    console.log(cube.position.x, cube.position.y);
+    if (
+      // Collision check
+      Math.round(ball.position.x) === Math.round(cube.position.x)
+    ) {
+      ball.position.x -= 2;
+      camera.position.x -= 2;
+      console.log("COLLISION");
     }
-    console.log(level_1.position.y);
+
+    // if (Math.round(ball.position.y) === Math.round(cube.position.y)) {
+    //   ball.position.y -= 2;
+    //   camera.position.y -= 2;
+    //   console.log("COLLISION");
+    // }
+
     renderer.render(scene, camera);
   });
 
   var animate = function() {
     id = requestAnimationFrame(animate);
 
-    const oldTimeTrack = document.getElementsByClassName("timer");
-    if (oldTimeTrack.length > 0 && topNav.length > 0) {
-      topNav[0].removeChild(oldTimeTrack[0]);
-    }
+    // const oldTimeTrack = document.getElementsByClassName("timer");
+    // if (oldTimeTrack.length > 0 && topNav.length > 0) {
+    //   topNav[0].removeChild(oldTimeTrack[0]);
+    // }
 
-    timer += 0.1;
+    // timer += 0.1;
 
-    const timeTrack = document.createElement("div");
-    timeTrack.innerHTML = Math.floor(timer);
-    timeTrack.classList.add("timer");
+    // const timeTrack = document.createElement("div");
+    // timeTrack.innerHTML = Math.floor(timer);
+    // timeTrack.classList.add("timer");
 
-    if (topNav.length > 0){
-      topNav[0].appendChild(timeTrack);
-    }
+    // if (topNav.length > 0){
+    //   topNav[0].appendChild(timeTrack);
+    // }
 
     renderer.render(scene, camera);
   };
