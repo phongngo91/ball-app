@@ -2,6 +2,8 @@ import * as THREE from "./three";
 import ball from "./ball";
 import level_1 from "./level_1";
 
+let timer = 0;
+
 const gameContainer = document.createElement("div");
 gameContainer.classList.add("game-container");
 let scene = new THREE.Scene();
@@ -12,14 +14,17 @@ let camera = new THREE.PerspectiveCamera(
   1000
 );
 
+const topNav = document.getElementsByClassName('top-nav');
+
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth * (6 / 10), window.innerHeight * (6 / 10));
 
 function restart() {
+  var id;
 
-  const oldGameOver = document.getElementsByClassName('game-over-text');
+  const oldGameOver = document.getElementsByClassName("game-over-text");
 
-  if (oldGameOver.length > 0){
+  if (oldGameOver.length > 0) {
     gameContainer.removeChild(oldGameOver[0]);
   }
 
@@ -65,6 +70,7 @@ function restart() {
         const gameOver = document.createElement("div");
         gameOver.classList.add("game-over-text");
         gameOver.innerHTML = "GAME OVER, press r to restart";
+        cancelAnimationFrame( id );
         gameContainer.appendChild(gameOver);
       }
     }
@@ -73,7 +79,22 @@ function restart() {
   });
 
   var animate = function() {
-    requestAnimationFrame(animate);
+    id = requestAnimationFrame(animate);
+
+    const oldTimeTrack = document.getElementsByClassName("timer");
+    if (oldTimeTrack.length > 0 && topNav.length > 0) {
+      topNav[0].removeChild(oldTimeTrack[0]);
+    }
+
+    timer += 0.1;
+
+    const timeTrack = document.createElement("div");
+    timeTrack.innerHTML = Math.floor(timer);
+    timeTrack.classList.add("timer");
+
+    if (topNav.length > 0){
+      topNav[0].appendChild(timeTrack);
+    }
 
     renderer.render(scene, camera);
   };
