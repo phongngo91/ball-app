@@ -19,9 +19,10 @@ const topNav = document.getElementsByClassName('top-nav');
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth * (6 / 10), window.innerHeight * (6 / 10));
 
-function restart() {
-  var id;
+let id;
 
+function restart() {
+  
   const oldGameOver = document.getElementsByClassName("game-over-text");
 
   if (oldGameOver.length > 0) {
@@ -70,6 +71,7 @@ function restart() {
         const gameOver = document.createElement("div");
         gameOver.classList.add("game-over-text");
         gameOver.innerHTML = "GAME OVER, press r to restart";
+        timer = 0;
         cancelAnimationFrame( id );
         gameContainer.appendChild(gameOver);
       }
