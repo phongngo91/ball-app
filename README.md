@@ -29,6 +29,7 @@ This app will consist of a single screen with a play screen, nav links to the Gi
 ## Architecture and Technologies
 
 * JavaScript for game logic
+* three.js library for rendering 3d graphics using scenes and camera
 
 ## Implementation Timeline
 
