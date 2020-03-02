@@ -1,5 +1,6 @@
 import "./styles/index.scss";
 import * as THREE from "./js/three";
+import ball from "./js/ball";
 
 window.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add("center");
@@ -29,19 +30,15 @@ window.addEventListener("DOMContentLoaded", () => {
   renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
   gameContainer.appendChild(renderer.domElement);
 
-  var geometrySphere = new THREE.SphereGeometry(1, 5, 5);
-  var materialSphere = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-  var sphere = new THREE.Mesh(geometrySphere, materialSphere);
-
-  scene.add(sphere);
+  scene.add(ball);
   camera.position.z = 5;
   camera.position.z = 5;
 
   var animate = function() {
     requestAnimationFrame(animate);
 
-    sphere.rotation.x += 0.01;
-    sphere.rotation.y += 0.01;
+    ball.rotation.x += 0.01;
+    ball.rotation.y += 0.01;
 
     renderer.render(scene, camera);
   };
