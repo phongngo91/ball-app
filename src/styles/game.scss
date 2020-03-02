@@ -1,3 +1,12 @@
 .timer{
   background-color: white;
 }
+
+.content-container{
+  position: relative;
+}
+
+.game-over-text{
+  position: absolute;
+  padding: 10px;
+}
