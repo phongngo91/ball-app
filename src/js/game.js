@@ -1,5 +1,6 @@
 import * as THREE from "./three";
 import ball from "./ball";
+import level_1 from "./level_1";
 
 const gameContainer = document.createElement("div");
 gameContainer.classList.add("game-container");
@@ -18,10 +19,11 @@ renderer.setSize(window.innerWidth * (6/10), window.innerHeight * (6/10));
 gameContainer.appendChild(renderer.domElement);
 
 scene.add(ball);
+scene.add(level_1);
 
 camera.position.z = 5;
 
-const moveSpeed = 0.2;
+const moveSpeed = 0.5;
 
 const LEFT_ARROW = 37;
 const UP_ARROW = 38;
@@ -46,6 +48,14 @@ var animate = function() {
   requestAnimationFrame(animate);
   ball.rotation.x -= 0.01;
   ball.rotation.y -= 0.01;
+
+  // Move the level down
+  level_1.position.y -= 0.1;
+  console.log(level_1.position.y);
+
+  if (level_1.position.y < -14){
+    level_1.position.y = 14;
+  }
 
   renderer.render(scene, camera);
 };
