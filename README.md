@@ -1,4 +1,4 @@
-# JS Project Proposal: Ball rolling down a hill
+# JS Project Proposal: Ball Rolling Down a Hill
 
 ## Background
 
@@ -42,3 +42,24 @@ Date 2: Get a ball moving and build a few obstacle models, and build the finish 
 * Finish building level 1.
 
 Day 3-5: Make awesome levels and power ups, and make the game challenging for players. Make the game fun and colorful using styling packs.
+
+## File Structure
+
+* /dist
+* /src
+  * /assets
+  * index.js
+  * /js
+    * three.js (3D Library)
+  * /styles
+    * index.scss
+* Index.html
+* .gitignore
+* node_modules
+* package.json
+* package.lock.json
+* postcss.config.js
+* README.md
+* webpack.common.js
+* webpack.dev.js
+* webpack.prod.js
