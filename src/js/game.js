@@ -1,10 +1,19 @@
 import level_1 from "./level_1";
-import gameBall from "./game_ball";
+import { blueBall, redBall, gameBall } from "./balls";
+import { collision } from "./utils";
 import "../styles/game.scss";
-import { blueBall, redBall } from "./balls";
 
-const randx = [0.3, 0.2, 0.1, 0.001, -0.1, -0.2, -0.3];
-const randy = [0.3, 0.2, 0.1, 0.001, -0.1, -0.2, -0.3];
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+const renderer = new THREE.WebGLRenderer();
+
+const DIR_X = [0.3, 0.2, 0.1, 0, -0.1, -0.2, -0.3];
+const DIR_Y = [0.3, 0.2, 0.1, 0, -0.1, -0.2, -0.3];
 
 // Yellow NPC Ball
 let yellowTrajectoryBankX = 0;
@@ -21,8 +30,7 @@ let blueCurrentDirY = 0;
 // Game Ball
 let gameBallDirectionX = 0;
 let gameBallDirectionY = 0;
-
-const moveSpeed = 0.9;
+let gameBallVelocity = 0;
 
 let score;
 
@@ -33,20 +41,15 @@ const RIGHT_ARROW = 39;
 const DOWN_ARROW = 40;
 const R_KEY = 82;
 
+const VELOCITY_BASE = 40;
+
 let renderId;
 
 let spawnCounter = 0;
 
 const gameContainer = document.createElement("div");
 gameContainer.classList.add("game-container");
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
-const renderer = new THREE.WebGLRenderer();
+
 renderer.setSize(window.innerWidth * (6 / 10), window.innerHeight * (6 / 10));
 gameContainer.appendChild(renderer.domElement);
 
@@ -54,8 +57,7 @@ function moveGameBallUp() {
   gameBall.position.y += 0.1;
   camera.position.y += 0.1;
   gameBall.rotation.x -= 0.1;
-
-  gameBallDirectionY -= 0.09;
+  gameBallVelocity -= 0.1;
 }
 
 function moveGameBallDown() {
@@ -63,7 +65,7 @@ function moveGameBallDown() {
   camera.position.y -= 0.1;
   gameBall.rotation.x += 0.1;
 
-  gameBallDirectionY += 0.09;
+  gameBallVelocity -= 0.1;
 }
 
 function moveGameBallLeft() {
@@ -71,7 +73,7 @@ function moveGameBallLeft() {
   camera.position.x -= 0.1;
   gameBall.rotation.y -= 0.1;
 
-  gameBallDirectionX += 0.09;
+  gameBallVelocity -= 0.1;
 }
 
 function moveGameBallRight() {
@@ -79,7 +81,7 @@ function moveGameBallRight() {
   camera.position.x += 0.1;
   gameBall.rotation.y += 0.1;
 
-  gameBallDirectionX -= 0.09;
+  gameBallVelocity -= 0.1;
 }
 
 function restart() {
@@ -88,6 +90,7 @@ function restart() {
   scene.add(level_1);
   scene.add(gameBall);
   scene.add(redBall);
+  scene.add(blueBall);
   scene.add(blueBall);
 
   blueBall.position.x = -2;
@@ -107,12 +110,16 @@ function restart() {
 
     if (keyCode === DOWN_ARROW) {
       gameBallDirectionY = -20;
+      gameBallVelocity = VELOCITY_BASE;
     } else if (keyCode === UP_ARROW) {
       gameBallDirectionY = 20;
+      gameBallVelocity = VELOCITY_BASE;
     } else if (keyCode === RIGHT_ARROW) {
       gameBallDirectionX = 20;
+      gameBallVelocity = VELOCITY_BASE;
     } else if (keyCode === LEFT_ARROW) {
       gameBallDirectionX = -20;
+      gameBallVelocity = VELOCITY_BASE;
     } else if (keyCode === SPACE_BAR) {
       gameBallDirectionY = 0;
       gameBallDirectionX = 0;
@@ -155,35 +162,40 @@ function restart() {
       }
     }
 
-    if (gameBallDirectionX > 0.1) {
-      moveGameBallRight();
-      if (gameBallDirectionY > 0.1) {
-        moveGameBallUp();
-      } else if (gameBallDirectionY < -0.1) {
-        moveGameBallDown();
-      }
-    } else if (gameBallDirectionX < -0.1) {
-      moveGameBallLeft();
-      if (gameBallDirectionY > 0.1) {
-        moveGameBallUp();
-      } else if (gameBallDirectionY < -0.1) {
-        moveGameBallDown();
-      }
-      // Don't move gameBall if already moving
-    } else if (gameBallDirectionY > 0.1) {
-      moveGameBallUp();
-      if (gameBallDirectionX > 0.1) {
+    if (gameBallVelocity > 0) {
+      if (gameBallDirectionX > 0) {
         moveGameBallRight();
-      } else if (gameBallDirectionX < -0.1) {
+        if (gameBallDirectionY > 0) {
+          moveGameBallUp();
+        } else if (gameBallDirectionY < 0) {
+          moveGameBallDown();
+        }
+      } else if (gameBallDirectionX < 0) {
         moveGameBallLeft();
+        if (gameBallDirectionY > 0) {
+          moveGameBallUp();
+        } else if (gameBallDirectionY < 0) {
+          moveGameBallDown();
+        }
+        // Don't move gameBall if already moving
+      } else if (gameBallDirectionY > 0) {
+        moveGameBallUp();
+        if (gameBallDirectionX > 0) {
+          moveGameBallRight();
+        } else if (gameBallDirectionX < -0) {
+          moveGameBallLeft();
+        }
+      } else if (gameBallDirectionY < -0) {
+        moveGameBallDown();
+        if (gameBallDirectionX > 0) {
+          moveGameBallRight();
+        } else if (gameBallDirectionX < 0) {
+          moveGameBallLeft();
+        }
       }
-    } else if (gameBallDirectionY < -0.1) {
-      moveGameBallDown();
-      if (gameBallDirectionX > 0.1) {
-        moveGameBallRight();
-      } else if (gameBallDirectionX < -0.1) {
-        moveGameBallLeft();
-      }
+    } else {
+      gameBallDirectionX = 0;
+      gameBallDirectionY = 0;
     }
 
     // if we are going out of bounds, reverse the direction
@@ -197,14 +209,7 @@ function restart() {
     }
 
     if (blueBall) {
-      if (
-        Math.round(blueBall.position.x / 2.5) ===
-          Math.round(gameBall.position.x / 2.5) &&
-        Math.round(blueBall.position.y / 2.5) ===
-          Math.round(gameBall.position.y / 2.5) &&
-        blueBall.position.z === gameBall.position.z
-      ) {
-        // debugger
+      if (collision(blueBall, gameBall)) {
         scene.remove(blueBall);
         blueBall.position.z = 1;
         score += 10;
@@ -212,14 +217,7 @@ function restart() {
     }
 
     if (redBall) {
-      if (
-        Math.round(redBall.position.x / 2.5) ===
-          Math.round(gameBall.position.x / 2.5) &&
-        Math.round(redBall.position.y / 2.5) ===
-          Math.round(gameBall.position.y / 2.5) &&
-        redBall.position.z === gameBall.position.z
-      ) {
-        // debugger
+      if (collision(gameBall, redBall)) {
         scene.remove(redBall);
         redBall.position.z = 1;
         score += 10;
@@ -235,8 +233,8 @@ function restart() {
 
     // YELLOW BALL Y
     if (yellowTrajectoryBankY === 0) {
-      yellowTrajectoryBankY = 1000;
-      yellowCurrentDirY = randy[Math.floor(Math.random() * randy.length)];
+      yellowTrajectoryBankY = 120;
+      yellowCurrentDirY = DIR_Y[Math.floor(Math.random() * DIR_Y.length)];
     } else {
       redBall.position.y += yellowCurrentDirY;
 
@@ -249,8 +247,8 @@ function restart() {
 
     // YELLOW BALL X
     if (yellowTrajectoryBankX === 0) {
-      yellowTrajectoryBankX = 1000;
-      yellowCurrentDirX = randx[Math.floor(Math.random() * randx.length)];
+      yellowTrajectoryBankX = 120;
+      yellowCurrentDirX = DIR_X[Math.floor(Math.random() * DIR_X.length)];
     } else {
       redBall.position.x += yellowCurrentDirX;
 
@@ -264,8 +262,8 @@ function restart() {
 
     // BLUE BALL Y
     if (blueTrajectoryBankY === 0) {
-      blueTrajectoryBankY = 1000;
-      blueCurrentDirY = randy[Math.floor(Math.random() * randy.length)];
+      blueTrajectoryBankY = 120;
+      blueCurrentDirY = DIR_Y[Math.floor(Math.random() * DIR_Y.length)];
     } else {
       blueBall.position.y += blueCurrentDirY;
 
@@ -279,8 +277,8 @@ function restart() {
     // BLUE BALL X
 
     if (blueTrajectoryBankX === 0) {
-      blueTrajectoryBankX = 1000;
-      blueCurrentDirX = randx[Math.floor(Math.random() * randx.length)];
+      blueTrajectoryBankX = 120;
+      blueCurrentDirX = DIR_X[Math.floor(Math.random() * DIR_X.length)];
     } else {
       blueBall.position.x += blueCurrentDirX;
 
