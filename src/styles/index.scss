@@ -8,8 +8,8 @@
 // LAYOUT
 
 body {
-  height: 95vh;
-  width: 95vw;
+  height: 97.6vh;
+  width: 98vw;
   display: flex;
   flex-direction: column;
 }
@@ -27,6 +27,9 @@ h2 {
 
 .page-bg{
   background-color: black;
+  background-image: url("../images/background.jpg");
+  background-size: cover;
+  background-position: 50% 50%;
 }
 
 .content-container{
