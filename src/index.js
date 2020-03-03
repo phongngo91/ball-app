@@ -10,6 +10,7 @@ window.addEventListener("DOMContentLoaded", () => {
   
   const topNav = document.createElement("div");
   topNav.classList.add("top-nav");
+  topNav.setAttribute("id", "top-nav");
 
   const leftNav = document.createElement("div");
   leftNav.classList.add("left-nav");
