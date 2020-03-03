@@ -1,9 +1,8 @@
 import level_1 from "./level_1";
 import gameBall from "./game_ball";
-import yellowBall from "./yellow_ball";
-import blueBall from "./blue_ball";
 import "../styles/game.scss";
 import ball from "./game_ball";
+import { blueBall, redBall } from "./balls";
 
 const randx = [0.3, 0.2, 0.1, 0.001, -0.1, -0.2, -0.3];
 const randy = [0.3, 0.2, 0.1, 0.001, -0.1, -0.2, -0.3];
@@ -85,12 +84,15 @@ function moveGameBallRight() {
 function restart() {
   health = 100;
 
-  scene.add(gameBall);
   scene.add(level_1);
-  scene.add(yellowBall);
+  scene.add(gameBall);
+  scene.add(redBall);
   scene.add(blueBall);
 
   blueBall.position.x = -2;
+  blueBall.position.y = 5;
+  redBall.position.x = 2;
+  redBall.position.y = 5;
 
   level_1.position.z = -1;
 
@@ -172,16 +174,22 @@ function restart() {
     }
 
     if (
-      Math.floor(blueBall.position.x) === Math.floor(ball.position.x) ||
-      Math.floor(blueBall.position.y) === Math.floor(ball.position.y)
+      Math.floor(blueBall.position.x * 100) / 100 ===
+        Math.floor(ball.position.x * 100) / 100 ||
+      Math.floor(blueBall.position.y * 100) / 100 ===
+        Math.floor(ball.position.y * 100) / 100
     ) {
+      scene.remove(blueBall);
       health -= 20;
     }
 
     if (
-      Math.floor(yellowBall.position.x) === Math.floor(ball.position.x) ||
-      Math.floor(yellowBall.position.y) === Math.floor(ball.position.y)
+      Math.floor(redBall.position.x * 10) / 10 ===
+        Math.floor(ball.position.x * 10) / 10 ||
+      Math.floor(redBall.position.y * 10) / 10 ===
+        Math.floor(ball.position.y * 10) / 10
     ) {
+      scene.remove(redBall);
       health -= 20;
     }
 
@@ -189,18 +197,17 @@ function restart() {
     blueBall.rotation.x += 0.1;
     blueBall.rotation.y += 0.1;
 
-    yellowBall.rotation.x -= 0.1;
-    yellowBall.rotation.y -= 0.1;
+    redBall.rotation.x -= 0.1;
+    redBall.rotation.y -= 0.1;
 
     // YELLOW BALL Y
     if (yellowTrajectoryBankY === 0) {
       yellowTrajectoryBankY = 30;
       yellowCurrentDirY = randy[Math.floor(Math.random() * randy.length)];
     } else {
-      yellowBall.position.y += yellowCurrentDirY;
+      redBall.position.y += yellowCurrentDirY;
 
-      if (yellowBall.position.y > 20 || yellowBall.position.y < -20) {
-        console.log(yellowBall.position.y);
+      if (redBall.position.y > 20 || redBall.position.y < -20) {
         yellowCurrentDirY = yellowCurrentDirY * -1;
       }
 
@@ -212,11 +219,10 @@ function restart() {
       yellowTrajectoryBankX = 30;
       yellowCurrentDirX = randx[Math.floor(Math.random() * randx.length)];
     } else {
-      yellowBall.position.x += yellowCurrentDirX;
+      redBall.position.x += yellowCurrentDirX;
 
       // if it is going out of bounds, flip the direction
-      if (yellowBall.position.x > 20 || yellowBall.position.x < -20) {
-        console.log(yellowBall.position.x);
+      if (redBall.position.x > 20 || redBall.position.x < -20) {
         yellowCurrentDirX = yellowCurrentDirX * -1;
       }
 
@@ -231,7 +237,6 @@ function restart() {
       blueBall.position.y += blueCurrentDirY;
 
       if (blueBall.position.y > 20 || blueBall.position.y < -20) {
-        console.log(blueBall.position.y);
         blueCurrentDirY = blueCurrentDirY * -1;
       }
 
@@ -248,7 +253,6 @@ function restart() {
 
       // if it is going out of bounds, flip the direction
       if (blueBall.position.x > 20 || blueBall.position.x < -20) {
-        console.log(blueBall.position.x);
         blueCurrentDirX = blueCurrentDirX * -1;
       }
 
@@ -267,7 +271,6 @@ function restart() {
       healthText.innerHTML = health;
       topNav.appendChild(healthText);
     }
-
     render();
   };
 
