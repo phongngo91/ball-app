@@ -3,8 +3,10 @@ import * as THREE from "./three";
 import level_1 from "./level_1";
 import { blueBall, redBall, gameBall } from "./balls";
 import BallAI from "./Ball_AI";
+import CarAI from "./Car_AI";
 import { collision, boxCollision } from "./utils";
 import { car } from "./car";
+import { skybox } from "./skybox";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -72,12 +74,14 @@ gameBallVelocity = 0;
 
 const redBallModel = new BallAI(redBall);
 const blueBallModel = new BallAI(blueBall);
+const carModel = new CarAI(car);
 
 scene.add(level_1);
 scene.add(gameBall);
 scene.add(redBall);
 scene.add(blueBall);
 scene.add(car);
+scene.add(skybox);
 
 level_1.position.z = -1;
 
@@ -182,16 +186,24 @@ var animate = function() {
   let hitBox = boxCollision(gameBall, car);
   switch (hitBox) {
     case "LEFT COLLISION":
-      car.position.x -= 5;
+      // car.position.x -= 5;
+      carModel.currentDirX = -0.2;
+      carModel.trajectoryBankX = 30;
       break;
     case "RIGHT COLLISION":
-      car.position.x += 5;
+      // car.position.x += 5;
+      carModel.currentDirX = 0.2;
+      carModel.trajectoryBankX = 30;
       break;
     case "FRONT COLLISION":
-      car.position.y -= 5;
+      // car.position.y -= 5;
+      carModel.currentDirY = -0.2;
+      carModel.trajectoryBankY = 30;
       break;
     case "BACK COLLISION":
-      car.position.y += 5;
+      // car.position.y += 5;
+      carModel.currentDirY = 0.2;
+      carModel.trajectoryBankY = 30;
       break;
     default:
       break;
@@ -199,6 +211,7 @@ var animate = function() {
 
   blueBallModel.updateMovement();
   redBallModel.updateMovement();
+  carModel.updateMovement();
 
   // rerenders the score of the gameBall
   const topNav = document.getElementById("top-nav");
