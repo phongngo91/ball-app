@@ -1,9 +1,9 @@
 import * as THREE from "./three";
 
 import level_1 from "./level_1";
-import { blueBall, blueBall1, redBall, redBall1, gameBall } from "./balls";
-import BallAI from "./Ball_AI";
-import { collision } from "./utils";
+import { gameBall } from "./balls";
+// import BallAI from "./Ball_AI";
+// import { collision } from "./utils";
 import "../styles/game.scss";
 
 const scene = new THREE.Scene();
@@ -15,11 +15,11 @@ const camera = new THREE.PerspectiveCamera(
 );
 const renderer = new THREE.WebGLRenderer();
 
-let gameBallDirectionX;
-let gameBallDirectionY;
-let gameBallVelocity;
+// let gameBallDirectionX;
+// let gameBallDirectionY;
+// let gameBallVelocity;
 
-let health;
+// let health;
 
 const SPACE_BAR = 32;
 const LEFT_ARROW = 37;
@@ -39,33 +39,26 @@ renderer.setSize(window.innerWidth * (6 / 10), window.innerHeight * (6 / 10));
 gameContainer.appendChild(renderer.domElement);
 
 function moveGameBallUp() {
-  gameBall.position.y += 0.1;
-  camera.position.y += 0.1;
-  gameBall.rotation.x -= 0.1;
+  gameBall.position.x -= 0.1;
+  gameBall.rotation.y += 0.1;
   gameBallVelocity -= 0.1;
 }
 
 function moveGameBallDown() {
-  gameBall.position.y -= 0.1;
-  camera.position.y -= 0.1;
-  gameBall.rotation.x += 0.1;
-
+  gameBall.position.x += 0.1;
+  gameBall.rotation.y -= 0.1;
   gameBallVelocity -= 0.1;
 }
 
 function moveGameBallLeft() {
-  gameBall.position.x -= 0.1;
-  camera.position.x -= 0.1;
-  gameBall.rotation.y -= 0.1;
-
+  gameBall.position.y -= 0.1;
+  gameBall.rotation.x += 0.1;
   gameBallVelocity -= 0.1;
 }
 
 function moveGameBallRight() {
-  gameBall.position.x += 0.1;
-  camera.position.x += 0.1;
-  gameBall.rotation.y += 0.1;
-
+  gameBall.position.y += 0.1;
+  gameBall.rotation.x -= 0.1;
   gameBallVelocity -= 0.1;
 }
 
@@ -76,26 +69,22 @@ function restart() {
   gameBallDirectionY = 0;
   gameBallVelocity = 0;
 
-  const redBallModel = new BallAI(redBall);
-  const redBallModel1 = new BallAI(redBall1);
-  const blueBallModel = new BallAI(blueBall);
-  const blueBallModel1 = new BallAI(blueBall1);
+  // const redBallModel = new BallAI(redBall);
+  // const blueBallModel = new BallAI(blueBall);
 
   scene.add(level_1);
   scene.add(gameBall);
-  scene.add(redBall);
-  scene.add(redBall1);
-  scene.add(blueBall);
-  scene.add(blueBall1);
+  // scene.add(redBall);
+  // scene.add(blueBall);
 
   level_1.position.z = -1;
 
-  camera.position.z = 6;
-  camera.rotation.x = (55 * Math.PI) / 180;
-  camera.position.y = -25;
+  camera.position.z = 23;
+
+  camera.rotation.z = 90 * Math.PI / 180;
+
   gameBall.position.y = -20;
 
-  // start camera in the middle of the screen
   gameBall.position.x = 0;
   camera.position.x = 0;
 
@@ -172,39 +161,27 @@ function restart() {
     }
 
     // if we are going out of bounds, reverse the direction
-    if (gameBall.position.x > 20 || gameBall.position.x < -20) {
-      gameBallDirectionX = gameBallDirectionX * -1;
-    }
+    // if (gameBall.position.x > 20 || gameBall.position.x < -20) {
+    //   gameBallDirectionX = gameBallDirectionX * -1;
+    // }
 
-    // if we are going out of bounds, reverse the direction
-    if (gameBall.position.y > 20 || gameBall.position.y < -20) {
-      gameBallDirectionY = gameBallDirectionY * -1;
-    }
+    // // if we are going out of bounds, reverse the direction
+    // if (gameBall.position.y > 20 || gameBall.position.y < -20) {
+    //   gameBallDirectionY = gameBallDirectionY * -1;
+    // }
 
-    if (collision(blueBall, gameBall)) {
-      blueBall.position.z += 1;
-      health -= 10;
-    }
+    // if (collision(blueBall, gameBall)) {
+    //   blueBall.position.z += 1;
+    //   health -= 10;
+    // }
 
-    if (collision(gameBall, redBall)) {
-      redBall.position.z += 1;
-      health -= 10;
-    }
+    // if (collision(gameBall, redBall)) {
+    //   redBall.position.z += 1;
+    //   health -= 10;
+    // }
 
-    if (collision(gameBall, redBall1)) {
-      redBall1.position.z += 1;
-      health -= 10;
-    }
-
-    if (collision(gameBall, blueBall1)) {
-      blueBall1.position.z += 1;
-      health -= 10;
-    }
-
-    blueBallModel.updateMovement();
-    blueBallModel1.updateMovement();
-    redBallModel.updateMovement();
-    redBallModel1.updateMovement();
+    // blueBallModel.updateMovement();
+    // redBallModel.updateMovement();
 
     // rerenders the score of the gameBall
     const topNav = document.getElementById("top-nav");
@@ -226,23 +203,25 @@ function restart() {
     render();
   };
 
-  const startButton = document.createElement("div");
-  startButton.classList.add("start-button");
-  startButton.innerHTML = "CLICK HERE TO START GAME";
-  gameContainer.appendChild(startButton);
+  // const startButton = document.createElement("div");
+  // startButton.classList.add("start-button");
+  // startButton.innerHTML = "CLICK HERE TO START GAME";
+  // gameContainer.appendChild(startButton);
 
-  startButton.addEventListener("click", () => {
-    gameContainer.removeChild(
-      document.getElementsByClassName("start-button")[0]
-    );
-    animate();
-  });
+  // startButton.addEventListener("click", () => {
+  //   gameContainer.removeChild(
+  //     document.getElementsByClassName("start-button")[0]
+  //   );
+  //   animate();
+  // });
 
   function render() {
     renderer.autoClear = false;
     renderer.clear();
     renderer.render(scene, camera);
   }
+
+  animate();
 }
 
 restart();
