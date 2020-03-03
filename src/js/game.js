@@ -198,8 +198,10 @@ function restart() {
 
     if (blueBall) {
       if (
-        Math.round(blueBall.position.x) === Math.round(gameBall.position.x) &&
-        Math.round(blueBall.position.y) === Math.round(gameBall.position.y) &&
+        Math.round(blueBall.position.x / 2.5) ===
+          Math.round(gameBall.position.x / 2.5) &&
+        Math.round(blueBall.position.y / 2.5) ===
+          Math.round(gameBall.position.y / 2.5) &&
         blueBall.position.z === gameBall.position.z
       ) {
         // debugger
@@ -211,8 +213,10 @@ function restart() {
 
     if (redBall) {
       if (
-        Math.round(redBall.position.x) === Math.round(gameBall.position.x) &&
-        Math.round(redBall.position.y) === Math.round(gameBall.position.y) &&
+        Math.round(redBall.position.x / 2.5) ===
+          Math.round(gameBall.position.x / 2.5) &&
+        Math.round(redBall.position.y / 2.5) ===
+          Math.round(gameBall.position.y / 2.5) &&
         redBall.position.z === gameBall.position.z
       ) {
         // debugger
