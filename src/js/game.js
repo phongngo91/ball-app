@@ -1,4 +1,3 @@
-import * as THREE from "./three";
 import level_1 from "./level_1";
 import gameBall from "./game_ball";
 import yellowBall from "./yellow_ball";
@@ -51,6 +50,38 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth * (6 / 10), window.innerHeight * (6 / 10));
 gameContainer.appendChild(renderer.domElement);
 
+function moveGameBallUp() {
+  gameBall.position.y += 0.1;
+  camera.position.y += 0.1;
+  gameBall.rotation.x -= 0.1;
+  gameBallDirectionY -= 0.1;
+  gameBallVelocity -= 0.1;
+}
+
+function moveGameBallDown() {
+  gameBall.position.y -= 0.1;
+  camera.position.y -= 0.1;
+  gameBall.rotation.x += 0.1;
+  gameBallDirectionY += 0.1;
+  gameBallVelocity -= 0.1;
+}
+
+function moveGameBallLeft() {
+  gameBall.position.x -= 0.1;
+  camera.position.x -= 0.1;
+  gameBall.rotation.y += 0.1;
+  gameBallDirectionX += 0.1;
+  gameBallVelocity -= 0.1;
+}
+
+function moveGameBallRight() {
+  gameBall.position.x += 0.1;
+  camera.position.x += 0.1;
+  gameBall.rotation.y -= 0.1;
+  gameBallDirectionX -= 0.1;
+  gameBallVelocity -= 0.1;
+}
+
 function restart() {
   health = 100;
 
@@ -72,23 +103,23 @@ function restart() {
     var keyCode = e.which;
 
     if (keyCode == DOWN_ARROW) {
-      gameBallDirectionY -= 30;
-      gameBallVelocity = 30;
+      gameBallDirectionY = -30;
+      gameBallVelocity = +30;
     } else if (keyCode == UP_ARROW) {
-      gameBallDirectionY += 30;
-      gameBallVelocity = 30;
+      gameBallDirectionY = 30;
+      gameBallVelocity = +30;
     } else if (keyCode == RIGHT_ARROW) {
       // gameBall.rotation.y -= moveSpeed;
       // gameBall.position.x += moveSpeed;
       // camera.position.x += moveSpeed;
-      // gameBallDirectionX -= 60;
-      gameBallVelocity += 60;
+      gameBallDirectionX = 30;
+      gameBallVelocity = +30;
     } else if (keyCode == LEFT_ARROW) {
       // gameBall.rotation.y += moveSpeed;
       // gameBall.position.x -= moveSpeed;
       // camera.position.x -= moveSpeed;
-      gameBallDirectionX -= moveSpeed;
-      gameBallVelocity += 60;
+      gameBallDirectionX = -30;
+      gameBallVelocity = +30;
     } else if (keyCode == R_KEY) {
       scene.children.forEach(child => {
         scene.remove(child);
@@ -105,31 +136,39 @@ function restart() {
 
     if (gameBallVelocity > 0) {
       if (gameBallDirectionX > 0) {
-        // gameBall.position.x += 0.1;
-        // camera.position.x += 0.1;
-        // gameBall.rotation.x += 0.1;
-        // gameBallDirectionX -= 0.1;
+        moveGameBallRight();
+        if (gameBallDirectionY > 0) {
+          moveGameBallUp();
+        } else if (gameBallDirectionY < 0) {
+          moveGameBallDown();
+        }
       } else if (gameBallDirectionX < 0) {
-        // gameBall.position.x -= 0.1;
-        // camera.position.x -= 0.1;
-        // gameBall.rotation.x += 0.1;
-        // gameBallDirectionX += 0.1;
-      }
-
-      if (gameBallDirectionY > 0) {
-        gameBall.position.y += 0.1;
-        camera.position.y += 0.1;
-        gameBall.rotation.x -= 0.1;
-        gameBallDirectionY -= 0.1;
-        gameBallVelocity -= 0.1;
-
+        moveGameBallLeft();
+        if (gameBallDirectionY > 0) {
+          moveGameBallUp();
+        } else if (gameBallDirectionY < 0) {
+          moveGameBallDown();
+        }
+        // Don't run direction X if direction Y already ran
+      } else if (gameBallDirectionY > 0) {
+        moveGameBallUp();
+        if (gameBallDirectionX > 0) {
+          moveGameBallRight();
+        } else if (gameBallDirectionX < 0) {
+          moveGameBallLeft();
+        }
       } else if (gameBallDirectionY < 0) {
-        gameBall.position.y -= 0.1;
-        camera.position.y -= 0.1;
-        gameBall.rotation.x += 0.1;
-        gameBallDirectionY += 0.1;
-        gameBallVelocity -= 0.1;
+        moveGameBallDown();
+        if (gameBallDirectionX > 0) {
+          moveGameBallRight();
+        } else if (gameBallDirectionX < 0) {
+          moveGameBallLeft();
+        }
       }
+    } else {
+      // if ball has no velocity, reset it's directions
+      gameBallDirectionX = 0;
+      gameBallDirectionY = 0;
     }
 
     if (

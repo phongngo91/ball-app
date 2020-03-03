@@ -1,5 +1,3 @@
-import * as THREE from "./three";
-
 var texture = new THREE.TextureLoader().load("src/images/soccer_field.png");
 var geometry = new THREE.PlaneGeometry(40, 40, 32);
 
