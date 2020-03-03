@@ -1,2 +1,2 @@
 import "./styles/index.scss";
-import "./js/game2";
+import "./js/game";
