@@ -1,3 +1,5 @@
+import * as THREE from "./three";
+
 import level_1 from "./level_1";
 import { blueBall, blueBall1, redBall, redBall1, gameBall } from "./balls";
 import BallAI from "./Ball_AI";
@@ -68,6 +70,7 @@ function moveGameBallRight() {
 }
 
 function restart() {
+
   health = 100;
   gameBallDirectionX = 0;
   gameBallDirectionY = 0;
@@ -127,6 +130,10 @@ function restart() {
 
   var animate = function() {
     renderId = requestAnimationFrame(animate);
+
+    if (gameBall.position.y > 19){
+      console.log("Game Over");
+    }
 
     if (gameBallVelocity > 0) {
       if (gameBallDirectionX > 0) {
