@@ -8,20 +8,26 @@ export const collision = (firstBall, secondBall) => {
   );
 };
 
-export const boxCollision = (ball, box) =>{
-  if (Math.round(box.position.x + 2) === Math.round(ball.position.x) &&
-  (Math.round(box.position.y + 100) === Math.round(ball.position.y + 100))){
+export const boxCollision = (ball, box) => {
+  if (
+    Math.round(box.position.x + 2) === Math.round(ball.position.x) &&
+    Math.round(box.position.y / 4) === Math.round(ball.position.y / 4)
+  ) {
     return "LEFT COLLISION";
   } else if (
     Math.round(box.position.x - 2) === Math.round(ball.position.x) &&
-    (Math.round(box.position.y + 100) === Math.round(ball.position.y + 100))
-  ){
+    Math.round(box.position.y / 4) === Math.round(ball.position.y / 4)
+  ) {
     return "RIGHT COLLISION";
-  } else if (Math.round(box.position.y + 2) === Math.round(ball.position.y) &&
-  (Math.round(box.position.x + 100) === Math.round(ball.position.x + 100))){
+  } else if (
+    Math.round(box.position.y + 2) === Math.round(ball.position.y) &&
+    Math.round(box.position.x / 4) === Math.round(ball.position.x / 4)
+  ) {
     return "FRONT COLLISION";
-  } else if ( Math.round(box.position.y - 2) === Math.round(ball.position.y) &&
-  (Math.round(box.position.x + 100) === Math.round(ball.position.x + 100))){
+  } else if (
+    Math.round(box.position.y - 2) === Math.round(ball.position.y) &&
+    Math.round(box.position.x / 4) === Math.round(ball.position.x / 4)
+  ) {
     return "BACK COLLISION";
   }
 

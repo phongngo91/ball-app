@@ -120,7 +120,7 @@ var animate = function() {
 
   if (Math.round(car.position.y) === 40){
     cancelAnimationFrame(renderId);
-    document.getElementById('top-section').innerHTML = "YOU WIN!!!!!";
+    document.getElementById('top-nav').innerHTML = "YOU WIN!!!!!";
   }
 
   if (gameBallVelocity > 0) {
@@ -209,11 +209,11 @@ var animate = function() {
     }
 
     const healthText = document.createElement("div");
-    healthText.innerHTML = health;
+    healthText.innerHTML = "Health: " + health;
 
     if (health === 0) {
       cancelAnimationFrame(renderId);
-      healthText.innerHTML = "You Lose, press r to reset";
+      healthText.innerHTML = "Health gone, You Lose";
     }
     topNav.appendChild(healthText);
   }
