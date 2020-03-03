@@ -1,5 +1,5 @@
 import level_1 from "./level_1";
-import { blueBall, redBall, gameBall } from "./balls";
+import { blueBall, blueBall1, redBall, redBall1, gameBall } from "./balls";
 import BallAI from "./Ball_AI";
 import { collision } from "./utils";
 import "../styles/game.scss";
@@ -13,27 +13,11 @@ const camera = new THREE.PerspectiveCamera(
 );
 const renderer = new THREE.WebGLRenderer();
 
-const DIR_X = [0.3, 0.2, 0.1, 0, -0.1, -0.2, -0.3];
-const DIR_Y = [0.3, 0.2, 0.1, 0, -0.1, -0.2, -0.3];
+let gameBallDirectionX;
+let gameBallDirectionY;
+let gameBallVelocity;
 
-// Yellow NPC Ball
-// let yellowTrajectoryBankX = 0;
-// let yellowTrajectoryBankY = 0;
-// let yellowCurrentDirX = 0;
-// let yellowCurrentDirY = 0;
-
-// Blue NPC Ball
-let blueTrajectoryBankX = 0;
-let blueTrajectoryBankY = 0;
-let blueCurrentDirX = 0;
-let blueCurrentDirY = 0;
-
-// Game Ball
-let gameBallDirectionX = 0;
-let gameBallDirectionY = 0;
-let gameBallVelocity = 0;
-
-let score;
+let health;
 
 const SPACE_BAR = 32;
 const LEFT_ARROW = 37;
@@ -45,8 +29,6 @@ const R_KEY = 82;
 const VELOCITY_BASE = 40;
 
 let renderId;
-
-// let spawnCounter = 0;
 
 const gameContainer = document.createElement("div");
 gameContainer.classList.add("game-container");
@@ -86,26 +68,33 @@ function moveGameBallRight() {
 }
 
 function restart() {
-  score = 100;
+  health = 100;
+  gameBallDirectionX = 0;
+  gameBallDirectionY = 0;
+  gameBallVelocity = 0;
 
   const redBallModel = new BallAI(redBall);
+  const redBallModel1 = new BallAI(redBall1);
+  const blueBallModel = new BallAI(blueBall);
+  const blueBallModel1 = new BallAI(blueBall1);
 
   scene.add(level_1);
   scene.add(gameBall);
-  scene.add(redBallModel.ballMesh);
+  scene.add(redBall);
+  scene.add(redBall1);
   scene.add(blueBall);
-
-  blueBall.position.x = -2;
-  blueBall.position.y = 5;
-  // redBall.position.x = 2;
-  // redBall.position.y = 5;
+  scene.add(blueBall1);
 
   level_1.position.z = -1;
 
   camera.position.z = 6;
   camera.rotation.x = (55 * Math.PI) / 180;
-  camera.position.y = -20;
-  gameBall.position.y = -15;
+  camera.position.y = -25;
+  gameBall.position.y = -20;
+
+  // start camera in the middle of the screen
+  gameBall.position.x = 0;
+  camera.position.x = 0;
 
   document.addEventListener("keydown", e => {
     var keyCode = e.which;
@@ -125,7 +114,6 @@ function restart() {
     } else if (keyCode === SPACE_BAR) {
       gameBallDirectionY = 0;
       gameBallDirectionX = 0;
-
     } else if (keyCode === R_KEY) {
       scene.children.forEach(child => {
         scene.remove(child);
@@ -139,31 +127,6 @@ function restart() {
 
   var animate = function() {
     renderId = requestAnimationFrame(animate);
-
-    // if (
-    //   scene.children.includes(redBall) === false ||
-    //   scene.children.includes(blueBall) === false
-    // ) {
-      // spawnCounter += 1;
-    // }
-
-    // if (spawnCounter > 600) {
-    //   spawnCounter = 0;
-
-    //   if (scene.children.includes(redBall) === false) {
-    //     scene.add(redBall);
-    //     redBall.position.x = Math.random() * 10;
-    //     redBall.position.y = Math.random() * 10;
-    //     redBall.position.z = 0;
-    //   }
-
-    //   if (scene.children.includes(blueBall) === false) {
-    //     scene.add(blueBall);
-    //     blueBall.position.y = Math.random() * 10;
-    //     blueBall.position.x = Math.random() * 10;
-    //     blueBall.position.z = 0;
-    //   }
-    // }
 
     if (gameBallVelocity > 0) {
       if (gameBallDirectionX > 0) {
@@ -211,88 +174,30 @@ function restart() {
       gameBallDirectionY = gameBallDirectionY * -1;
     }
 
-    if (blueBall) {
-      if (collision(blueBall, gameBall)) {
-        scene.remove(blueBall);
-        blueBall.position.z = 1;
-        score += 10;
-      }
+    if (collision(blueBall, gameBall)) {
+      blueBall.position.z += 1;
+      health -= 10;
     }
 
-    if (redBall) {
-      if (collision(gameBall, redBall)) {
-        scene.remove(redBall);
-        redBall.position.z = 1;
-        score += 10;
-      }
+    if (collision(gameBall, redBall)) {
+      redBall.position.z += 1;
+      health -= 10;
     }
 
-    //Rotations
-    blueBall.rotation.x += 0.1;
-    blueBall.rotation.y += 0.1;
+    if (collision(gameBall, redBall1)) {
+      redBall1.position.z += 1;
+      health -= 10;
+    }
 
-    // redBall.rotation.x -= 0.1;
-    // redBall.rotation.y -= 0.1;
+    if (collision(gameBall, blueBall1)) {
+      blueBall1.position.z += 1;
+      health -= 10;
+    }
 
-    // YELLOW BALL Y
-    // if (yellowTrajectoryBankY === 0) {
-    //   yellowTrajectoryBankY = 120;
-    //   yellowCurrentDirY = DIR_Y[Math.floor(Math.random() * DIR_Y.length)];
-    // } else {
-    //   redBall.position.y += yellowCurrentDirY;
-
-    //   if (redBall.position.y > 20 || redBall.position.y < -20) {
-    //     yellowCurrentDirY = yellowCurrentDirY * -1;
-    //   }
-
-    //   yellowTrajectoryBankY -= 1;
-    // }
-
-    // // YELLOW BALL X
-    // if (yellowTrajectoryBankX === 0) {
-    //   yellowTrajectoryBankX = 120;
-    //   yellowCurrentDirX = DIR_X[Math.floor(Math.random() * DIR_X.length)];
-    // } else {
-    //   redBall.position.x += yellowCurrentDirX;
-
-    //   // if it is going out of bounds, flip the direction
-    //   if (redBall.position.x > 20 || redBall.position.x < -20) {
-    //     yellowCurrentDirX = yellowCurrentDirX * -1;
-    //   }
-
-    //   yellowTrajectoryBankX -= 1;
-    // }
+    blueBallModel.updateMovement();
+    blueBallModel1.updateMovement();
     redBallModel.updateMovement();
-
-    // BLUE BALL Y
-    if (blueTrajectoryBankY === 0) {
-      blueTrajectoryBankY = 120;
-      blueCurrentDirY = DIR_Y[Math.floor(Math.random() * DIR_Y.length)];
-    } else {
-      blueBall.position.y += blueCurrentDirY;
-
-      if (blueBall.position.y > 20 || blueBall.position.y < -20) {
-        blueCurrentDirY = blueCurrentDirY * -1;
-      }
-
-      blueTrajectoryBankY -= 1;
-    }
-
-    // BLUE BALL X
-
-    if (blueTrajectoryBankX === 0) {
-      blueTrajectoryBankX = 120;
-      blueCurrentDirX = DIR_X[Math.floor(Math.random() * DIR_X.length)];
-    } else {
-      blueBall.position.x += blueCurrentDirX;
-
-      // if it is going out of bounds, flip the direction
-      if (blueBall.position.x > 20 || blueBall.position.x < -20) {
-        blueCurrentDirX = blueCurrentDirX * -1;
-      }
-
-      blueTrajectoryBankX -= 1;
-    }
+    redBallModel1.updateMovement();
 
     // rerenders the score of the gameBall
     const topNav = document.getElementById("top-nav");
@@ -303,13 +208,28 @@ function restart() {
       }
 
       const healthText = document.createElement("div");
-      healthText.innerHTML = score;
+      healthText.innerHTML = health;
+
+      if (health === 0) {
+        cancelAnimationFrame(renderId);
+        healthText.innerHTML = "You Lose, press r to reset";
+      }
       topNav.appendChild(healthText);
     }
     render();
   };
 
-  animate();
+  const startButton = document.createElement("div");
+  startButton.classList.add("start-button");
+  startButton.innerHTML = "CLICK HERE TO START GAME";
+  gameContainer.appendChild(startButton);
+
+  startButton.addEventListener("click", () => {
+    gameContainer.removeChild(
+      document.getElementsByClassName("start-button")[0]
+    );
+    animate();
+  });
 
   function render() {
     renderer.autoClear = false;

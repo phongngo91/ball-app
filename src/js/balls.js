@@ -6,10 +6,6 @@ const blueMat = new THREE.MeshBasicMaterial({ map: blueTexture });
 export const blueBall = new THREE.Mesh(blueGeo, blueMat);
 export const blueBall1 = new THREE.Mesh(blueGeo, blueMat);
 export const blueBall2 = new THREE.Mesh(blueGeo, blueMat);
-export const blueBall3 = new THREE.Mesh(blueGeo, blueMat);
-export const blueBall4 = new THREE.Mesh(blueGeo, blueMat);
-export const blueBall5 = new THREE.Mesh(blueGeo, blueMat);
-export const blueBall6 = new THREE.Mesh(blueGeo, blueMat);
 
 const redTexture = new THREE.TextureLoader().load("src/textures/red-flower.png");
 const redGeo = new THREE.SphereGeometry(1, 16, 16);
@@ -17,10 +13,6 @@ const redMat = new THREE.MeshBasicMaterial({ map: redTexture });
 export const redBall = new THREE.Mesh(redGeo, redMat);
 export const redBall1 = new THREE.Mesh(redGeo, redMat);
 export const redBall2 = new THREE.Mesh(redGeo, redMat);
-export const redBall3 = new THREE.Mesh(redGeo, redMat);
-export const redBall4 = new THREE.Mesh(redGeo, redMat);
-export const redBall5 = new THREE.Mesh(redGeo, redMat);
-export const redBall6 = new THREE.Mesh(redGeo, redMat);
 
 const gameTexture = new THREE.TextureLoader().load("src/textures/soccer.png");
 const gameGeo = new THREE.SphereGeometry(1, 16, 16);

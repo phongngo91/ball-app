@@ -2,7 +2,9 @@ class BallAI {
   constructor(ballMesh) {
     this.ballMesh = ballMesh;
     this.ballMesh.position.x = (Math.random() * 40) - 20;
-    this.ballMesh.position.y = (Math.random() * 40) - 20;
+
+    // reduces the range so it can't instantly damage the player on spawn
+    this.ballMesh.position.y = (Math.random() * 30) - 15;
     this.ballMesh.rotation.x = 0;
     this.ballMesh.rotation.y = 0;
 
@@ -11,12 +13,20 @@ class BallAI {
     this.currentDirX = 0;
     this.currentDirY = 0;
 
-    this.DIRS = [0.3, 0.2, 0.1, 0, -0.1, -0.2, -0.3];
+    this.DIRS = [0.12, 0.08, 0.04, 0, -0.04, -0.08, -0.12];
   }
 
   updateMovement() {
+
+    // Gravity for ball dropping
+    if (this.ballMesh.position.z > 0.1){
+      this.ballMesh.position.z -= 0.03;
+    } else {
+      this.ballMesh.position.z = 0;
+    }
+
     if (this.trajectoryBankY <= 0) {
-      this.trajectoryBankY = 600;
+      this.trajectoryBankY = Math.random() * 6000;
       this.currentDirY = this.DIRS[
         Math.floor(Math.random() * this.DIRS.length)
       ];
@@ -32,7 +42,7 @@ class BallAI {
     }
 
     if (this.trajectoryBankX <= 0) {
-      this.trajectoryBankX = 600;
+      this.trajectoryBankX = Math.random() * 6000;
       this.currentDirX = this.DIRS[
         Math.floor(Math.random() * this.DIRS.length)
       ];
