@@ -92,6 +92,7 @@ gameBall.position.x = 0;
 camera.position.x = 0;
 
 document.addEventListener("keydown", e => {
+
   var keyCode = e.which;
 
   if (keyCode === DOWN_ARROW) {
@@ -116,6 +117,11 @@ document.addEventListener("keydown", e => {
 
 var animate = function() {
   renderId = requestAnimationFrame(animate);
+
+  if (Math.round(car.position.y) === 40){
+    cancelAnimationFrame(renderId);
+    document.getElementById('top-section').innerHTML = "YOU WIN!!!!!";
+  }
 
   if (gameBallVelocity > 0) {
     if (gameBallDirectionX > 0) {
@@ -180,6 +186,12 @@ var animate = function() {
       break;
     case "RIGHT COLLISION":
       car.position.x += 5;
+      break;
+    case "FRONT COLLISION":
+      car.position.y -= 5;
+      break;
+    case "BACK COLLISION":
+      car.position.y += 5;
       break;
     default:
       break;

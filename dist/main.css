@@ -1,6 +1,4 @@
-body{height:95vh;width:95vw;display:flex;flex-direction:column}.center{display:flex;align-items:center;justify-content:center}h2{font-size:3rem}.page-bg{background-color:chocolate;background-image:url(images/tree_bg.jpg);background-size:cover}.content-container{display:flex;flex-direction:column}.left-nav{background-color:white;width:50px;margin-right:10px;border:4px solid black;border-radius:4px}.game-container{width:60vw;height:60vh;border:4px solid black;border-radius:4px;background-color:white}.top-nav{background-color:white;height:50px;border:4px solid black;margin-bottom:10px;border-radius:4px}.bottom-section{display:flex}.game-title{color:black}
-
-.timer{background-color:white}.content-container{position:relative}.game-over-text{position:absolute;padding:10px}
+body{height:97.6vh;width:98vw;display:flex;flex-direction:column;align-items:center}.page-bg{background-image:url(images/background.jpg);background-size:cover;background-position:50% 50%}#main-container{display:flex;flex-direction:column;margin-top:30px}#top-section{display:flex;justify-content:center}#content-container{width:60vw;height:60vh;background-color:white;border:5px solid black}.top-nav{padding:16px;color:white;font-size:32px;border-radius:4px}.left-nav{padding:4px;width:130px;background-color:white;margin-right:6px;border:5px solid black;border-radius:16px 0px 0px 16px}.right-nav{padding:4px;width:130px;background-color:white;margin-left:6px;border:5px solid black;border-radius:0px 16px 16px 0px}.bottom-section{display:flex}
 
 
 /*# sourceMappingURL=main.css.map*/
