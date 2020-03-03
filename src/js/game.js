@@ -1,5 +1,6 @@
 import level_1 from "./level_1";
 import { blueBall, redBall, gameBall } from "./balls";
+import BallAI from "./Ball_AI";
 import { collision } from "./utils";
 import "../styles/game.scss";
 
@@ -16,10 +17,10 @@ const DIR_X = [0.3, 0.2, 0.1, 0, -0.1, -0.2, -0.3];
 const DIR_Y = [0.3, 0.2, 0.1, 0, -0.1, -0.2, -0.3];
 
 // Yellow NPC Ball
-let yellowTrajectoryBankX = 0;
-let yellowTrajectoryBankY = 0;
-let yellowCurrentDirX = 0;
-let yellowCurrentDirY = 0;
+// let yellowTrajectoryBankX = 0;
+// let yellowTrajectoryBankY = 0;
+// let yellowCurrentDirX = 0;
+// let yellowCurrentDirY = 0;
 
 // Blue NPC Ball
 let blueTrajectoryBankX = 0;
@@ -45,7 +46,7 @@ const VELOCITY_BASE = 40;
 
 let renderId;
 
-let spawnCounter = 0;
+// let spawnCounter = 0;
 
 const gameContainer = document.createElement("div");
 gameContainer.classList.add("game-container");
@@ -87,16 +88,17 @@ function moveGameBallRight() {
 function restart() {
   score = 100;
 
+  const redBallModel = new BallAI(redBall);
+
   scene.add(level_1);
   scene.add(gameBall);
-  scene.add(redBall);
-  scene.add(blueBall);
+  scene.add(redBallModel.ballMesh);
   scene.add(blueBall);
 
   blueBall.position.x = -2;
   blueBall.position.y = 5;
-  redBall.position.x = 2;
-  redBall.position.y = 5;
+  // redBall.position.x = 2;
+  // redBall.position.y = 5;
 
   level_1.position.z = -1;
 
@@ -123,6 +125,7 @@ function restart() {
     } else if (keyCode === SPACE_BAR) {
       gameBallDirectionY = 0;
       gameBallDirectionX = 0;
+
     } else if (keyCode === R_KEY) {
       scene.children.forEach(child => {
         scene.remove(child);
@@ -137,30 +140,30 @@ function restart() {
   var animate = function() {
     renderId = requestAnimationFrame(animate);
 
-    if (
-      scene.children.includes(redBall) === false ||
-      scene.children.includes(blueBall) === false
-    ) {
-      spawnCounter += 1;
-    }
+    // if (
+    //   scene.children.includes(redBall) === false ||
+    //   scene.children.includes(blueBall) === false
+    // ) {
+      // spawnCounter += 1;
+    // }
 
-    if (spawnCounter > 600) {
-      spawnCounter = 0;
+    // if (spawnCounter > 600) {
+    //   spawnCounter = 0;
 
-      if (scene.children.includes(redBall) === false) {
-        scene.add(redBall);
-        redBall.position.x = Math.random() * 10;
-        redBall.position.y = Math.random() * 10;
-        redBall.position.z = 0;
-      }
+    //   if (scene.children.includes(redBall) === false) {
+    //     scene.add(redBall);
+    //     redBall.position.x = Math.random() * 10;
+    //     redBall.position.y = Math.random() * 10;
+    //     redBall.position.z = 0;
+    //   }
 
-      if (scene.children.includes(blueBall) === false) {
-        scene.add(blueBall);
-        blueBall.position.y = Math.random() * 10;
-        blueBall.position.x = Math.random() * 10;
-        blueBall.position.z = 0;
-      }
-    }
+    //   if (scene.children.includes(blueBall) === false) {
+    //     scene.add(blueBall);
+    //     blueBall.position.y = Math.random() * 10;
+    //     blueBall.position.x = Math.random() * 10;
+    //     blueBall.position.z = 0;
+    //   }
+    // }
 
     if (gameBallVelocity > 0) {
       if (gameBallDirectionX > 0) {
@@ -228,37 +231,38 @@ function restart() {
     blueBall.rotation.x += 0.1;
     blueBall.rotation.y += 0.1;
 
-    redBall.rotation.x -= 0.1;
-    redBall.rotation.y -= 0.1;
+    // redBall.rotation.x -= 0.1;
+    // redBall.rotation.y -= 0.1;
 
     // YELLOW BALL Y
-    if (yellowTrajectoryBankY === 0) {
-      yellowTrajectoryBankY = 120;
-      yellowCurrentDirY = DIR_Y[Math.floor(Math.random() * DIR_Y.length)];
-    } else {
-      redBall.position.y += yellowCurrentDirY;
+    // if (yellowTrajectoryBankY === 0) {
+    //   yellowTrajectoryBankY = 120;
+    //   yellowCurrentDirY = DIR_Y[Math.floor(Math.random() * DIR_Y.length)];
+    // } else {
+    //   redBall.position.y += yellowCurrentDirY;
 
-      if (redBall.position.y > 20 || redBall.position.y < -20) {
-        yellowCurrentDirY = yellowCurrentDirY * -1;
-      }
+    //   if (redBall.position.y > 20 || redBall.position.y < -20) {
+    //     yellowCurrentDirY = yellowCurrentDirY * -1;
+    //   }
 
-      yellowTrajectoryBankY -= 1;
-    }
+    //   yellowTrajectoryBankY -= 1;
+    // }
 
-    // YELLOW BALL X
-    if (yellowTrajectoryBankX === 0) {
-      yellowTrajectoryBankX = 120;
-      yellowCurrentDirX = DIR_X[Math.floor(Math.random() * DIR_X.length)];
-    } else {
-      redBall.position.x += yellowCurrentDirX;
+    // // YELLOW BALL X
+    // if (yellowTrajectoryBankX === 0) {
+    //   yellowTrajectoryBankX = 120;
+    //   yellowCurrentDirX = DIR_X[Math.floor(Math.random() * DIR_X.length)];
+    // } else {
+    //   redBall.position.x += yellowCurrentDirX;
 
-      // if it is going out of bounds, flip the direction
-      if (redBall.position.x > 20 || redBall.position.x < -20) {
-        yellowCurrentDirX = yellowCurrentDirX * -1;
-      }
+    //   // if it is going out of bounds, flip the direction
+    //   if (redBall.position.x > 20 || redBall.position.x < -20) {
+    //     yellowCurrentDirX = yellowCurrentDirX * -1;
+    //   }
 
-      yellowTrajectoryBankX -= 1;
-    }
+    //   yellowTrajectoryBankX -= 1;
+    // }
+    redBallModel.updateMovement();
 
     // BLUE BALL Y
     if (blueTrajectoryBankY === 0) {
