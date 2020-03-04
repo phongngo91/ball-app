@@ -43,7 +43,7 @@ export default class PizzaAI {
   updateMovement() {
 
     if (this.aiBankX <= 0) {
-      this.aiBankX = Math.random() * 100;
+      this.aiBankX = Math.random() * 600;
       this.aiDirX = this.DIRS[
         Math.floor(Math.random() * this.DIRS.length)
       ];
@@ -71,7 +71,7 @@ export default class PizzaAI {
     // }
 
     if (this.aiBankZ <= 0) {
-      this.aiBankZ = Math.random() * 100;
+      this.aiBankZ = Math.random() * 600;
       this.aiDirZ = this.DIRS[
         Math.floor(Math.random() * this.DIRS.length)
       ];

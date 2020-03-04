@@ -369,7 +369,7 @@ const animate = function() {
 
   if (pizzaHealth <= 0) {
     cancelAnimationFrame(renderId);
-    playerHealthText.innerHTML =
+    pizzaHealthText.innerHTML =
       "Pizza Defeated, Press r to restart";
   }
 
