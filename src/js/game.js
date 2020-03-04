@@ -401,5 +401,14 @@ document.getElementById("gray-bg").addEventListener("click", () => {
 
 setUp();
 // resetGame();
+const container = document.getElementById("content-container");
+container.appendChild(renderer.domElement);
+let startMsg = document.createElement('div');
+startMsg.innerHTML = "CLICK HERE TO START";
+startMsg.classList.add("start-msg");
+container.appendChild(startMsg);
 
-document.getElementById("content-container").appendChild(renderer.domElement);
+startMsg.addEventListener("click", ()=>{
+  startMsg.classList.add("hide");
+  resetGame();
+});

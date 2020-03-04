@@ -26,6 +26,7 @@ body {
 }
 
 #content-container{
+  position: relative;
   width: 60vw;
   height: 60vh;
   background-color: white;
@@ -126,4 +127,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.start-msg{
+  position: absolute;
+  bottom: 200px;
+  left: 300px;
+}
+
+.hide{
+  display: none;
 }
