@@ -40,7 +40,7 @@ body {
 
 .left-nav{
   padding: 4px;
-  width: 130px;
+  width: 150px;
   background-color: white;
   margin-right: 6px;
   border: 3px solid black;
@@ -51,7 +51,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 4px;
-  width: 130px;
+  width: 150px;
   background-color: white;
   margin-left: 6px;
   border: 3px solid black;
@@ -89,12 +89,16 @@ body {
   background-color: red;
 }
 
-#blue-bg{
-  background-color: blue;
+#cyan-bg{
+  background-color: #00CCCC;
 }
 
 #green-bg{
   background-color: green;
+}
+
+#gray-bg{
+  background-color: gray;
 }
 
 .bg-title{

@@ -3,6 +3,7 @@ import { collision, boxCollision } from "./utils";
 import level_1 from "./level_1";
 import BallAI from "./Ball_AI";
 import CarAI from "./Car_AI";
+import BallHuman from "./Ball_Human";
 import { blueBall, redBall, gameBall } from "./balls";
 import { car } from "./car";
 import { skybox } from "./skybox";
@@ -24,6 +25,7 @@ let health;
 const redBallModel = new BallAI(redBall);
 const blueBallModel = new BallAI(blueBall);
 const carModel = new CarAI(car);
+const gameBallModel = new BallHuman(gameBall);
 
 const SPACE_BAR = 32;
 const LEFT_ARROW = 37;
@@ -34,6 +36,7 @@ const R_KEY = 82;
 const VELOCITY_BASE = 40;
 let renderId;
 const gameContainer = document.createElement("div");
+const topNav = document.getElementById("top-nav");
 gameContainer.classList.add("game-container");
 renderer.setSize(window.innerWidth * (6 / 10), window.innerHeight * (6 / 10));
 
@@ -69,6 +72,11 @@ scene.add(level_1);
 scene.add(skybox);
 
 function setUp() {
+  if (renderId) {
+    cancelAnimationFrame(renderId);
+  }
+  animate();
+
   health = 100;
   gameBallDirectionX = 0;
   gameBallDirectionY = 0;
@@ -81,9 +89,10 @@ function setUp() {
   gameBall.position.y = -35;
   camera.position.y = -43;
   gameBall.position.x = 0;
+  scene.background = new THREE.Color(0x00CCCC);
 }
 
-function endGame(){
+function endGame() {
   scene.remove(gameBall);
   scene.remove(car);
   scene.remove(redBall);
@@ -138,19 +147,21 @@ document.addEventListener("keydown", e => {
   } else if (keyCode === LEFT_ARROW) {
     gameBallDirectionX = -20;
     gameBallVelocity = VELOCITY_BASE;
+  } else if (keyCode === R_KEY) {
+    resetGame();
   } else if (keyCode === SPACE_BAR) {
-    gameBallDirectionY = 0;
-    gameBallDirectionX = 0;
+    gameBallModel.trajectoryBankZ = 4;
   }
 
   renderer.render(scene, camera);
 });
 
-var animate = function() {
+const animate = function() {
   renderId = requestAnimationFrame(animate);
 
   if (Math.round(car.position.y) === 40) {
     cancelAnimationFrame(renderId);
+    endGame();
     document.getElementById("top-nav").innerHTML = "YOU WIN!!!!!";
   }
 
@@ -267,10 +278,9 @@ var animate = function() {
   blueBallModel.updateMovement();
   redBallModel.updateMovement();
   carModel.updateMovement();
+  gameBallModel.updateMovement();
 
-  // rerenders the score of the gameBall
-  const topNav = document.getElementById("top-nav");
-
+  // Clears the top nav
   if (topNav) {
     if (topNav.children.length > 0) {
       topNav.removeChild(topNav.children[0]);
@@ -279,28 +289,28 @@ var animate = function() {
     const healthText = document.createElement("div");
     healthText.innerHTML = "Health: " + health;
 
-    if (health === 0) {
+    if (health <= 0) {
       cancelAnimationFrame(renderId);
-      healthText.innerHTML = "Health gone, You Lose";
+      healthText.innerHTML = "Health gone, You Lose, Press R to restart";
     }
     topNav.appendChild(healthText);
   }
   renderer.render(scene, camera);
-
 };
 
-document.getElementById("red-bg").addEventListener("click", ()=>{
+document.getElementById("red-bg").addEventListener("click", () => {
   scene.background = new THREE.Color(0xff0000);
 });
-document.getElementById("blue-bg").addEventListener("click", ()=>{
-  scene.background = new THREE.Color(0x000ff);
+document.getElementById("cyan-bg").addEventListener("click", () => {
+  scene.background = new THREE.Color(0x00CCCC);
 });
-document.getElementById("green-bg").addEventListener("click", ()=>{
-  scene.background = new THREE.Color(0x08000);
+document.getElementById("green-bg").addEventListener("click", () => {
+  scene.background = new THREE.Color(0x008000);
+});
+document.getElementById("gray-bg").addEventListener("click", () => {
+  scene.background = new THREE.Color(0x808080);
 });
 
-resetGame();
-
-animate();
+setUp();
 
 document.getElementById("content-container").appendChild(renderer.domElement);
