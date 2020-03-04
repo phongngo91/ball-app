@@ -1,12 +1,12 @@
 import * as THREE from "./three";
 
 let materialArray = [];
-let texture_ft = new THREE.TextureLoader().load( 'src/images/pikachu.png');
-let texture_bk = new THREE.TextureLoader().load( 'src/images/pikachu.png');
-let texture_up = new THREE.TextureLoader().load( 'src/images/pikachu.png');
-let texture_dn = new THREE.TextureLoader().load( 'src/images/pikachu.png');
-let texture_rt = new THREE.TextureLoader().load( 'src/images/pikachu.png');
-let texture_lf = new THREE.TextureLoader().load( 'src/images/pikachu.png');
+let texture_ft = new THREE.TextureLoader().load( 'src/images/stadium.png');
+let texture_bk = new THREE.TextureLoader().load( 'src/images/stadium.png');
+let texture_up = new THREE.TextureLoader().load( 'src/images/stadium.png');
+let texture_dn = new THREE.TextureLoader().load( 'src/images/stadium.png');
+let texture_rt = new THREE.TextureLoader().load( 'src/images/stadium.png');
+let texture_lf = new THREE.TextureLoader().load( 'src/images/stadium.png');
   
 materialArray.push(new THREE.MeshBasicMaterial( { map: texture_ft }));
 materialArray.push(new THREE.MeshBasicMaterial( { map: texture_bk }));
