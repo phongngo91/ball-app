@@ -20,7 +20,9 @@ body {
 
 #top-section{
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 #content-container{
@@ -30,9 +32,17 @@ body {
   border: 3px solid black;
 }
 
+#score{
+  display: flex;
+  justify-content: space-between;
+  width: 700px;
+  color: white;
+  font-size: 32px;
+  border-radius: 4px;
+}
+
 
 #top-nav{
-  padding: 16px;
   color: white;
   font-size: 32px;
   border-radius: 4px;
@@ -106,3 +116,4 @@ body {
   font-size: 18px;
   padding: 2px;
 }
+

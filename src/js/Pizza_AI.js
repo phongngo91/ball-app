@@ -1,4 +1,4 @@
-export default class CarAI {
+export default class PizzaAI {
   constructor(carMesh) {
     this.carMesh = carMesh;
     this.carMesh.position.x = 0;
@@ -24,6 +24,7 @@ export default class CarAI {
 
   updateMovement() {
 
+  
     // Drop the ball back to 0 on the z
     if (this.carMesh.position.z > 0.1){
       this.carMesh.position.z -= 0.04;

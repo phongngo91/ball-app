@@ -9,7 +9,6 @@ export const collision = (firstBall, secondBall) => {
 };
 
 export const boxCollision = (ball, box) => {
-
   // Right Side Collision
   const ballLeftOfBoxRightEdge = ball.position.x < box.position.x + 2;
   const ballRightOfBoxCenter = ball.position.x > box.position.x;
@@ -57,4 +56,15 @@ export const boxCollision = (ball, box) => {
   }
 
   return null;
+};
+
+export const laserCollision = (laser, target) => {
+  return (
+    Math.round(laser.position.x / 2.5) ===
+      Math.round(target.position.x / 2.5) &&
+      // number under equation determines the accuracy of the shot (lower = more accurate)
+    Math.round(laser.position.y / 1) ===
+      Math.round(target.position.y / 1) &&
+    Math.round(laser.position.z / 2.5) === Math.round(target.position.z / 2.5)
+  );
 };

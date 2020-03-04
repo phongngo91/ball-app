@@ -1,11 +1,11 @@
 import * as THREE from "./three";
-import { collision, boxCollision } from "./utils";
+import { collision, boxCollision, laserCollision } from "./utils";
 import level_1 from "./level_1";
 import BallAI from "./Ball_AI";
-import CarAI from "./Car_AI";
+import PizzaAI from "./Pizza_AI";
 import BallHuman from "./Ball_Human";
 import { blueBall, redBall, gameBall } from "./balls";
-import { car } from "./car";
+import { pizza } from "./pizza";
 import { skybox } from "./skybox";
 import playerLaser from "./player_laser";
 import LaserAI from "./Laser_AI";
@@ -22,13 +22,14 @@ const renderer = new THREE.WebGLRenderer();
 let gameBallDirectionX;
 let gameBallDirectionY;
 let gameBallVelocity;
-let health;
+let playerHealth;
+let pizzaHealth;
 
 let laserBank = [];
 
 const redBallModel = new BallAI(redBall);
 const blueBallModel = new BallAI(blueBall);
-const carModel = new CarAI(car);
+const pizzaModel = new PizzaAI(pizza);
 const gameBallModel = new BallHuman(gameBall);
 
 const SPACE_BAR = 32;
@@ -41,7 +42,7 @@ const VELOCITY_BASE = 40;
 const E_KEY = 69;
 let renderId;
 const gameContainer = document.createElement("div");
-const topNav = document.getElementById("top-nav");
+const score = document.getElementById("score");
 gameContainer.classList.add("game-container");
 renderer.setSize(window.innerWidth * (6 / 10), window.innerHeight * (6 / 10));
 
@@ -75,7 +76,6 @@ function moveGameBallRight() {
 
 scene.add(level_1);
 scene.add(skybox);
-scene.add(playerLaser);
 playerLaser.position.z = 2;
 
 function setUp() {
@@ -86,10 +86,11 @@ function setUp() {
 
   redBallModel.resetState();
   blueBallModel.resetState();
-  carModel.resetState();
+  pizzaModel.resetState();
   gameBallModel.resetState();
 
-  health = 100;
+  playerHealth = 100;
+  pizzaHealth = 100;
   gameBallDirectionX = 0;
   gameBallDirectionY = 0;
   gameBallVelocity = 0;
@@ -107,14 +108,14 @@ function setUp() {
 
 function endGame() {
   scene.remove(gameBall);
-  scene.remove(car);
+  scene.remove(pizza);
   scene.remove(redBall);
   scene.remove(blueBall);
 }
 
 function resetGame() {
   scene.add(gameBall);
-  scene.add(car);
+  scene.add(pizza);
   scene.add(redBall);
   scene.add(blueBall);
 
@@ -122,27 +123,27 @@ function resetGame() {
 }
 
 function knockCarRight() {
-  carModel.currentDirX = 0.2;
-  carModel.trajectoryBankX = 30;
-  car.position.z += 2;
+  pizzaModel.currentDirX = 0.2;
+  pizzaModel.trajectoryBankX = 30;
+  pizza.position.z += 2;
 }
 
 function knockCarLeft() {
-  carModel.currentDirX = -0.2;
-  carModel.trajectoryBankX = 30;
-  car.position.z += 2;
+  pizzaModel.currentDirX = -0.2;
+  pizzaModel.trajectoryBankX = 30;
+  pizza.position.z += 2;
 }
 
 function knockCarUp() {
-  carModel.currentDirY = 0.2;
-  carModel.trajectoryBankY = 30;
-  car.position.z += 2;
+  pizzaModel.currentDirY = 0.2;
+  pizzaModel.trajectoryBankY = 30;
+  pizza.position.z += 2;
 }
 
 function knockCarDown() {
-  carModel.currentDirY = -0.2;
-  carModel.trajectoryBankY = 30;
-  car.position.z += 2;
+  pizzaModel.currentDirY = -0.2;
+  pizzaModel.trajectoryBankY = 30;
+  pizza.position.z += 2;
 }
 
 document.addEventListener("keydown", e => {
@@ -164,6 +165,7 @@ document.addEventListener("keydown", e => {
     resetGame();
   } else if (keyCode === E_KEY) {
     laserBank.push(new LaserAI(playerLaser, gameBall));
+    scene.add(playerLaser);
   } else if (keyCode === SPACE_BAR) {
     gameBallModel.trajectoryBankZ = 4;
   }
@@ -222,15 +224,19 @@ const animate = function() {
 
   if (collision(blueBall, gameBall)) {
     blueBall.position.z += 1;
-    health -= 10;
+    playerHealth -= 10;
   }
 
   if (collision(gameBall, redBall)) {
     redBall.position.z += 1;
-    health -= 10;
+    playerHealth -= 10;
   }
 
-  let hitBox = boxCollision(gameBall, car);
+  if (laserCollision(playerLaser, pizza)){
+    pizzaHealth -= 10;
+  }
+
+  let hitBox = boxCollision(gameBall, pizza);
   switch (hitBox) {
     case "LEFT COLLISION":
       knockCarLeft();
@@ -248,7 +254,7 @@ const animate = function() {
       break;
   }
 
-  let redHitBox = boxCollision(redBall, car);
+  let redHitBox = boxCollision(redBall, pizza);
   switch (redHitBox) {
     case "LEFT COLLISION":
       knockCarLeft();
@@ -266,7 +272,7 @@ const animate = function() {
       break;
   }
 
-  let blueHitBox = boxCollision(blueBall, car);
+  let blueHitBox = boxCollision(blueBall, pizza);
   switch (blueHitBox) {
     case "LEFT COLLISION":
       knockCarLeft();
@@ -286,13 +292,13 @@ const animate = function() {
 
   blueBallModel.updateMovement();
   redBallModel.updateMovement();
-  carModel.updateMovement();
+  pizzaModel.updateMovement();
   gameBallModel.updateMovement();
 
   let newLaserBank = [];
 
-  laserBank.forEach(laser =>{
-    if (laser.velocity > 0){
+  laserBank.forEach(laser => {
+    if (laser.velocity > 0) {
       newLaserBank.push(laser);
     } else {
       // take out laser from scene if it is out of velocity
@@ -309,20 +315,25 @@ const animate = function() {
   });
 
   // Clears the top nav
-  if (topNav) {
-    if (topNav.children.length > 0) {
-      topNav.removeChild(topNav.children[0]);
-    }
-
-    const healthText = document.createElement("div");
-    healthText.innerHTML = "Health: " + health;
-
-    if (health <= 0) {
-      cancelAnimationFrame(renderId);
-      healthText.innerHTML = "Health gone, You Lose, Press R to restart";
-    }
-    topNav.appendChild(healthText);
+  while (score.children.length > 0) {
+    score.removeChild(score.children[0]);
   }
+
+  const playerHealthText = document.createElement("div");
+  const pizzaHealthText = document.createElement("div");
+
+  playerHealthText.innerHTML = "Player: " + playerHealth;
+  pizzaHealthText.innerHTML = "Pizza: " + pizzaHealth;
+
+  if (playerHealth <= 0) {
+    cancelAnimationFrame(renderId);
+    playerHealthText.innerHTML =
+      "playerHealth gone, You Lose, Press R to restart";
+  }
+
+  score.appendChild(playerHealthText);
+  score.appendChild(pizzaHealthText);
+
   renderer.render(scene, camera);
 };
 

@@ -20,4 +20,4 @@ var materials = [
 ];
 
 var faceMaterial = new THREE.MeshFaceMaterial(materials);
-export const car = new THREE.Mesh(geometry, faceMaterial);
+export const pizza = new THREE.Mesh(geometry, faceMaterial);
