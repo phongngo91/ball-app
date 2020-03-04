@@ -15,7 +15,7 @@ export default class CarAI {
 
     // Drop the ball back to 0 on the z
     if (this.carMesh.position.z > 0.1){
-      this.carMesh.position.z -= 0.1;
+      this.carMesh.position.z -= 0.07;
     } else {
       this.carMesh.position.z = 0;
     }
