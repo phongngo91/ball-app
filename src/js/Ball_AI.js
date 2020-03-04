@@ -16,6 +16,15 @@ class BallAI {
     this.DIRS = [0.2, 0.15, 0.1, 0.05, 0, -0.05, -0.1, -0.15, -0.2];
   }
 
+  resetState(){
+    this.ballMesh.position.x = (Math.random() * 40) - 20;
+    this.ballMesh.position.y = (Math.random() * 30) - 15;
+    this.ballMesh.rotation.x = 0;
+    this.ballMesh.rotation.y = 0;
+    this.trajectoryBankX = 0;
+    this.trajectoryBankY = 0;
+  }
+
   updateMovement() {
 
     // Gravity for ball dropping

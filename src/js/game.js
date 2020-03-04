@@ -7,6 +7,8 @@ import BallHuman from "./Ball_Human";
 import { blueBall, redBall, gameBall } from "./balls";
 import { car } from "./car";
 import { skybox } from "./skybox";
+import playerLaser from "./player_laser";
+import LaserAI from "./Laser_AI";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -22,6 +24,8 @@ let gameBallDirectionY;
 let gameBallVelocity;
 let health;
 
+let laserBank = [];
+
 const redBallModel = new BallAI(redBall);
 const blueBallModel = new BallAI(blueBall);
 const carModel = new CarAI(car);
@@ -34,6 +38,7 @@ const RIGHT_ARROW = 39;
 const DOWN_ARROW = 40;
 const R_KEY = 82;
 const VELOCITY_BASE = 40;
+const E_KEY = 69;
 let renderId;
 const gameContainer = document.createElement("div");
 const topNav = document.getElementById("top-nav");
@@ -70,6 +75,8 @@ function moveGameBallRight() {
 
 scene.add(level_1);
 scene.add(skybox);
+scene.add(playerLaser);
+playerLaser.position.z = 2;
 
 function setUp() {
   if (renderId) {
@@ -77,19 +84,25 @@ function setUp() {
   }
   animate();
 
+  redBallModel.resetState();
+  blueBallModel.resetState();
+  carModel.resetState();
+  gameBallModel.resetState();
+
   health = 100;
   gameBallDirectionX = 0;
   gameBallDirectionY = 0;
   gameBallVelocity = 0;
 
+  gameBall.position.y = -35;
+  gameBall.position.x = 0;
+
   camera.position.x = 0;
   level_1.position.z = -1;
-  camera.position.z = 10;
-  camera.rotation.x = (65 * Math.PI) / 180;
-  gameBall.position.y = -35;
-  camera.position.y = -43;
-  gameBall.position.x = 0;
-  scene.background = new THREE.Color(0x00CCCC);
+  camera.position.z = 5;
+  camera.rotation.x = (90 * Math.PI) / 180;
+  camera.position.y = -45;
+  scene.background = new THREE.Color(0x00cccc);
 }
 
 function endGame() {
@@ -149,6 +162,8 @@ document.addEventListener("keydown", e => {
     gameBallVelocity = VELOCITY_BASE;
   } else if (keyCode === R_KEY) {
     resetGame();
+  } else if (keyCode === E_KEY) {
+    laserBank.push(new LaserAI(playerLaser, gameBall));
   } else if (keyCode === SPACE_BAR) {
     gameBallModel.trajectoryBankZ = 4;
   }
@@ -158,12 +173,6 @@ document.addEventListener("keydown", e => {
 
 const animate = function() {
   renderId = requestAnimationFrame(animate);
-
-  if (Math.round(car.position.y) === 40) {
-    cancelAnimationFrame(renderId);
-    endGame();
-    document.getElementById("top-nav").innerHTML = "YOU WIN!!!!!";
-  }
 
   if (gameBallVelocity > 0) {
     if (gameBallDirectionX > 0) {
@@ -185,7 +194,7 @@ const animate = function() {
       moveGameBallUp();
       if (gameBallDirectionX > 0) {
         moveGameBallRight();
-      } else if (gameBallDirectionX < -0) {
+      } else if (gameBallDirectionX < 0) {
         moveGameBallLeft();
       }
     } else if (gameBallDirectionY < -0) {
@@ -280,6 +289,25 @@ const animate = function() {
   carModel.updateMovement();
   gameBallModel.updateMovement();
 
+  let newLaserBank = [];
+
+  laserBank.forEach(laser =>{
+    if (laser.velocity > 0){
+      newLaserBank.push(laser);
+    } else {
+      // take out laser from scene if it is out of velocity
+      scene.remove(laser.laserMesh);
+    }
+  });
+
+  // filter the laser bank
+  laserBank = newLaserBank;
+
+  // moves lasers
+  laserBank.forEach(laser => {
+    laser.updateMovement();
+  });
+
   // Clears the top nav
   if (topNav) {
     if (topNav.children.length > 0) {
@@ -302,7 +330,7 @@ document.getElementById("red-bg").addEventListener("click", () => {
   scene.background = new THREE.Color(0xff0000);
 });
 document.getElementById("cyan-bg").addEventListener("click", () => {
-  scene.background = new THREE.Color(0x00CCCC);
+  scene.background = new THREE.Color(0x00cccc);
 });
 document.getElementById("green-bg").addEventListener("click", () => {
   scene.background = new THREE.Color(0x008000);
@@ -311,6 +339,6 @@ document.getElementById("gray-bg").addEventListener("click", () => {
   scene.background = new THREE.Color(0x808080);
 });
 
-setUp();
+resetGame();
 
 document.getElementById("content-container").appendChild(renderer.domElement);

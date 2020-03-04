@@ -11,6 +11,17 @@ export default class CarAI {
     this.currentDirY = 0;
   }
 
+  resetState(){
+    this.carMesh.position.x = 0;
+    this.carMesh.position.y = 0;
+    this.carMesh.position.z = 0;
+
+    this.trajectoryBankX = 0;
+    this.trajectoryBankY = 0;
+    this.currentDirX = 0;
+    this.currentDirY = 0;
+  }
+
   updateMovement() {
 
     // Drop the ball back to 0 on the z

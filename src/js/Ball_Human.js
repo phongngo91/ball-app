@@ -9,6 +9,15 @@ class BallHuman {
     this.score = 0;
   }
 
+  resetState(){
+    this.directionX = 0;
+    this.directionY = 0;
+    this.velocity = 0;
+    this.trajectoryBankZ = 0;
+
+    this.score = 0;
+  }
+
   updateMovement(){
 
     if (this.trajectoryBankZ > 0){
