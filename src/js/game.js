@@ -185,26 +185,22 @@ var animate = function() {
   let hitBox = boxCollision(gameBall, car);
   switch (hitBox) {
     case "LEFT COLLISION":
-      // car.position.x -= 5;
       carModel.currentDirX = -0.2;
       carModel.trajectoryBankX = 30;
       car.position.z += 4;
       break;
     case "RIGHT COLLISION":
-      // car.position.x += 5;
       carModel.currentDirX = 0.2;
       carModel.trajectoryBankX = 30;
       car.position.z += 4;
       break;
     case "FRONT COLLISION":
-      // car.position.y -= 5;
-      carModel.currentDirY = -0.2;
+      carModel.currentDirY = +0.2;
       carModel.trajectoryBankY = 30;
       car.position.z += 4;
       break;
     case "BACK COLLISION":
-      // car.position.y += 5;
-      carModel.currentDirY = 0.2;
+      carModel.currentDirY = -0.2;
       carModel.trajectoryBankY = 30;
       car.position.z += 4;
       break;
