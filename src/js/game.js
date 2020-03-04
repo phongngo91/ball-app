@@ -1,10 +1,10 @@
 import * as THREE from "./three";
+import { collision, boxCollision } from "./utils";
 
 import level_1 from "./level_1";
-import { blueBall, redBall, gameBall } from "./balls";
 import BallAI from "./Ball_AI";
 import CarAI from "./Car_AI";
-import { collision, boxCollision } from "./utils";
+import { blueBall, redBall, gameBall } from "./balls";
 import { car } from "./car";
 import { skybox } from "./skybox";
 
@@ -96,7 +96,6 @@ gameBall.position.x = 0;
 camera.position.x = 0;
 
 document.addEventListener("keydown", e => {
-
   var keyCode = e.which;
 
   if (keyCode === DOWN_ARROW) {
@@ -122,9 +121,9 @@ document.addEventListener("keydown", e => {
 var animate = function() {
   renderId = requestAnimationFrame(animate);
 
-  if (Math.round(car.position.y) === 40){
+  if (Math.round(car.position.y) === 40) {
     cancelAnimationFrame(renderId);
-    document.getElementById('top-nav').innerHTML = "YOU WIN!!!!!";
+    document.getElementById("top-nav").innerHTML = "YOU WIN!!!!!";
   }
 
   if (gameBallVelocity > 0) {
@@ -189,21 +188,25 @@ var animate = function() {
       // car.position.x -= 5;
       carModel.currentDirX = -0.2;
       carModel.trajectoryBankX = 30;
+      car.position.z += 2;
       break;
     case "RIGHT COLLISION":
       // car.position.x += 5;
       carModel.currentDirX = 0.2;
       carModel.trajectoryBankX = 30;
+      car.position.z += 2;
       break;
     case "FRONT COLLISION":
       // car.position.y -= 5;
       carModel.currentDirY = -0.2;
       carModel.trajectoryBankY = 30;
+      car.position.z += 2;
       break;
     case "BACK COLLISION":
       // car.position.y += 5;
       carModel.currentDirY = 0.2;
       carModel.trajectoryBankY = 30;
+      car.position.z += 2;
       break;
     default:
       break;
