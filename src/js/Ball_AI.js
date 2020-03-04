@@ -13,7 +13,7 @@ class BallAI {
     this.currentDirX = 0;
     this.currentDirY = 0;
 
-    this.DIRS = [0.12, 0.08, 0.04, 0, -0.04, -0.08, -0.12];
+    this.DIRS = [0.2, 0.15, 0.1, 0.05, 0, -0.05, -0.1, -0.15, -0.2];
   }
 
   updateMovement() {
