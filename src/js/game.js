@@ -238,7 +238,7 @@ const animate = function() {
   laserBank.forEach(laser =>{
     if (laserCollision(laser.laserMesh, pizza)){
       pizzaHealth -= 10;
-      pizza.position.y += 0.1;
+      pizza.position.y += 0.5;
 
       // remove the laser if there's collision
       laserBank.splice(laserBank.indexOf(laser), 1);
