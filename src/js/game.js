@@ -8,7 +8,9 @@ import { blueBall, redBall, gameBall } from "./balls";
 import { pizza } from "./pizza";
 import { skybox } from "./skybox";
 import playerLaser from "./player_laser";
+import pizzaLaser from "./enemy_laser";
 import LaserAI from "./Laser_AI";
+import PizzaLaserAI from "./Pizza_Laser_AI";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -26,6 +28,8 @@ let playerHealth;
 let pizzaHealth;
 
 let laserBank = [];
+
+let enemyTimer;
 
 const redBallModel = new BallAI(redBall);
 const blueBallModel = new BallAI(blueBall);
@@ -89,8 +93,9 @@ function setUp() {
   pizzaModel.resetState();
   gameBallModel.resetState();
 
+  enemyTimer = 0;
   playerHealth = 100;
-  pizzaHealth = 10000;
+  pizzaHealth = 100;
   gameBallDirectionX = 0;
   gameBallDirectionY = 0;
   gameBallVelocity = 0;
@@ -99,6 +104,7 @@ function setUp() {
   gameBall.position.x = 0;
 
   camera.position.x = 0;
+  pizza.position.y = 20;
   level_1.position.z = -1;
   camera.position.z = 5;
   camera.rotation.x = (90 * Math.PI) / 180;
@@ -177,6 +183,17 @@ document.addEventListener("keydown", e => {
 const animate = function() {
   renderId = requestAnimationFrame(animate);
 
+  // increment enemy timer by one every time (Should do this in enemy lazer model?)
+  enemyTimer += 1;
+  if (enemyTimer > 60) {
+    // Enemy shoots a laser every 60 frames ( 1 second )
+    let duplicateEnemyLaser = pizzaLaser.clone();
+    laserBank.push(new PizzaLaserAI(duplicateEnemyLaser, pizza));
+    scene.add(duplicateEnemyLaser);
+
+    enemyTimer = 0;
+  }
+
   if (gameBallVelocity > 0) {
     if (gameBallDirectionX > 0) {
       moveGameBallRight();
@@ -235,8 +252,8 @@ const animate = function() {
 
   // Check if any of our lasers collide with the pizza
   // Each laser is our laser AI model, and each laserMesh is our randomly generated clone
-  laserBank.forEach(laser =>{
-    if (laserCollision(laser.laserMesh, pizza)){
+  laserBank.forEach(laser => {
+    if (laserCollision(laser.laserMesh, pizza)) {
       pizzaHealth -= 10;
       pizza.position.y += 0.5;
 
@@ -244,8 +261,16 @@ const animate = function() {
       laserBank.splice(laserBank.indexOf(laser), 1);
       scene.remove(laser.laserMesh);
     }
-  });
 
+    // If we hit the player, remove that laser and reduce our health
+    if (laserCollision(laser.laserMesh, gameBall)) {
+      playerHealth -= 10;
+      gameBall.position.y -= 0.5;
+      // remove the laser if there's collision
+      laserBank.splice(laserBank.indexOf(laser), 1);
+      scene.remove(laser.laserMesh);
+    }
+  });
 
   let hitBox = boxCollision(gameBall, pizza);
   switch (hitBox) {
@@ -339,7 +364,13 @@ const animate = function() {
   if (playerHealth <= 0) {
     cancelAnimationFrame(renderId);
     playerHealthText.innerHTML =
-      "playerHealth gone, You Lose, Press R to restart";
+      "You Lose, Press r to restart";
+  }
+
+  if (pizzaHealth <= 0) {
+    cancelAnimationFrame(renderId);
+    playerHealthText.innerHTML =
+      "Pizza Defeated, Press r to restart";
   }
 
   score.appendChild(playerHealthText);
