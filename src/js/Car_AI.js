@@ -3,6 +3,7 @@ export default class CarAI {
     this.carMesh = carMesh;
     this.carMesh.position.x = 0;
     this.carMesh.position.y = 0;
+    this.carMesh.position.z = 0;
 
     this.trajectoryBankX = 0;
     this.trajectoryBankY = 0;

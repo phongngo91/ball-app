@@ -18,19 +18,19 @@ export const boxCollision = (ball, box) => {
   } else if (
     Math.round(box.position.x - 2) === Math.round(ball.position.x) &&
     Math.round(box.position.y / 4) === Math.round(ball.position.y / 4) &&
-    ball.position.z === math.floor(box.position.z)
+    ball.position.z === box.position.z
   ) {
     return "RIGHT COLLISION";
   } else if (
     Math.round(box.position.y + 2) === Math.round(ball.position.y) &&
     Math.round(box.position.x / 4) === Math.round(ball.position.x / 4) &&
-    ball.position.z === math.floor(box.position.z)
+    ball.position.z === box.position.z
   ) {
     return "FRONT COLLISION";
   } else if (
     Math.round(box.position.y - 2) === Math.round(ball.position.y) &&
     Math.round(box.position.x / 4) === Math.round(ball.position.x / 4) &&
-    ball.position.z === math.floor(box.position.z)
+    ball.position.z === box.position.z
   ) {
     return "BACK COLLISION";
   }
