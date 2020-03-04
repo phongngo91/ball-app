@@ -79,7 +79,7 @@ export default class PizzaAI {
 
       this.pizzaMesh.position.z += this.aiDirZ;
       // keeps the pizza within the bounds of the map
-      if (this.pizzaMesh.position.z < -1 || this.pizzaMesh.position.z > 15) {
+      if (this.pizzaMesh.position.z < 1 || this.pizzaMesh.position.z > 15) {
         this.aiDirZ = this.aiDirZ * -1;
       }
       this.aiBankZ -= 1;
@@ -87,10 +87,10 @@ export default class PizzaAI {
 
     // Drop the ball back to 0 on the z
     // Logic for Gravity of the pizza
-    if (this.pizzaMesh.position.z > 0.1) {
+    if (this.pizzaMesh.position.z > 1.1) {
       this.pizzaMesh.position.z -= 0.04;
     } else {
-      this.pizzaMesh.position.z = 0;
+      this.pizzaMesh.position.z = 1;
     }
 
     if (this.trajectoryBankX > 0) {
