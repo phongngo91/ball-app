@@ -38,9 +38,13 @@ export default class PizzaAI {
     this.aiDirX = 0;
     // this.aiDirY = 0;
     this.aiDirZ = 0;
+
+    this.shooty = false;
+
   }
 
   updateMovement() {
+
 
     if (this.aiBankX <= 0) {
       this.aiBankX = Math.random() * 600;

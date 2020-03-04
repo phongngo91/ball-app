@@ -117,15 +117,16 @@ function endGame() {
   scene.remove(pizza);
   scene.remove(redBall);
   scene.remove(blueBall);
+  pizzaModel.shooty = false;
 }
 
 function resetGame() {
+  setUp();
   scene.add(gameBall);
   scene.add(pizza);
   scene.add(redBall);
   scene.add(blueBall);
-
-  setUp();
+  pizzaModel.shooty = true;
 }
 
 function knockCarRight() {
@@ -184,15 +185,19 @@ const animate = function() {
   renderId = requestAnimationFrame(animate);
 
   // increment enemy timer by one every time (Should do this in enemy lazer model?)
-  enemyTimer += 1;
-  if (enemyTimer > 60) {
-    // Enemy shoots a laser every 60 frames ( 1 second )
-    let duplicateEnemyLaser = pizzaLaser.clone();
-    laserBank.push(new PizzaLaserAI(duplicateEnemyLaser, pizza));
-    scene.add(duplicateEnemyLaser);
-
-    enemyTimer = 0;
+  
+  if (pizzaModel.shooty === true){
+    enemyTimer += 1;
+    if (enemyTimer > 60) {
+      // Enemy shoots a laser every 60 frames ( 1 second )
+      let duplicateEnemyLaser = pizzaLaser.clone();
+      laserBank.push(new PizzaLaserAI(duplicateEnemyLaser, pizza));
+      scene.add(duplicateEnemyLaser);
+  
+      enemyTimer = 0;
+    }
   }
+  
 
   if (gameBallVelocity > 0) {
     if (gameBallDirectionX > 0) {
@@ -266,6 +271,7 @@ const animate = function() {
     if (laserCollision(laser.laserMesh, gameBall)) {
       playerHealth -= 10;
       gameBall.position.y -= 0.5;
+      camera.position.y -= 0.5;
       // remove the laser if there's collision
       laserBank.splice(laserBank.indexOf(laser), 1);
       scene.remove(laser.laserMesh);
@@ -363,14 +369,14 @@ const animate = function() {
 
   if (playerHealth <= 0) {
     cancelAnimationFrame(renderId);
-    playerHealthText.innerHTML =
-      "You Lose, Press r to restart";
+    playerHealthText.innerHTML = "You Lose, Press r to restart";
+    endGame();
   }
 
   if (pizzaHealth <= 0) {
     cancelAnimationFrame(renderId);
-    pizzaHealthText.innerHTML =
-      "Pizza Defeated, Press r to restart";
+    pizzaHealthText.innerHTML = "Pizza Defeated, Press r to restart";
+    endGame();
   }
 
   score.appendChild(playerHealthText);
@@ -392,6 +398,8 @@ document.getElementById("gray-bg").addEventListener("click", () => {
   scene.background = new THREE.Color(0x808080);
 });
 
-resetGame();
+
+setUp();
+// resetGame();
 
 document.getElementById("content-container").appendChild(renderer.domElement);
