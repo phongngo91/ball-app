@@ -90,7 +90,7 @@ function setUp() {
   gameBallModel.resetState();
 
   playerHealth = 100;
-  pizzaHealth = 100;
+  pizzaHealth = 10000;
   gameBallDirectionX = 0;
   gameBallDirectionY = 0;
   gameBallVelocity = 0;
@@ -164,8 +164,9 @@ document.addEventListener("keydown", e => {
   } else if (keyCode === R_KEY) {
     resetGame();
   } else if (keyCode === E_KEY) {
-    laserBank.push(new LaserAI(playerLaser, gameBall));
-    scene.add(playerLaser);
+    let duplicateLaser = playerLaser.clone();
+    laserBank.push(new LaserAI(duplicateLaser, gameBall));
+    scene.add(duplicateLaser);
   } else if (keyCode === SPACE_BAR) {
     gameBallModel.trajectoryBankZ = 4;
   }
@@ -232,9 +233,14 @@ const animate = function() {
     playerHealth -= 10;
   }
 
-  if (laserCollision(playerLaser, pizza)){
-    pizzaHealth -= 10;
-  }
+  // Check if any of our lasers collide with the pizza
+  // Each laser is our laser AI model, and each laserMesh is our randomly generated clone
+  laserBank.forEach(laser =>{
+    if (laserCollision(laser.laserMesh, pizza)){
+      pizzaHealth -= 10;
+    }
+  });
+
 
   let hitBox = boxCollision(gameBall, pizza);
   switch (hitBox) {

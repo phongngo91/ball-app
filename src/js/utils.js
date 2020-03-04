@@ -63,8 +63,8 @@ export const laserCollision = (laser, target) => {
     Math.round(laser.position.x / 2.5) ===
       Math.round(target.position.x / 2.5) &&
       // number under equation determines the accuracy of the shot (lower = more accurate)
-    Math.round(laser.position.y / 1) ===
-      Math.round(target.position.y / 1) &&
+    Math.round(laser.position.y / 2.5) ===
+      Math.round(target.position.y / 2.5) &&
     Math.round(laser.position.z / 2.5) === Math.round(target.position.z / 2.5)
   );
 };

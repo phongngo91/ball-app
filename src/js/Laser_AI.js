@@ -8,8 +8,8 @@ export default class LaserAI {
 
     //This should be based on the shooter
     // Player shoots forward
-    this.travelDir = 0.2;
-    this.velocity = 1000;
+    this.travelDir = 0.4;
+    this.velocity = 300;
   }
 
   updateMovement(){
