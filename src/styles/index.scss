@@ -15,7 +15,7 @@ body {
 #main-container{
   display: flex;
   flex-direction: column;
-  margin-top: 30px;
+  margin-top: 16px;
 }
 
 #top-section{
@@ -27,7 +27,7 @@ body {
   width: 60vw;
   height: 60vh;
   background-color: white;
-  border: 5px solid black;
+  border: 3px solid black;
 }
 
 
@@ -43,19 +43,62 @@ body {
   width: 130px;
   background-color: white;
   margin-right: 6px;
-  border: 5px solid black;
+  border: 3px solid black;
   border-radius: 16px 0px 0px 16px;
 }
 
 .right-nav{
+  display: flex;
+  flex-direction: column;
   padding: 4px;
   width: 130px;
   background-color: white;
   margin-left: 6px;
-  border: 5px solid black;
+  border: 3px solid black;
   border-radius: 0px 16px 16px 0px;
 }
 
 .bottom-section{
   display: flex;
+}
+
+.bg-color-container{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.color-list{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.color-option{
+  border-radius: 3px;
+  padding: 1px;
+  margin: 1px;
+  color: white;
+}
+
+.color-option:hover{
+  cursor: pointer;
+}
+
+#red-bg{
+  background-color: red;
+}
+
+#blue-bg{
+  background-color: blue;
+}
+
+#green-bg{
+  background-color: green;
+}
+
+.bg-title{
+  text-decoration: underline;
+  font-size: 18px;
+  padding: 2px;
 }

@@ -21,6 +21,10 @@ let gameBallDirectionY;
 let gameBallVelocity;
 let health;
 
+const redBallModel = new BallAI(redBall);
+const blueBallModel = new BallAI(blueBall);
+const carModel = new CarAI(car);
+
 const SPACE_BAR = 32;
 const LEFT_ARROW = 37;
 const UP_ARROW = 38;
@@ -61,10 +65,6 @@ function moveGameBallRight() {
   gameBallVelocity -= 0.1;
 }
 
-const redBallModel = new BallAI(redBall);
-const blueBallModel = new BallAI(blueBall);
-const carModel = new CarAI(car);
-
 scene.add(level_1);
 scene.add(skybox);
 
@@ -81,6 +81,13 @@ function setUp() {
   gameBall.position.y = -35;
   camera.position.y = -43;
   gameBall.position.x = 0;
+}
+
+function endGame(){
+  scene.remove(gameBall);
+  scene.remove(car);
+  scene.remove(redBall);
+  scene.remove(blueBall);
 }
 
 function resetGame() {
@@ -278,14 +285,19 @@ var animate = function() {
     }
     topNav.appendChild(healthText);
   }
-  render();
+  renderer.render(scene, camera);
+
 };
 
-function render() {
-  renderer.autoClear = false;
-  renderer.clear();
-  renderer.render(scene, camera);
-}
+document.getElementById("red-bg").addEventListener("click", ()=>{
+  scene.background = new THREE.Color(0xff0000);
+});
+document.getElementById("blue-bg").addEventListener("click", ()=>{
+  scene.background = new THREE.Color(0x000ff);
+});
+document.getElementById("green-bg").addEventListener("click", ()=>{
+  scene.background = new THREE.Color(0x08000);
+});
 
 resetGame();
 
