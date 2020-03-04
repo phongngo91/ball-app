@@ -11,20 +11,20 @@ export const collision = (firstBall, secondBall) => {
 export const boxCollision = (ball, box) => {
 
   // Right Side Collision
-  const ballLeftOfBoxRightEdge = ball.position.x < box.position.x + 1.5;
-  const ballRightOfBoxCenter = ball.position.x > box.position.x + 0.5;
+  const ballLeftOfBoxRightEdge = ball.position.x < box.position.x + 2;
+  const ballRightOfBoxCenter = ball.position.x > box.position.x;
 
   // Left Side Collision
-  const ballRightOfBoxLeftEdge = ball.position.x > box.position.x - 1.5;
-  const ballLeftOfBoxCenter = ball.position.x < box.position.x - 0.5;
+  const ballRightOfBoxLeftEdge = ball.position.x > box.position.x - 2;
+  const ballLeftOfBoxCenter = ball.position.x < box.position.x;
 
   // Back Side Collision
-  const ballBelowBoxTopEdge = ball.position.y < box.position.y + 1.5;
-  const ballTopOfBoxCenter = ball.position.y > box.position.y + 0.5;
+  const ballBelowBoxTopEdge = ball.position.y < box.position.y + 2;
+  const ballTopOfBoxCenter = ball.position.y > box.position.y;
 
   // Front Side Collision (face that players see)
-  const ballTopOfBoxBottomEdge = ball.position.y > box.position.y - 1.5;
-  const ballBelowBoxCenter = ball.position.y < box.position.y - 0.5;
+  const ballTopOfBoxBottomEdge = ball.position.y > box.position.y - 2;
+  const ballBelowBoxCenter = ball.position.y < box.position.y;
 
   if (
     ballLeftOfBoxRightEdge &&
