@@ -60,8 +60,8 @@ export const boxCollision = (ball, box) => {
 
 export const laserCollision = (laser, target) => {
   return (
-    Math.round(laser.position.x / 2.5) ===
-      Math.round(target.position.x / 2.5) &&
+    Math.round(laser.position.x / 6) ===
+      Math.round(target.position.x / 6) &&
       // number under equation determines the accuracy of the shot (lower = more accurate)
     Math.round(laser.position.y / 2.5) ===
       Math.round(target.position.y / 2.5) &&
