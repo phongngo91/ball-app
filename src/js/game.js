@@ -38,6 +38,7 @@ function stopGame() {
 }
 
 function startGame() {
+  spawnFreq = 1;
   runGame = true;
   scoreValue = 0;
   scoreElement.style.visibility = "visible";
