@@ -9,28 +9,38 @@ const renderer = new THREE.WebGLRenderer();
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.addEventListener("mousemove", airPlaneController, false);
-const score = document.getElementById('score');
-score.style.visibility = "hidden";
+const scoreElement = document.getElementById("score");
+const menu = document.getElementById("menu");
+const instructions = document.getElementById("instructions");
+scoreElement.style.visibility = "hidden";
 
 let gameTimer = 0;
+let spawnFreq = 1;
 camera.position.z = 20;
 let runGame = false;
 let debris = [];
-let airplaneHealth = 100;
+let scoreValue = 0;
 
 function stopGame() {
+  menu.innerHTML = "Restart";
+  instructions.innerHTML = "Final Score: " + scoreValue;
   runGame = false;
   gameTimer = 0;
-  airplaneHealth = 100;
+  scoreValue = 0;
+  debris.forEach(debri =>{
+    scene.remove(debri.mesh);
+  });
   debris = [];
-  score.style.visibility = "hidden";
+  scoreElement.style.visibility = "hidden";
+  menu.style.visibility = "visible";
+  instructions.style.visibility = "visible";
   scene.remove(airplane);
 }
 
 function startGame() {
   runGame = true;
-  airplaneHealth = 100;
-  score.style.visibility = "visible";
+  scoreValue = 0;
+  scoreElement.style.visibility = "visible";
   scene.add(airplane);
 }
 
@@ -40,41 +50,57 @@ const animate = function() {
   if (runGame === true) {
     gameTimer += 1;
   }
-  if (gameTimer > 15) {
+
+  if (gameTimer > (15 / spawnFreq)) {
     renderer.setSize(window.innerWidth, window.innerHeight);
     const newDebri = new Debri();
     debris.push(newDebri);
     scene.add(newDebri.mesh);
+
+    spawnFreq += 0.01;
     gameTimer = 0;
   }
 
   debris.forEach(debri => {
     debri.update();
     if (collision(airplane, debri)) {
-      if (debri.color === "BLUE"){
+      if (debri.color === "BLUE") {
         console.log("Blue collision");
-        airplaneHealth += 10;
-      } else if (debri.color === "RED"){
-        console.log("Red Collision");
-        airplaneHealth -= 10;
+        scoreValue += 20;
+      } else if (debri.color === "RED") {
+        stopGame();
+      } else if (debri.color === "YELLOW") {
+        scoreValue += 10;
       }
+      scene.remove(debri.mesh);
+      debris.splice(debris.indexOf(debri), 1);
+    }
+
+    // This means the debri has left the camera view
+    if (debri.mesh.z > 20){
       scene.remove(debri.mesh);
       debris.splice(debris.indexOf(debri), 1);
     }
   });
 
-  while (score.children.length > 0){
-    score.children.forEach (child =>{
-      score.remove(child);
+  while (scoreElement.children.length > 0) {
+    scoreElement.children.forEach(child => {
+      scoreElement.remove(child);
     });
   }
 
-  score.innerHTML = airplaneHealth;
+  scoreElement.innerHTML = scoreValue;
 
   renderer.render(scene, camera);
 };
 
 animate();
-startGame();
-
 document.body.appendChild(renderer.domElement);
+
+menu.style.visibility = "visible";
+instructions.style.visibility = "visible";
+menu.addEventListener("click", () => {
+  menu.style.visibility = "hidden";
+  instructions.style.visibility = "hidden";
+  startGame();
+});

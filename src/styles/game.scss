@@ -5,7 +5,12 @@ body {
   position: relative;
 }
 
-.score{
+ul, li {
+  margin: 0;
+  padding: 0;
+}
+
+.score {
   position: absolute;
   z-index: 1;
   color: white;
@@ -14,4 +19,43 @@ body {
   top: 25px;
   left: 25px;
   border-radius: 4px;
+}
+
+.menu {
+  position: absolute;
+  z-index: 1;
+  color: white;
+  border: 2px white solid;
+  padding: 4px;
+  left: 0;
+  right: 0;
+  top: 200px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+}
+
+.instructions {
+  position: absolute;
+  z-index: 1;
+  color: white;
+  border: 2px white solid;
+  padding: 4px;
+  left: 0;
+  right: 0;
+  top: 250px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+}
+
+.rule-container {
+  padding: 20px;
+  list-style: none;
+}
+
+.rules {
+  color: white;
 }

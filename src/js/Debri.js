@@ -4,7 +4,7 @@ export class Debri {
   constructor() {
     const geometry = new THREE.SphereGeometry(1, 32, 32);
 
-    const COLORS = ["RED", "BLUE", "YELLOW"];
+    const COLORS = ["YELLOW", "BLUE", "RED"];
     const MATERIALS = [
       new THREE.MeshBasicMaterial({ color: 0xffff00 }),
       new THREE.MeshBasicMaterial({ color: 0x0000ff }),
