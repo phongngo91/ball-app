@@ -20,7 +20,10 @@ export class Ball {
     this.E_KEY = 69;
     this.W_KEY = 87;
     this.S_KEY = 83;
+    this.A_KEY = 65;
+    this.D_KEY = 68;
 
+    this.cameraMomentumZ = 0;
     this.reset();
   }
 
@@ -67,6 +70,14 @@ export class Ball {
   }
 
   update() {
+
+    // If camera is not where the ball is on the z, move the camera
+    if (Math.abs(this.mesh.position.z - this.camera.position.z) > 4){
+      // this.cameraMomentumZ += (this.mesh.position.z - this.camera.position.z) / 10;
+      this.camera.position.z += (this.mesh.position.z - this.camera.position.z) / 100;
+
+    }
+
     if (this.velocity > 0) {
       if (this.dirX > 0) {
         this.moveRight();
@@ -138,6 +149,7 @@ export class Ball {
     return e => {
       const keyCode = e.which;
 
+      // debugger;
       if (keyCode === this.DOWN_ARROW) {
         this.dirY = -20;
         this.velocity = this.VELOCITY_BASE;
@@ -145,11 +157,11 @@ export class Ball {
         this.dirY = 20;
         this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.RIGHT_ARROW) {
-        // this.dirX = 20;
-        // this.velocity = this.VELOCITY_BASE;
+        this.dirX = 20;
+        this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.LEFT_ARROW) {
-        // this.dirX = -20;
-        // this.velocity = this.VELOCITY_BASE;
+        this.dirX = -20;
+        this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.R_KEY) {
         // resetGame();
       } else if (keyCode === this.E_KEY) {
@@ -157,29 +169,34 @@ export class Ball {
         // laserBank.push(new LaserAI(duplicateLaser, gameBall));
         // scene.add(duplicateLaser);
         this.shoot();
-      } else if (keyCode === this.W_KEY){
+      } else if (keyCode === this.W_KEY) {
         // this.camera.position.y += 0.1;
         // this.mesh.position.y += 0.1;
-        this.dirY = 20;
+        // this.dirY = 20;
+        // this.velocity = this.VELOCITY_BASE;
+      } else if (keyCode === this.S_KEY) {
+        this.dirY = -20;
         this.velocity = this.VELOCITY_BASE;
-      } else if (keycode === this.S_KEY){
-        this.dirY = 20;
-        this.velocity = this.VELOCITY_BASE;
-      }
-         else if (keyCode === this.SPACE_BAR) {
+      } else if (keyCode === this.A_KEY) {
+        // this.dirX = -20;
+        // this.velocity = this.VELOCITY_BASE;
+      } else if (keyCode === this.D_KEY) {
+        // this.dirX = 20;
+        // this.velocity = this.VELOCITY_BASE;
+      } else if (keyCode === this.SPACE_BAR) {
         this.trajectoryBankZ = 4;
       }
     };
   }
 
-  mouseController(){
-    return e => {
-      const canvas = document.getElementsByTagName("canvas")[0];
-      let relativeX = e.clientX - canvas.offsetLeft - canvas.width / 2;
+  // mouseController() {
+  //   return e => {
+  //     const canvas = document.getElementsByTagName("canvas")[0];
+  //     let relativeX = e.clientX - canvas.offsetLeft - canvas.width / 2;
 
-      if (relativeX > -canvas.width / 2 && relativeX < canvas.width / 2) {
-        this.mesh.position.x = relativeX / 25;
-      }
-    };
-  }
+  //     if (relativeX > -canvas.width / 2 && relativeX < canvas.width / 2) {
+  //       this.mesh.position.x = relativeX / 25;
+  //     }
+  //   };
+  // }
 }

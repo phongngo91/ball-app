@@ -1,14 +1,15 @@
 import * as THREE from "./three";
 import { collision, boxCollision, laserCollision } from "./utils";
+import "../styles/game.scss";
 import level_1 from "./level_1";
-import BallAI from "./Ball_AI";
-import PizzaAI from "./Pizza_AI";
-import { blueBall, redBall } from "./balls";
-import { pizza } from "./pizza";
-import pizzaLaser from "./enemy_laser";
-import PizzaLaserAI from "./Pizza_Laser_AI";
+// import BallAI from "./Ball_AI";
+// import PizzaAI from "./Pizza_AI";
+// import { blueBall, redBall } from "./balls";
+// import { pizza } from "./pizza";
+// import pizzaLaser from "./enemy_laser";
+// import PizzaLaserAI from "./Pizza_Laser_AI";
 import { Ball } from "./Ball";
-import { Debri } from "./Debri";
+// import { Debri } from "./Debri";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -19,87 +20,83 @@ const camera = new THREE.PerspectiveCamera(
 );
 const renderer = new THREE.WebGLRenderer();
 
-let pizzaHealth;
+// let pizzaHealth;
 let laserBank = [];
-let debrisBank = [];
+// let debrisBank = [];
 
 let gameTimer = 0;
-let debriFreq = 1;
+// let debriFreq = 1;
 
 let enemyTimer;
+let gameRun = false;
 
-const redBallModel = new BallAI(redBall);
-const blueBallModel = new BallAI(blueBall);
-const pizzaModel = new PizzaAI(pizza);
-// const gameBallModel = new BallHuman(gameBall);
+// const redBallModel = new BallAI(redBall);
+// const blueBallModel = new BallAI(blueBall);
+// const pizzaModel = new PizzaAI(pizza);
 const ball = new Ball(camera);
 
-let renderId;
-const gameContainer = document.createElement("div");
-const score = document.getElementById("score");
-gameContainer.classList.add("game-container");
-renderer.setSize(window.innerWidth * (6 / 10), window.innerHeight * (6 / 10));
-document.addEventListener("mousemove", ball.mouseController(), false);
+// const gameContainer = document.createElement("div"); 
+// const score = document.getElementById("score");
+// gameContainer.classList.add("game-container");
+renderer.setSize(window.innerWidth, window.innerHeight);
+
+// document.addEventListener("mousemove", ball.mouseController(), false);
 
 scene.add(level_1);
 
 function setUp() {
-  if (renderId) {
-    cancelAnimationFrame(renderId);
-  }
-  animate();
 
-  redBallModel.resetState();
-  blueBallModel.resetState();
-  pizzaModel.resetState();
+  // redBallModel.resetState();
+  // blueBallModel.resetState();
+  // pizzaModel.resetState();
   // gameBallModel.resetState();
 
   // enemyTimer = 0;
-  pizzaHealth = 100;
-  pizza.position.y = 20;
+  // pizzaHealth = 100;
+  // pizza.position.y = 20;
   level_1.position.z = -1;
   scene.background = new THREE.Color(0x00cccc);
 }
 
 function endGame() {
   scene.remove(ball.mesh);
-  scene.remove(pizza);
-  scene.remove(redBall);
-  scene.remove(blueBall);
+  // scene.remove(pizza);
+  // scene.remove(redBall);
+  // scene.remove(blueBall);
 }
 
 function resetGame() {
   scene.add(ball.mesh);
-  scene.add(pizza);
-  scene.add(redBall);
-  scene.add(blueBall);
+  // scene.add(pizza);
+  // scene.add(redBall);
+  // scene.add(blueBall);
 
   setUp();
 }
 
-function knockCarRight() {
-  pizzaModel.currentDirX = 0.2;
-  pizzaModel.trajectoryBankX = 30;
-  pizza.position.z += 2;
-}
+// function knockCarRight() {
+//   pizzaModel.currentDirX = 0.2;
+//   pizzaModel.trajectoryBankX = 30;
+//   pizza.position.z += 2;
+// }
 
-function knockCarLeft() {
-  pizzaModel.currentDirX = -0.2;
-  pizzaModel.trajectoryBankX = 30;
-  pizza.position.z += 2;
-}
+// function knockCarLeft() {
+//   pizzaModel.currentDirX = -0.2;
+//   pizzaModel.trajectoryBankX = 30;
+//   pizza.position.z += 2;
+// }
 
-function knockCarUp() {
-  pizzaModel.currentDirY = 0.2;
-  pizzaModel.trajectoryBankY = 30;
-  pizza.position.z += 2;
-}
+// function knockCarUp() {
+//   pizzaModel.currentDirY = 0.2;
+//   pizzaModel.trajectoryBankY = 30;
+//   pizza.position.z += 2;
+// }
 
-function knockCarDown() {
-  pizzaModel.currentDirY = -0.2;
-  pizzaModel.trajectoryBankY = 30;
-  pizza.position.z += 2;
-}
+// function knockCarDown() {
+//   pizzaModel.currentDirY = -0.2;
+//   pizzaModel.trajectoryBankY = 30;
+//   pizza.position.z += 2;
+// }
 
 document.addEventListener("keydown", ball.controller());
 document.addEventListener("keydown", e => {
@@ -113,51 +110,60 @@ document.addEventListener("keydown", e => {
 });
 
 const animate = function() {
-  renderId = requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
 
-  enemyTimer += 1;
-  gameTimer += 1;
-
-  if (enemyTimer > 60) {
-    // Enemy shoots a laser every 60 frames ( 1 second )
-    let duplicateEnemyLaser = pizzaLaser.clone();
-    laserBank.push(new PizzaLaserAI(duplicateEnemyLaser, pizza));
-    scene.add(duplicateEnemyLaser);
-
-    enemyTimer = 0;
+  if (gameRun === true){
+    gameTimer += 1;
   }
-
-  if (gameTimer > 15 / debriFreq) {
-    // renderer.setSize(window.innerWidth, window.innerHeight);
-    const newDebri = new Debri();
-    debrisBank.push(newDebri);
-    scene.add(newDebri.mesh);
-
-    if (debriFreq < 1) {
-      debriFreq += 0.01;
-    }
+  if (gameTimer > 240){
+    renderer.setSize(window.innerWidth, window.innerHeight);
     gameTimer = 0;
   }
+  
 
-  debrisBank.forEach(debri => {
-    debri.update();
+  // enemyTimer += 1;
+  // gameTimer += 1;
 
-    // This means the debri has left the camera view
-    if (debri.mesh.y < -20) {
-      scene.remove(debri.mesh);
-      debrisBank.splice(debrisBank.indexOf(debri), 1);
-    }
-  });
+  // if (enemyTimer > 60) {
+  //   // Enemy shoots a laser every 60 frames ( 1 second )
+  //   let duplicateEnemyLaser = pizzaLaser.clone();
+  //   laserBank.push(new PizzaLaserAI(duplicateEnemyLaser, pizza));
+  //   scene.add(duplicateEnemyLaser);
 
-  if (collision(blueBall, ball.mesh)) {
-    blueBall.position.z += 1;
-    ball.health -= 10;
-  }
+  //   enemyTimer = 0;
+  // }
 
-  if (collision(ball.mesh, redBall)) {
-    redBall.position.z += 1;
-    ball.health -= 10;
-  }
+  // if (gameTimer > 15 / debriFreq) {
+  //   // renderer.setSize(window.innerWidth, window.innerHeight);
+  //   const newDebri = new Debri();
+  //   debrisBank.push(newDebri);
+  //   scene.add(newDebri.mesh);
+
+  //   if (debriFreq < 1) {
+  //     debriFreq += 0.01;
+  //   }
+  //   gameTimer = 0;
+  // }
+
+  // debrisBank.forEach(debri => {
+  //   debri.update();
+
+  //   // This means the debri has left the camera view
+  //   if (debri.mesh.y < -20) {
+  //     scene.remove(debri.mesh);
+  //     debrisBank.splice(debrisBank.indexOf(debri), 1);
+  //   }
+  // });
+
+  // if (collision(blueBall, ball.mesh)) {
+  //   blueBall.position.z += 1;
+  //   ball.health -= 10;
+  // }
+
+  // if (collision(ball.mesh, redBall)) {
+  //   redBall.position.z += 1;
+  //   ball.health -= 10;
+  // }
 
   // Check if any of our lasers collide with the pizza
   // Each laser is our laser AI model, and each laserMesh is our randomly generated clone
@@ -182,63 +188,63 @@ const animate = function() {
   //   }
   // });
 
-  let hitBox = boxCollision(ball.mesh, pizza);
-  switch (hitBox) {
-    case "LEFT COLLISION":
-      knockCarLeft();
-      break;
-    case "RIGHT COLLISION":
-      knockCarRight();
-      break;
-    case "FRONT COLLISION":
-      knockCarUp();
-      break;
-    case "BACK COLLISION":
-      knockCarDown();
-      break;
-    default:
-      break;
-  }
+  // let hitBox = boxCollision(ball.mesh, pizza);
+  // switch (hitBox) {
+  //   case "LEFT COLLISION":
+  //     knockCarLeft();
+  //     break;
+  //   case "RIGHT COLLISION":
+  //     knockCarRight();
+  //     break;
+  //   case "FRONT COLLISION":
+  //     knockCarUp();
+  //     break;
+  //   case "BACK COLLISION":
+  //     knockCarDown();
+  //     break;
+  //   default:
+  //     break;
+  // }
 
-  let redHitBox = boxCollision(redBall, pizza);
-  switch (redHitBox) {
-    case "LEFT COLLISION":
-      knockCarLeft();
-      break;
-    case "RIGHT COLLISION":
-      knockCarRight();
-      break;
-    case "FRONT COLLISION":
-      knockCarUp();
-      break;
-    case "BACK COLLISION":
-      knockCarDown();
-      break;
-    default:
-      break;
-  }
+  // let redHitBox = boxCollision(redBall, pizza);
+  // switch (redHitBox) {
+  //   case "LEFT COLLISION":
+  //     knockCarLeft();
+  //     break;
+  //   case "RIGHT COLLISION":
+  //     knockCarRight();
+  //     break;
+  //   case "FRONT COLLISION":
+  //     knockCarUp();
+  //     break;
+  //   case "BACK COLLISION":
+  //     knockCarDown();
+  //     break;
+  //   default:
+  //     break;
+  // }
 
-  let blueHitBox = boxCollision(blueBall, pizza);
-  switch (blueHitBox) {
-    case "LEFT COLLISION":
-      knockCarLeft();
-      break;
-    case "RIGHT COLLISION":
-      knockCarRight();
-      break;
-    case "FRONT COLLISION":
-      knockCarUp();
-      break;
-    case "BACK COLLISION":
-      knockCarDown();
-      break;
-    default:
-      break;
-  }
+  // let blueHitBox = boxCollision(blueBall, pizza);
+  // switch (blueHitBox) {
+  //   case "LEFT COLLISION":
+  //     knockCarLeft();
+  //     break;
+  //   case "RIGHT COLLISION":
+  //     knockCarRight();
+  //     break;
+  //   case "FRONT COLLISION":
+  //     knockCarUp();
+  //     break;
+  //   case "BACK COLLISION":
+  //     knockCarDown();
+  //     break;
+  //   default:
+  //     break;
+  // }
 
-  blueBallModel.updateMovement();
-  redBallModel.updateMovement();
-  pizzaModel.updateMovement();
+  // blueBallModel.updateMovement();
+  // redBallModel.updateMovement();
+  // pizzaModel.updateMovement();
 
   ball.update();
 
@@ -262,15 +268,15 @@ const animate = function() {
   });
 
   // Clears the top nav
-  while (score.children.length > 0) {
-    score.removeChild(score.children[0]);
-  }
+  // while (score.children.length > 0) {
+  //   score.removeChild(score.children[0]);
+  // }
 
-  const playerHealthText = document.createElement("div");
-  const pizzaHealthText = document.createElement("div");
+  // const playerHealthText = document.createElement("div");
+  // const pizzaHealthText = document.createElement("div");
 
-  playerHealthText.innerHTML = "Player: " + ball.health;
-  pizzaHealthText.innerHTML = "Pizza: " + pizzaHealth;
+  // playerHealthText.innerHTML = "Player: " + ball.health;
+  // pizzaHealthText.innerHTML = "Pizza: " + pizzaHealth;
 
   // if (ball.health <= 0) {
   //   cancelAnimationFrame(renderId);
@@ -278,30 +284,32 @@ const animate = function() {
   //     "You Lose, Press r to restart";
   // }
 
-  if (pizzaHealth <= 0) {
-    cancelAnimationFrame(renderId);
-    pizzaHealthText.innerHTML = "Pizza Defeated, Press r to restart";
-  }
+  // if (pizzaHealth <= 0) {
+  //   cancelAnimationFrame(renderId);
+  //   pizzaHealthText.innerHTML = "Pizza Defeated, Press r to restart";
+  // }
 
-  score.appendChild(playerHealthText);
-  score.appendChild(pizzaHealthText);
+  // score.appendChild(playerHealthText);
+  // score.appendChild(pizzaHealthText);
 
   renderer.render(scene, camera);
 };
 
-document.getElementById("red-bg").addEventListener("click", () => {
-  scene.background = new THREE.Color(0xff0000);
-});
-document.getElementById("cyan-bg").addEventListener("click", () => {
-  scene.background = new THREE.Color(0x00cccc);
-});
-document.getElementById("green-bg").addEventListener("click", () => {
-  scene.background = new THREE.Color(0x008000);
-});
-document.getElementById("gray-bg").addEventListener("click", () => {
-  scene.background = new THREE.Color(0x808080);
-});
+// document.getElementById("red-bg").addEventListener("click", () => {
+//   scene.background = new THREE.Color(0xff0000);
+// });
+// document.getElementById("cyan-bg").addEventListener("click", () => {
+//   scene.background = new THREE.Color(0x00cccc);
+// });
+// document.getElementById("green-bg").addEventListener("click", () => {
+//   scene.background = new THREE.Color(0x008000);
+// });
+// document.getElementById("gray-bg").addEventListener("click", () => {
+//   scene.background = new THREE.Color(0x808080);
+// });
 
 resetGame();
 
-document.getElementById("content-container").appendChild(renderer.domElement);
+animate();
+
+document.body.appendChild(renderer.domElement);

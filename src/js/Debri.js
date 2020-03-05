@@ -1,7 +1,7 @@
 import * as THREE from "./three";
 
 export class Debri {
-  constructor(){
+  constructor() {
     const TEXTURES = [
       new THREE.TextureLoader().load("src/textures/white-flower.png"),
       new THREE.TextureLoader().load("src/textures/red-flower.png"),
@@ -18,7 +18,7 @@ export class Debri {
     this.mesh.position.z = Math.random() * 40 - 20;
   }
 
-  update(){
+  update() {
     this.mesh.position.y -= 1;
   }
 }
@@ -32,7 +32,9 @@ export const collision = (ball, debri) => {
   const debriZ = debri.mesh.position.z;
 
   const distance = Math.sqrt(
-    Math.pow(ballX - debriX, 2) + Math.pow(ballY - debriY, 2) + Math.pow(ballZ - debriZ, 2)
+    Math.pow(ballX - debriX, 2) +
+      Math.pow(ballY - debriY, 2) +
+      Math.pow(ballZ - debriZ, 2)
   );
 
   return distance < 2;
