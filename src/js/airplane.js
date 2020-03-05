@@ -1,7 +1,7 @@
 import * as THREE from "./three";
 
 const geometry = new THREE.SphereGeometry(1, 32, 32);
-const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
 export const airplane = new THREE.Mesh(geometry, material);
 
 export const airPlaneController = e => {
@@ -12,14 +12,11 @@ export const airPlaneController = e => {
 
   if (relativeX > -canvas.width / 2 && relativeX < canvas.width / 2) {
     airplane.position.x = relativeX / 41;
-    // airplane.position.x += 0.1;
   }
 
   let relativeY = e.clientY - canvas.offsetTop - canvas.height / 2;
 
   if (relativeY > -canvas.height / 2 && relativeY < canvas.height / 2) {
     airplane.position.y = -relativeY / 24;
-    // debugger
-    // airplane.position.y -= 0.1;
   }
 };
