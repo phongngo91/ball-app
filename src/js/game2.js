@@ -12,19 +12,37 @@ const camera = new THREE.PerspectiveCamera(
 );
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth , window.innerHeight);
+const E_KEY = 69;
 
 let refreshTimer = 0;
 let runGame = false;
+let laserBank = [];
 const ball = new Ball(camera);
+document.addEventListener("keydown", ball.controller());
+document.addEventListener("keydown", e => {
+  const keyCode = e.which;
+  if (keyCode === E_KEY) {
+    let laser = ball.shoot();
+    laserBank.push(laser);
+    scene.add(laser.mesh);
+  }
+});
+
 setup(scene);
 
 function stopGame(){
   runGame = false;
+  scene.remove(ball.mesh);
+  laserBank.forEach( laser =>{
+    scene.remove(laser.mesh);
+  });
+  laserBank = [];
 }
 
 function resetGame(){
   runGame = true;
   refreshTimer = 0;
+  scene.add(ball.mesh);
   ball.reset();
 }
 
@@ -38,6 +56,20 @@ function animate(){
     renderer.setSize(window.innerWidth , window.innerHeight);
     refreshTimer = 0;
   }
+
+  let newLaserBank = [];
+  laserBank.forEach(laser => {
+    if (laser.velocity > 0) {
+      newLaserBank.push(laser);
+    } else {
+      scene.remove(laser.mesh);
+    }
+  });
+
+  ball.update();
+  laserBank.forEach(laser => {
+    laser.update();
+  });
 
   renderer.render(scene, camera);
 }
