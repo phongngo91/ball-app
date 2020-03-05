@@ -1,0 +1,1 @@
+const headGeometry = new THREE.SphereGeometry( 5, 32, 32 );

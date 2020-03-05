@@ -3,7 +3,7 @@ import { collision, boxCollision, laserCollision } from "./utils";
 import "../styles/game.scss";
 import level_1 from "./level_1";
 import stadiumWall from "./stadium_wall";
-import { setUpWalls } from "./Wall";
+// import { setUpWalls } from "./Wall";
 // import BallAI from "./Ball_AI";
 // import PizzaAI from "./Pizza_AI";
 // import { blueBall, redBall } from "./balls";
@@ -100,7 +100,7 @@ function resetGame() {
 //   pizza.position.z += 2;
 // }
 
-setUpWalls(scene);
+// setUpWalls(scene);
 
 document.addEventListener("keydown", ball.controller());
 document.addEventListener("keydown", e => {
