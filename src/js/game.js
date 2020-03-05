@@ -3,14 +3,14 @@ import { collision, boxCollision, laserCollision } from "./utils";
 import level_1 from "./level_1";
 import BallAI from "./Ball_AI";
 import PizzaAI from "./Pizza_AI";
-import BallHuman from "./Ball_Human";
-import { blueBall, redBall, gameBall } from "./balls";
+import { blueBall, redBall} from "./balls";
 import { pizza } from "./pizza";
 import { skybox } from "./skybox";
 import playerLaser from "./player_laser";
 import pizzaLaser from "./enemy_laser";
 import LaserAI from "./Laser_AI";
 import PizzaLaserAI from "./Pizza_Laser_AI";
+import { Ball } from "./Ball";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -21,10 +21,6 @@ const camera = new THREE.PerspectiveCamera(
 );
 const renderer = new THREE.WebGLRenderer();
 
-let gameBallDirectionX;
-let gameBallDirectionY;
-let gameBallVelocity;
-let playerHealth;
 let pizzaHealth;
 
 let laserBank = [];
@@ -34,49 +30,14 @@ let enemyTimer;
 const redBallModel = new BallAI(redBall);
 const blueBallModel = new BallAI(blueBall);
 const pizzaModel = new PizzaAI(pizza);
-const gameBallModel = new BallHuman(gameBall);
+// const gameBallModel = new BallHuman(gameBall);
+const ball = new Ball(camera);
 
-const SPACE_BAR = 32;
-const LEFT_ARROW = 37;
-const UP_ARROW = 38;
-const RIGHT_ARROW = 39;
-const DOWN_ARROW = 40;
-const R_KEY = 82;
-const VELOCITY_BASE = 40;
-const E_KEY = 69;
 let renderId;
 const gameContainer = document.createElement("div");
 const score = document.getElementById("score");
 gameContainer.classList.add("game-container");
 renderer.setSize(window.innerWidth * (6 / 10), window.innerHeight * (6 / 10));
-
-function moveGameBallUp() {
-  gameBall.position.y += 0.1;
-  camera.position.y += 0.1;
-  gameBall.rotation.x -= 0.1;
-  gameBallVelocity -= 0.1;
-}
-
-function moveGameBallDown() {
-  gameBall.position.y -= 0.1;
-  camera.position.y -= 0.1;
-  gameBall.rotation.x += 0.1;
-  gameBallVelocity -= 0.1;
-}
-
-function moveGameBallLeft() {
-  gameBall.position.x -= 0.1;
-  camera.position.x -= 0.1;
-  gameBall.rotation.y -= 0.1;
-  gameBallVelocity -= 0.1;
-}
-
-function moveGameBallRight() {
-  gameBall.position.x += 0.1;
-  camera.position.x += 0.1;
-  gameBall.rotation.y += 0.1;
-  gameBallVelocity -= 0.1;
-}
 
 scene.add(level_1);
 scene.add(skybox);
@@ -91,36 +52,24 @@ function setUp() {
   redBallModel.resetState();
   blueBallModel.resetState();
   pizzaModel.resetState();
-  gameBallModel.resetState();
+  // gameBallModel.resetState();
 
   enemyTimer = 0;
-  playerHealth = 100;
   pizzaHealth = 100;
-  gameBallDirectionX = 0;
-  gameBallDirectionY = 0;
-  gameBallVelocity = 0;
-
-  gameBall.position.y = -35;
-  gameBall.position.x = 0;
-
-  camera.position.x = 0;
   pizza.position.y = 20;
   level_1.position.z = -1;
-  camera.position.z = 5;
-  camera.rotation.x = (90 * Math.PI) / 180;
-  camera.position.y = -45;
   scene.background = new THREE.Color(0x00cccc);
 }
 
 function endGame() {
-  scene.remove(gameBall);
+  scene.remove(ball.mesh);
   scene.remove(pizza);
   scene.remove(redBall);
   scene.remove(blueBall);
 }
 
 function resetGame() {
-  scene.add(gameBall);
+  scene.add(ball.mesh);
   scene.add(pizza);
   scene.add(redBall);
   scene.add(blueBall);
@@ -152,33 +101,7 @@ function knockCarDown() {
   pizza.position.z += 2;
 }
 
-document.addEventListener("keydown", e => {
-  var keyCode = e.which;
-
-  if (keyCode === DOWN_ARROW) {
-    gameBallDirectionY = -20;
-    gameBallVelocity = VELOCITY_BASE;
-  } else if (keyCode === UP_ARROW) {
-    gameBallDirectionY = 20;
-    gameBallVelocity = VELOCITY_BASE;
-  } else if (keyCode === RIGHT_ARROW) {
-    gameBallDirectionX = 20;
-    gameBallVelocity = VELOCITY_BASE;
-  } else if (keyCode === LEFT_ARROW) {
-    gameBallDirectionX = -20;
-    gameBallVelocity = VELOCITY_BASE;
-  } else if (keyCode === R_KEY) {
-    resetGame();
-  } else if (keyCode === E_KEY) {
-    let duplicateLaser = playerLaser.clone();
-    laserBank.push(new LaserAI(duplicateLaser, gameBall));
-    scene.add(duplicateLaser);
-  } else if (keyCode === SPACE_BAR) {
-    gameBallModel.trajectoryBankZ = 4;
-  }
-
-  renderer.render(scene, camera);
-});
+document.addEventListener("keydown", ball.controller());
 
 const animate = function() {
   renderId = requestAnimationFrame(animate);
@@ -194,58 +117,12 @@ const animate = function() {
     enemyTimer = 0;
   }
 
-  if (gameBallVelocity > 0) {
-    if (gameBallDirectionX > 0) {
-      moveGameBallRight();
-      if (gameBallDirectionY > 0) {
-        moveGameBallUp();
-      } else if (gameBallDirectionY < 0) {
-        moveGameBallDown();
-      }
-    } else if (gameBallDirectionX < 0) {
-      moveGameBallLeft();
-      if (gameBallDirectionY > 0) {
-        moveGameBallUp();
-      } else if (gameBallDirectionY < 0) {
-        moveGameBallDown();
-      }
-      // Don't move gameBall if already moving
-    } else if (gameBallDirectionY > 0) {
-      moveGameBallUp();
-      if (gameBallDirectionX > 0) {
-        moveGameBallRight();
-      } else if (gameBallDirectionX < 0) {
-        moveGameBallLeft();
-      }
-    } else if (gameBallDirectionY < -0) {
-      moveGameBallDown();
-      if (gameBallDirectionX > 0) {
-        moveGameBallRight();
-      } else if (gameBallDirectionX < 0) {
-        moveGameBallLeft();
-      }
-    }
-  } else {
-    gameBallDirectionX = 0;
-    gameBallDirectionY = 0;
-  }
-
-  // if we are going out of bounds, reverse the direction
-  if (gameBall.position.x > 20 || gameBall.position.x < -20) {
-    gameBallDirectionX = gameBallDirectionX * -1;
-  }
-
-  // // if we are going out of bounds, reverse the direction
-  if (gameBall.position.y > 40 || gameBall.position.y < -40) {
-    gameBallDirectionY = gameBallDirectionY * -1;
-  }
-
-  if (collision(blueBall, gameBall)) {
+  if (collision(blueBall, ball.mesh)) {
     blueBall.position.z += 1;
     playerHealth -= 10;
   }
 
-  if (collision(gameBall, redBall)) {
+  if (collision(ball.mesh, redBall)) {
     redBall.position.z += 1;
     playerHealth -= 10;
   }
@@ -263,16 +140,16 @@ const animate = function() {
     }
 
     // If we hit the player, remove that laser and reduce our health
-    if (laserCollision(laser.laserMesh, gameBall)) {
+    if (laserCollision(laser.laserMesh, ball.mesh)) {
       playerHealth -= 10;
-      gameBall.position.y -= 0.5;
+      ball.mesh.position.y -= 0.5;
       // remove the laser if there's collision
       laserBank.splice(laserBank.indexOf(laser), 1);
       scene.remove(laser.laserMesh);
     }
   });
 
-  let hitBox = boxCollision(gameBall, pizza);
+  let hitBox = boxCollision(ball.mesh, pizza);
   switch (hitBox) {
     case "LEFT COLLISION":
       knockCarLeft();
@@ -329,7 +206,8 @@ const animate = function() {
   blueBallModel.updateMovement();
   redBallModel.updateMovement();
   pizzaModel.updateMovement();
-  gameBallModel.updateMovement();
+
+  ball.update();
 
   let newLaserBank = [];
 
@@ -358,14 +236,14 @@ const animate = function() {
   const playerHealthText = document.createElement("div");
   const pizzaHealthText = document.createElement("div");
 
-  playerHealthText.innerHTML = "Player: " + playerHealth;
+  playerHealthText.innerHTML = "Player: " + ball.health;
   pizzaHealthText.innerHTML = "Pizza: " + pizzaHealth;
 
-  if (playerHealth <= 0) {
-    cancelAnimationFrame(renderId);
-    playerHealthText.innerHTML =
-      "You Lose, Press r to restart";
-  }
+  // if (ball.health <= 0) {
+  //   cancelAnimationFrame(renderId);
+  //   playerHealthText.innerHTML =
+  //     "You Lose, Press r to restart";
+  // }
 
   if (pizzaHealth <= 0) {
     cancelAnimationFrame(renderId);
