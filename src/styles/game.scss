@@ -36,6 +36,10 @@ ul, li {
   border-radius: 4px;
 }
 
+.menu:hover{
+  cursor: pointer;
+}
+
 .instructions {
   position: absolute;
   z-index: 1;
