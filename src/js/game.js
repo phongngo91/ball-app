@@ -2,6 +2,8 @@ import * as THREE from "./three";
 import { collision, boxCollision, laserCollision } from "./utils";
 import "../styles/game.scss";
 import level_1 from "./level_1";
+import stadiumWall from "./stadium_wall";
+import { setUpWalls } from "./Wall";
 // import BallAI from "./Ball_AI";
 // import PizzaAI from "./Pizza_AI";
 // import { blueBall, redBall } from "./balls";
@@ -42,7 +44,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 
 // document.addEventListener("mousemove", ball.mouseController(), false);
 
-scene.add(level_1);
+
 
 function setUp() {
 
@@ -97,6 +99,8 @@ function resetGame() {
 //   pizzaModel.trajectoryBankY = 30;
 //   pizza.position.z += 2;
 // }
+
+setUpWalls(scene);
 
 document.addEventListener("keydown", ball.controller());
 document.addEventListener("keydown", e => {

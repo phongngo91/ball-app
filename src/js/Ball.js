@@ -135,7 +135,7 @@ export class Ball {
       this.dirX = this.dirX * -1;
     }
 
-    // // if we are going out of bounds, reverse the direction
+    // if we are going out of bounds, reverse the direction
     if (this.mesh.position.y > 40 || this.mesh.position.y < -40) {
       this.dirY = this.dirY * -1;
     }
