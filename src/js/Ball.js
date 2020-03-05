@@ -1,4 +1,5 @@
 import * as THREE from "./three";
+import { Laser } from "./Laser";
 
 export class Ball {
   constructor(camera) {
@@ -8,14 +9,7 @@ export class Ball {
     this.mesh = new THREE.Mesh(geometry, material);
 
     this.camera = camera;
-    // this.dirX = 0;
-    // this.dirY = 0;
-    // this.velocity = 0;
-    // this.health = 0;
-    // this.trajectoryBankZ = 0;
-    // this.mesh.position.y = -35;
-    // this.camera.position.y = -45;
-    
+
     this.SPACE_BAR = 32;
     this.LEFT_ARROW = 37;
     this.UP_ARROW = 38;
@@ -24,11 +18,13 @@ export class Ball {
     this.R_KEY = 82;
     this.VELOCITY_BASE = 40;
     this.E_KEY = 69;
+    this.W_KEY = 87;
+    this.S_KEY = 83;
 
     this.reset();
   }
 
-  reset(){
+  reset() {
     this.dirX = 0;
     this.dirY = 0;
     this.velocity = 0;
@@ -63,7 +59,7 @@ export class Ball {
     this.velocity -= 0.1;
   }
 
-  moveRight(){
+  moveRight() {
     this.camera.position.x += 0.1;
     this.mesh.position.x += 0.1;
     this.mesh.rotation.y += 0.1;
@@ -107,6 +103,18 @@ export class Ball {
       this.dirY = 0;
     }
 
+    // Gravity, Ball falling down
+    if (this.trajectoryBankZ > 0) {
+      this.trajectoryBankZ -= 0.1;
+      this.mesh.position.z += 0.2;
+    }
+
+    if (this.mesh.position.z > 0) {
+      this.mesh.position.z -= 0.1;
+    } else {
+      this.mesh.position.z = 0;
+    }
+
     this.outBoundsCorrection();
   }
 
@@ -122,14 +130,14 @@ export class Ball {
     }
   }
 
-  shoot(){
-
+  shoot() {
+    return new Laser(this, true);
   }
 
   controller() {
     return e => {
       const keyCode = e.which;
-      
+
       if (keyCode === this.DOWN_ARROW) {
         this.dirY = -20;
         this.velocity = this.VELOCITY_BASE;
@@ -137,19 +145,40 @@ export class Ball {
         this.dirY = 20;
         this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.RIGHT_ARROW) {
-        this.dirX = 20;
-        this.velocity = this.VELOCITY_BASE;
+        // this.dirX = 20;
+        // this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.LEFT_ARROW) {
-        this.dirX = -20;
-        this.velocity = this.VELOCITY_BASE;
+        // this.dirX = -20;
+        // this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.R_KEY) {
         // resetGame();
       } else if (keyCode === this.E_KEY) {
         // let duplicateLaser = playerLaser.clone();
         // laserBank.push(new LaserAI(duplicateLaser, gameBall));
         // scene.add(duplicateLaser);
-      } else if (keyCode === this.SPACE_BAR) {
+        this.shoot();
+      } else if (keyCode === this.W_KEY){
+        // this.camera.position.y += 0.1;
+        // this.mesh.position.y += 0.1;
+        this.dirY = 20;
+        this.velocity = this.VELOCITY_BASE;
+      } else if (keycode === this.S_KEY){
+        this.dirY = 20;
+        this.velocity = this.VELOCITY_BASE;
+      }
+         else if (keyCode === this.SPACE_BAR) {
         this.trajectoryBankZ = 4;
+      }
+    };
+  }
+
+  mouseController(){
+    return e => {
+      const canvas = document.getElementsByTagName("canvas")[0];
+      let relativeX = e.clientX - canvas.offsetLeft - canvas.width / 2;
+
+      if (relativeX > -canvas.width / 2 && relativeX < canvas.width / 2) {
+        this.mesh.position.x = relativeX / 25;
       }
     };
   }
