@@ -11,24 +11,24 @@ import playerLaser from "./player_laser";
 import pizzaLaser from "./enemy_laser";
 import LaserAI from "./Laser_AI";
 import PizzaLaserAI from "./Pizza_Laser_AI";
+import "../styles/game.scss";
+import { airplane, airPlaneController } from "./airplane";
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
+const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
 
+document.addEventListener("mousemove", airPlaneController, false);
+
+
+let gameTimer = 0;
 let gameBallDirectionX;
 let gameBallDirectionY;
 let gameBallVelocity;
 let playerHealth;
 let pizzaHealth;
-
 let laserBank = [];
-
 let enemyTimer;
 
 const redBallModel = new BallAI(redBall);
@@ -45,10 +45,12 @@ const R_KEY = 82;
 const VELOCITY_BASE = 40;
 const E_KEY = 69;
 let renderId;
-const gameContainer = document.createElement("div");
-const score = document.getElementById("score");
-gameContainer.classList.add("game-container");
-renderer.setSize(window.innerWidth * (6 / 10), window.innerHeight * (6 / 10));
+
+// scene.add(level_1);
+// scene.add(skybox);
+scene.add(airplane);
+
+playerLaser.position.z = 2;
 
 function moveGameBallUp() {
   gameBall.position.y += 0.1;
@@ -78,10 +80,6 @@ function moveGameBallRight() {
   gameBallVelocity -= 0.1;
 }
 
-scene.add(level_1);
-scene.add(skybox);
-playerLaser.position.z = 2;
-
 function setUp() {
   if (renderId) {
     cancelAnimationFrame(renderId);
@@ -99,17 +97,18 @@ function setUp() {
   gameBallDirectionX = 0;
   gameBallDirectionY = 0;
   gameBallVelocity = 0;
-
-  gameBall.position.y = -35;
+  gameBall.position.y = 0;
   gameBall.position.x = 0;
-
-  camera.position.x = 0;
   pizza.position.y = 20;
   level_1.position.z = -1;
-  camera.position.z = 5;
-  camera.rotation.x = (90 * Math.PI) / 180;
-  camera.position.y = -45;
-  scene.background = new THREE.Color(0x00cccc);
+  // camera.position.x = 0;
+  // camera.position.z = 5;
+  // camera.rotation.x = (90 * Math.PI) / 180;
+  // camera.position.y = -45;
+
+  // camera.position.x = 10;
+  // camera.position.y = 10;
+  camera.position.z = 20;
 }
 
 function endGame() {
@@ -182,22 +181,27 @@ document.addEventListener("keydown", e => {
 });
 
 const animate = function() {
+  gameTimer += 1;
+  if (gameTimer > 180){
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    gameTimer = 0;
+  }
+
   renderId = requestAnimationFrame(animate);
 
   // increment enemy timer by one every time (Should do this in enemy lazer model?)
-  
-  if (pizzaModel.shooty === true){
+
+  if (pizzaModel.shooty === true) {
     enemyTimer += 1;
     if (enemyTimer > 60) {
       // Enemy shoots a laser every 60 frames ( 1 second )
       let duplicateEnemyLaser = pizzaLaser.clone();
       laserBank.push(new PizzaLaserAI(duplicateEnemyLaser, pizza));
       scene.add(duplicateEnemyLaser);
-  
+
       enemyTimer = 0;
     }
   }
-  
 
   if (gameBallVelocity > 0) {
     if (gameBallDirectionX > 0) {
@@ -356,59 +360,10 @@ const animate = function() {
     laser.updateMovement();
   });
 
-  // Clears the top nav
-  while (score.children.length > 0) {
-    score.removeChild(score.children[0]);
-  }
-
-  const playerHealthText = document.createElement("div");
-  const pizzaHealthText = document.createElement("div");
-
-  playerHealthText.innerHTML = "Player: " + playerHealth;
-  pizzaHealthText.innerHTML = "Pizza: " + pizzaHealth;
-
-  if (playerHealth <= 0) {
-    cancelAnimationFrame(renderId);
-    playerHealthText.innerHTML = "You Lose, Press r to restart";
-    endGame();
-  }
-
-  if (pizzaHealth <= 0) {
-    cancelAnimationFrame(renderId);
-    pizzaHealthText.innerHTML = "Pizza Defeated, Press r to restart";
-    endGame();
-  }
-
-  score.appendChild(playerHealthText);
-  score.appendChild(pizzaHealthText);
 
   renderer.render(scene, camera);
 };
 
-document.getElementById("red-bg").addEventListener("click", () => {
-  scene.background = new THREE.Color(0xff0000);
-});
-document.getElementById("cyan-bg").addEventListener("click", () => {
-  scene.background = new THREE.Color(0x00cccc);
-});
-document.getElementById("green-bg").addEventListener("click", () => {
-  scene.background = new THREE.Color(0x008000);
-});
-document.getElementById("gray-bg").addEventListener("click", () => {
-  scene.background = new THREE.Color(0x808080);
-});
-
-
 setUp();
-// resetGame();
-const container = document.getElementById("content-container");
-container.appendChild(renderer.domElement);
-let startMsg = document.createElement('div');
-startMsg.innerHTML = "CLICK HERE TO START";
-startMsg.classList.add("start-msg");
-container.appendChild(startMsg);
 
-startMsg.addEventListener("click", ()=>{
-  startMsg.classList.add("hide");
-  resetGame();
-});
+document.body.appendChild(renderer.domElement);
