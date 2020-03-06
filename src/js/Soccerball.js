@@ -125,16 +125,12 @@ export class Soccerball {
   }
 
   outBoundsCorrection() {
-    // if we are going out of bounds, reverse the direction
-    if (this.mesh.position.x > 20 || this.mesh.position.x < -20) {
+    if (this.mesh.position.x > 19.99 || this.mesh.position.x < -19.99) {
       this.dirX = this.dirX * -1;
-      this.mesh.position.x += this.dirX;
     }
 
-    // if we are going out of bounds, reverse the direction
-    if (this.mesh.position.y > 40 || this.mesh.position.y < -40) {
+    if (this.mesh.position.y > 39.99 || this.mesh.position.y < -39.99) {
       this.dirY = this.dirY * -1;
-      this.mesh.position.y += this.dirY;
     }
   }
 
@@ -165,16 +161,16 @@ export class Soccerball {
     return e => {
       const keyCode = e.which;
       if (keyCode === this.DOWN_ARROW) {
-        this.dirY = -20;
+        this.dirY = -1;
         this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.UP_ARROW) {
-        this.dirY = 20;
+        this.dirY = 1;
         this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.RIGHT_ARROW) {
-        this.dirX = 20;
+        this.dirX = 1;
         this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.LEFT_ARROW) {
-        this.dirX = -20;
+        this.dirX = -1;
         this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.SPACE_BAR) {
         this.trajectoryBankZ = 4;

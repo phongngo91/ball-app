@@ -109,7 +109,6 @@ export class Football {
       this.rotationBank -= 1;
     }
 
-
   }
 
 }
