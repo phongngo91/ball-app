@@ -26,3 +26,22 @@ body {
   left: 200px;
   border-radius: 4px;
 }
+
+.instructions{
+  top: 66%;
+  width: fit-content;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  padding: 4px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+}
+
+.arrow-keys{
+  width: 150px;
+  height: 150px;
+  opacity: 0.5;
+}
