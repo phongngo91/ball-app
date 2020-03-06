@@ -4,3 +4,25 @@ body {
   margin: 0;
   position: relative;
 }
+
+.soccerHealth{
+  position: absolute;
+  z-index: 1;
+  color: white;
+  border: 2px white solid;
+  padding: 4px;
+  top: 25px;
+  left: 25px;
+  border-radius: 4px;
+}
+
+.footballHealth{
+  position: absolute;
+  z-index: 1;
+  color: white;
+  border: 2px white solid;
+  padding: 4px;
+  top: 25px;
+  left: 200px;
+  border-radius: 4px;
+}

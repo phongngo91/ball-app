@@ -154,7 +154,9 @@ export class Soccerball {
     if (distance < 2){
       this.health -= 10;
       this.hurtDelay = 120;
+      return true;
     }
+    return false;
   }
 
   controller() {

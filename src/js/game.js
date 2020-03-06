@@ -11,6 +11,9 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
+
+const soccerHealthElement = document.getElementById("soccerHealth");
+const footballHealthElement = document.getElementById("footballHealth");
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth , window.innerHeight);
 const E_KEY = 69;
@@ -88,9 +91,23 @@ function animate(){
   laserBank.forEach(laser => {
     if (football.collide(laser)){
       scene.remove(laser.mesh);
+      laserBank.slice(laserBank.indexOf(laser), 1);
+    }
+    if (soccerball.collide(laser)){
+      scene.remove(laser.mesh);
+      laserBank.slice(laserBank.indexOf(laser), 1);
     }
     laser.update();
   });
+
+  while (soccerHealthElement.children.length > 0) {
+    soccerHealthElement.children.forEach(child => {
+      soccerHealthElement.remove(child);
+    });
+  }
+
+  soccerHealthElement.innerHTML = "SOCCER HEALTH: " + soccerball.health;
+  footballHealthElement.innerHTML = "FOOTBALL HEALTH: " +football.health;
 
   renderer.render(scene, camera);
 }
