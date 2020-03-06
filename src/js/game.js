@@ -25,7 +25,9 @@ let footballShootFreq = 1;
 
 const soccerball = new Soccerball(camera);
 const football = new Football();
-document.addEventListener("keydown", soccerball.controller());
+document.addEventListener("keydown", soccerball.keyboardController());
+document.addEventListener("mousemove", soccerball.mouseController());
+
 document.addEventListener("keydown", e => {
   const keyCode = e.which;
   if (keyCode === E_KEY) {

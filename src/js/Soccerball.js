@@ -38,30 +38,30 @@ export class Soccerball {
   }
 
   moveUp() {
-    this.camera.position.y += 0.1;
-    this.mesh.position.y += 0.1;
-    this.mesh.rotation.x -= 0.1;
+    this.camera.position.y += this.dirY;
+    this.mesh.position.y += this.dirY;
+    this.mesh.rotation.x -= this.dirY;
     this.velocity -= 0.1;
   }
 
   moveDown() {
-    this.camera.position.y -= 0.1;
-    this.mesh.position.y -= 0.1;
-    this.mesh.rotation.x += 0.1;
+    this.camera.position.y += this.dirY;
+    this.mesh.position.y += this.dirY;
+    this.mesh.rotation.x += this.dirY;
     this.velocity -= 0.1;
   }
 
   moveLeft() {
-    this.camera.position.x -= 0.1;
-    this.mesh.position.x -= 0.1;
-    this.mesh.rotation.y -= 0.1;
+    this.camera.position.x += this.dirX;
+    this.mesh.position.x += this.dirX;
+    this.mesh.rotation.y -= this.dirX;
     this.velocity -= 0.1;
   }
 
   moveRight() {
-    this.camera.position.x += 0.1;
-    this.mesh.position.x += 0.1;
-    this.mesh.rotation.y += 0.1;
+    this.camera.position.x += this.dirX;
+    this.mesh.position.x += this.dirX;
+    this.mesh.rotation.y += this.dirX;
     this.velocity -= 0.1;
   }
 
@@ -149,7 +149,7 @@ export class Soccerball {
         Math.pow(this.mesh.position.z - laserZ, 2)
     );
 
-    if (distance < 2){
+    if (distance < 2) {
       this.health -= 10;
       this.hurtDelay = 120;
       return true;
@@ -157,23 +157,46 @@ export class Soccerball {
     return false;
   }
 
-  controller() {
+  keyboardController() {
     return e => {
       const keyCode = e.which;
       if (keyCode === this.DOWN_ARROW) {
-        this.dirY = -1;
+        this.dirY = -0.1;
         this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.UP_ARROW) {
-        this.dirY = 1;
+        this.dirY = 0.1;
         this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.RIGHT_ARROW) {
-        this.dirX = 1;
+        this.dirX = 0.1;
         this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.LEFT_ARROW) {
-        this.dirX = -1;
+        this.dirX = -0.1;
         this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.SPACE_BAR) {
         this.trajectoryBankZ = 4;
+      }
+    };
+  }
+
+  mouseController() {
+    return e => {
+      const canvas = document.getElementsByTagName("canvas")[0];
+
+      //Ball is center, so where mouse is minus half of canvas works
+      let relativeX = e.clientX - canvas.offsetLeft - canvas.width / 2;
+
+      if (relativeX > -canvas.width / 2 && relativeX < canvas.width / 2) {
+        this.velocity = this.VELOCITY_BASE;
+        this.dirX = relativeX/1000;
+      }
+
+      //Ball is 1/3 of the way dowm from the screen, not half, so 75% of screen height down
+      let relativeY = e.clientY - canvas.offsetTop - (canvas.height * 0.75);
+
+      if (relativeY > -canvas.height / 2 && relativeY < canvas.height / 2) {
+        this.velocity = this.VELOCITY_BASE;
+
+        this.dirY = -relativeY/1000;
       }
     };
   }

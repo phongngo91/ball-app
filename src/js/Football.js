@@ -112,6 +112,3 @@ export class Football {
   }
 
 }
-
-
-
