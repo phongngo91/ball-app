@@ -69,10 +69,10 @@ export class Soccerball {
 
   update() {
     // If camera is not where the ball is on the z, move the camera
-    if (Math.abs(this.mesh.position.z - this.camera.position.z) > 4) {
+    if (Math.abs(this.mesh.position.z - this.camera.position.z) > 2) {
       // this.cameraMomentumZ += (this.mesh.position.z - this.camera.position.z) / 10;
       this.camera.position.z +=
-        (this.mesh.position.z - this.camera.position.z) / 100;
+        (this.mesh.position.z - this.camera.position.z) / 80;
     }
 
     if (this.velocity > 0) {
