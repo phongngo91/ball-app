@@ -7,6 +7,8 @@ import { setup } from "./setup";
 
 const soccerHealthElement = document.getElementById("soccerHealth");
 soccerHealthElement.style.visibility = "hidden";
+const bossHPElement = document.getElementById("bossHP");
+const playerHPElement = document.getElementById("playerHP");
 const footballHealthElement = document.getElementById("footballHealth");
 footballHealthElement.style.visibility = "hidden";
 const controlsElement = document.getElementById("controls");
@@ -166,10 +168,16 @@ function animate() {
       gameOverInstructionsOn();
       footballHealthElement.innerHTML = "GAME OVER, YOU WIN!!!";
     } else {
-      footballHealthElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
+      bossHPElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
+      bossHPElement.style.width = `${football.health/10}%`;
+      bossHPElement.style.height = "24px";
+      bossHPElement.style.backgroundColor = "red";
     }
 
-    soccerHealthElement.innerHTML = "SOCCER HEALTH: " + soccerball.health;
+    playerHPElement.innerHTML = "SOCCER HEALTH: " + soccerball.health;
+    playerHPElement.style.width = `${soccerball.health}%`;
+    playerHPElement.style.height = "24px";
+    playerHPElement.style.backgroundColor = "green";
   }
 
   renderer.render(scene, camera);
