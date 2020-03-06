@@ -9,6 +9,15 @@ export const startInstructionsOn = () => {
 
 export const clearInstructions = () => {
   instructionsElement.style.visibility = "hidden";
+  while (instructionsElement.children.lenght > 0) {
+    instructionsElement.children.forEach(child => {
+      instructionsElement.remove(child);
+    });
+  }
 };
 
-export const gameOverInstructionsOn = () => {};
+export const gameOverInstructionsOn = () => {
+  instructionsElement.style.visibility = "visible";
+  gameTitleElement.innerHTML = "RESTART GAME";
+  instructionsElement.appendChild(gameTitleElement);
+};

@@ -163,13 +163,13 @@ function animate() {
 
     if (football.health === 0 ){
       gameOver();
-      // gameOverInstructionsOn();
+      gameOverInstructionsOn();
       footballHealthElement.innerHTML = "GAME OVER, YOU WIN!!!";
-      startInstructionsOn();
+    } else {
+      footballHealthElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
     }
 
     soccerHealthElement.innerHTML = "SOCCER HEALTH: " + soccerball.health;
-    footballHealthElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
   }
 
   renderer.render(scene, camera);

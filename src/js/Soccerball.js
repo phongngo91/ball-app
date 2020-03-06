@@ -31,6 +31,7 @@ export class Soccerball {
     this.trajectoryBankZ = 0;
     this.mesh.position.y = -35;
     this.mesh.position.x = 0;
+    this.mesh.position.z = 0;
     this.camera.position.y = -45;
     this.camera.position.x = 0;
     this.camera.position.z = 5;

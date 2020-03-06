@@ -24,7 +24,7 @@ export class Football {
     this.mesh.position.y = 38;
     this.mesh.position.z = 7;
     this.hurtDelay = 0;
-    this.mesh.material = this.footballHappyTexture;
+    this.mesh.material.map = this.footballHappyTexture;
     this.mesh.material.needsUpdate = true;
   }
 
