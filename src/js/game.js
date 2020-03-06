@@ -49,6 +49,17 @@ muteBtn.addEventListener("click", () => {
   }
 });
 
+const pauseBtn = document.getElementById("pause");
+pauseBtn.addEventListener("click", () => {
+  if (runGame === true) {
+    runGame = false;
+    pauseBtn.innerHTML = "UnPause";
+  } else {
+    runGame = true;
+    pauseBtn.innerHTML = "Pause";
+  }
+});
+
 const pewPew = document.getElementById("pew-pew");
 const enemyPew = document.getElementById("enemy-pew");
 enemyPew.volume = 0.3;
@@ -93,51 +104,51 @@ function animate() {
   if (runGame === true) {
     refreshTimer += 1;
     footballShootFreq += 0.1;
-  }
 
-  if (refreshTimer > 240) {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    refreshTimer = 0;
-  }
-
-  if (footballShootFreq > 4) {
-    let laser = football.shoot();
-    laserBank.push(laser);
-    scene.add(laser.mesh);
-    footballShootFreq = 0;
-    if (!mute) {
-      enemyPew.play();
+    if (refreshTimer > 240) {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      refreshTimer = 0;
     }
-  }
 
-  let newLaserBank = [];
-  laserBank.forEach(laser => {
-    if (laser.velocity > 0) {
-      newLaserBank.push(laser);
-    } else {
-      scene.remove(laser.mesh);
-    }
-  });
-
-  soccerball.update();
-  football.update();
-  laserBank.forEach(laser => {
-    if (football.collide(laser)) {
-      scene.remove(laser.mesh);
-      laserBank.splice(laserBank.indexOf(laser), 1);
+    if (footballShootFreq > 4) {
+      let laser = football.shoot();
+      laserBank.push(laser);
+      scene.add(laser.mesh);
+      footballShootFreq = 0;
       if (!mute) {
-        enemyOuch.play();
+        enemyPew.play();
       }
     }
-    if (soccerball.collide(laser)) {
-      scene.remove(laser.mesh);
-      laserBank.splice(laserBank.indexOf(laser), 1);
-    }
-    laser.update();
-  });
 
-  soccerHealthElement.innerHTML = "SOCCER HEALTH: " + soccerball.health;
-  footballHealthElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
+    let newLaserBank = [];
+    laserBank.forEach(laser => {
+      if (laser.velocity > 0) {
+        newLaserBank.push(laser);
+      } else {
+        scene.remove(laser.mesh);
+      }
+    });
+
+    soccerball.update();
+    football.update();
+    laserBank.forEach(laser => {
+      if (football.collide(laser)) {
+        scene.remove(laser.mesh);
+        laserBank.splice(laserBank.indexOf(laser), 1);
+        if (!mute) {
+          enemyOuch.play();
+        }
+      }
+      if (soccerball.collide(laser)) {
+        scene.remove(laser.mesh);
+        laserBank.splice(laserBank.indexOf(laser), 1);
+      }
+      laser.update();
+    });
+
+    soccerHealthElement.innerHTML = "SOCCER HEALTH: " + soccerball.health;
+    footballHealthElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
+  }
 
   renderer.render(scene, camera);
 }
