@@ -48,7 +48,7 @@ export class Soccerball {
   moveDown() {
     this.camera.position.y += this.dirY;
     this.mesh.position.y += this.dirY;
-    this.mesh.rotation.x += this.dirY;
+    this.mesh.rotation.x -= this.dirY;
     this.velocity -= 0.1;
   }
 
