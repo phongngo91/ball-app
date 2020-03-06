@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 body{height:100vh;width:100vw;margin:0;position:relative}.soccerHealth{position:absolute;z-index:1;color:white;border:2px white solid;padding:4px;top:25px;left:25px;border-radius:4px}.footballHealth{position:absolute;z-index:1;color:white;border:2px white solid;padding:4px;top:25px;left:200px;border-radius:4px}
+=======
+body{height:100vh;width:100vw;margin:0;position:relative}ul,li{margin:0;padding:0}.score{position:absolute;z-index:1;color:white;border:2px white solid;padding:4px;top:25px;left:25px;border-radius:4px}.menu{position:absolute;z-index:1;color:white;border:2px white solid;padding:4px;left:0;right:0;top:200px;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;margin-left:auto;margin-right:auto;border-radius:4px}.menu:hover{cursor:pointer}.instructions{position:absolute;z-index:1;color:white;border:2px white solid;padding:4px;left:0;right:0;top:250px;width:-webkit-fit-content;width:-moz-fit-content;width:fit-content;margin-left:auto;margin-right:auto;border-radius:4px}.rule-container{padding:20px;list-style:none}.rules{color:white}
+>>>>>>> f851bfe4cd6376794dea0eac7c3625e07d15f1fb
 
 
 /*# sourceMappingURL=main.css.map*/

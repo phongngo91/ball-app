@@ -91,11 +91,11 @@ function animate(){
   laserBank.forEach(laser => {
     if (football.collide(laser)){
       scene.remove(laser.mesh);
-      laserBank.slice(laserBank.indexOf(laser), 1);
+      laserBank.splice(laserBank.indexOf(laser), 1);
     }
     if (soccerball.collide(laser)){
       scene.remove(laser.mesh);
-      laserBank.slice(laserBank.indexOf(laser), 1);
+      laserBank.splice(laserBank.indexOf(laser), 1);
     }
     laser.update();
   });
