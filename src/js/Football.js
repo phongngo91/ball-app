@@ -3,19 +3,11 @@ import { Laser } from "./Laser";
 
 export class Football {
   constructor(){
-    this.footballTexture = new THREE.TextureLoader().load("src/images/football.png");
-    const footballMaterial = new THREE.MeshBasicMaterial({ map: this.footballTexture });
-    let points = [];
-    for (let deg = 0; deg <= 180; deg += 6) {
-      let rad = (Math.PI * deg) / 180;
-      let point = new THREE.Vector2(
-        (0.72 + 20 * Math.cos(rad)) * Math.sin(rad),
-        -Math.cos(rad)
-      );
-      points.push(point);
-    }
+    this.footballTexture = new THREE.TextureLoader().load("src/images/football-cute.png");
+    const footballMaterial = new THREE.MeshBasicMaterial({ map: this.footballTexture , transparent: true});
     this.soccerballTexture = new THREE.TextureLoader().load("src/textures/soccer.png");
-    const footballGeometry = new THREE.LatheBufferGeometry(points, 50);
+    const footballGeometry = new THREE.BoxGeometry( 20, 0.01, 20 );
+
     this.mesh = new THREE.Mesh(footballGeometry, footballMaterial);
     this.DIRS = [0.3, 0.2, 0.1, -0.1, -0.2, -0.3];
 
@@ -27,8 +19,6 @@ export class Football {
     this.velocity = 0;
     this.dirX = 0;
     this.dirZ = 0;
-    this.rotateDir = 0;
-    this.rotationBank = 0;
     this.trajectoryBankX = 0;
     this.trajectoryBankZ = 0;
     this.mesh.position.y = 38;
@@ -99,15 +89,6 @@ export class Football {
       this.trajectoryBankZ -= 1;
     }
 
-    if (this.rotationBank <=0){
-      this.rotationBank = Math.random() * 600;
-      this.rotateDir = this.DIRS[
-        Math.floor(Math.random() * this.DIRS.length)
-      ];
-    } else {
-      this.mesh.rotation.y += 0.01;
-      this.rotationBank -= 1;
-    }
 
   }
 

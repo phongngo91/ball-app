@@ -1,8 +1,22 @@
 import "../styles/game.scss";
+import { startInstructionsOn, gameOverInstructionsOn, clearInstructions } from "./instructions";
 import * as THREE from "./three";
 import { Soccerball } from "./Soccerball";
-import { setup } from "./setup";
 import { Football } from "./Football";
+import { setup } from "./setup";
+
+const soccerHealthElement = document.getElementById("soccerHealth");
+soccerHealthElement.style.visibility = "hidden";
+const footballHealthElement = document.getElementById("footballHealth");
+footballHealthElement.style.visibility = "hidden";
+const controlsElement = document.getElementById("controls");
+controlsElement.style.visibility = "hidden";
+const instructionsElement = document.getElementById("instructions");
+const pewPew = document.getElementById("pew-pew");
+const enemyPew = document.getElementById("enemy-pew");
+enemyPew.volume = 0.3;
+const enemyOuch = document.getElementById("enemy-ouch");
+const E_KEY = 69;
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -11,21 +25,17 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-
-const soccerHealthElement = document.getElementById("soccerHealth");
-const footballHealthElement = document.getElementById("footballHealth");
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
-const E_KEY = 69;
+
+const soccerball = new Soccerball(camera);
+const football = new Football();
 
 let refreshTimer = 0;
 let runGame = false;
 let laserBank = [];
 let footballShootFreq = 1;
 let mute = false;
-
-const soccerball = new Soccerball(camera);
-const football = new Football();
 
 // KEYBOARD ONLY
 document.addEventListener("keydown", soccerball.keyboardController());
@@ -39,6 +49,7 @@ document.addEventListener("keydown", e => {
 });
 
 const muteBtn = document.getElementById("mute");
+muteBtn.style.visibility = "hidden";
 muteBtn.addEventListener("click", () => {
   if (mute === true) {
     mute = false;
@@ -50,6 +61,7 @@ muteBtn.addEventListener("click", () => {
 });
 
 const pauseBtn = document.getElementById("pause");
+pauseBtn.style.visibility = "hidden";
 pauseBtn.addEventListener("click", () => {
   if (runGame === true) {
     runGame = false;
@@ -60,26 +72,24 @@ pauseBtn.addEventListener("click", () => {
   }
 });
 
-const pewPew = document.getElementById("pew-pew");
-const enemyPew = document.getElementById("enemy-pew");
-enemyPew.volume = 0.3;
-const enemyOuch = document.getElementById("enemy-ouch");
 
 // MOUSE AND KEYBOARD
 document.addEventListener("mousemove", soccerball.mouseController());
 document.addEventListener("click", e => {
   e.preventDefault();
-  let laser = soccerball.shoot();
-  laserBank.push(laser);
-  scene.add(laser.mesh);
-  if (!mute) {
-    pewPew.play();
+  if (runGame){
+    let laser = soccerball.shoot();
+    laserBank.push(laser);
+    scene.add(laser.mesh);
+    if (!mute) {
+      pewPew.play();
+    }
   }
 });
 
 setup(scene);
 
-function stopGame() {
+function gameOver() {
   runGame = false;
   scene.remove(soccerball.mesh);
   scene.remove(football.mesh);
@@ -97,6 +107,11 @@ function resetGame() {
   football.reset();
   scene.add(soccerball.mesh);
   scene.add(football.mesh);
+  soccerHealthElement.style.visibility = "visible";
+  footballHealthElement.style.visibility = "visible";
+  muteBtn.style.visibility = "visible";
+  pauseBtn.style.visibility = "visible";
+  controlsElement.style.visibility = "visible";
 }
 
 function animate() {
@@ -153,7 +168,13 @@ function animate() {
   renderer.render(scene, camera);
 }
 
-resetGame();
 animate();
+
+startInstructionsOn();
+
+instructionsElement.addEventListener("click", () =>{
+  resetGame();
+  clearInstructions();
+});
 
 document.body.appendChild(renderer.domElement);
