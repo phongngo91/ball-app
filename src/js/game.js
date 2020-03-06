@@ -22,7 +22,7 @@ let refreshTimer = 0;
 let runGame = false;
 let laserBank = [];
 let footballShootFreq = 1;
-let mute = true;
+let mute = false;
 
 const soccerball = new Soccerball(camera);
 const football = new Football();
@@ -38,16 +38,20 @@ document.addEventListener("keydown", e => {
   }
 });
 
-document.getElementById("mute").addEventListener("click", () => {
+const muteBtn = document.getElementById("mute");
+muteBtn.addEventListener("click", () => {
   if (mute === true) {
     mute = false;
+    muteBtn.innerHTML = "Mute";
   } else {
     mute = true;
+    muteBtn.innerHTML = "UnMute";
   }
 });
 
 const pewPew = document.getElementById("pew-pew");
 const enemyPew = document.getElementById("enemy-pew");
+enemyPew.volume = 0.3;
 const enemyOuch = document.getElementById("enemy-ouch");
 
 // MOUSE AND KEYBOARD
