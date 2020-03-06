@@ -1,7 +1,8 @@
 import "../styles/game2.scss";
 import * as THREE from "./three";
-import { Ball } from "./Ball";
+import { Soccerball } from "./Soccerball";
 import { setup } from "./setup";
+import { Football } from "./Football";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -17,12 +18,13 @@ const E_KEY = 69;
 let refreshTimer = 0;
 let runGame = false;
 let laserBank = [];
-const ball = new Ball(camera);
-document.addEventListener("keydown", ball.controller());
+const soccerball = new Soccerball(camera);
+const football = new Football();
+document.addEventListener("keydown", soccerball.controller());
 document.addEventListener("keydown", e => {
   const keyCode = e.which;
   if (keyCode === E_KEY) {
-    let laser = ball.shoot();
+    let laser = soccerball.shoot();
     laserBank.push(laser);
     scene.add(laser.mesh);
   }
@@ -42,8 +44,9 @@ function stopGame(){
 function resetGame(){
   runGame = true;
   refreshTimer = 0;
-  scene.add(ball.mesh);
-  ball.reset();
+  scene.add(soccerball.mesh);
+  scene.add(football.mesh);
+  soccerball.reset();
 }
 
 function animate(){
@@ -66,7 +69,8 @@ function animate(){
     }
   });
 
-  ball.update();
+  soccerball.update();
+  football.update();
   laserBank.forEach(laser => {
     laser.update();
   });

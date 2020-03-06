@@ -1,7 +1,7 @@
 import * as THREE from "./three";
 import { Laser } from "./Laser";
 
-export class Ball {
+export class Soccerball {
   constructor(camera) {
     const texture = new THREE.TextureLoader().load("src/textures/soccer.png");
     const geometry = new THREE.SphereGeometry(1, 16, 16);
@@ -15,13 +15,8 @@ export class Ball {
     this.UP_ARROW = 38;
     this.RIGHT_ARROW = 39;
     this.DOWN_ARROW = 40;
-    this.R_KEY = 82;
     this.VELOCITY_BASE = 40;
     this.E_KEY = 69;
-    this.W_KEY = 87;
-    this.S_KEY = 83;
-    this.A_KEY = 65;
-    this.D_KEY = 68;
 
     this.cameraMomentumZ = 0;
     this.reset();
@@ -31,7 +26,7 @@ export class Ball {
     this.dirX = 0;
     this.dirY = 0;
     this.velocity = 0;
-    this.health = 0;
+    this.health = 100;
     this.trajectoryBankZ = 0;
     this.mesh.position.y = -35;
     this.mesh.position.x = 0;
@@ -148,8 +143,6 @@ export class Ball {
   controller() {
     return e => {
       const keyCode = e.which;
-
-      // debugger;
       if (keyCode === this.DOWN_ARROW) {
         this.dirY = -20;
         this.velocity = this.VELOCITY_BASE;
@@ -162,41 +155,9 @@ export class Ball {
       } else if (keyCode === this.LEFT_ARROW) {
         this.dirX = -20;
         this.velocity = this.VELOCITY_BASE;
-      } else if (keyCode === this.R_KEY) {
-        // resetGame();
-      } else if (keyCode === this.E_KEY) {
-        // let duplicateLaser = playerLaser.clone();
-        // laserBank.push(new LaserAI(duplicateLaser, gameBall));
-        // scene.add(duplicateLaser);
-        this.shoot();
-      } else if (keyCode === this.W_KEY) {
-        // this.camera.position.y += 0.1;
-        // this.mesh.position.y += 0.1;
-        // this.dirY = 20;
-        // this.velocity = this.VELOCITY_BASE;
-      } else if (keyCode === this.S_KEY) {
-        this.dirY = -20;
-        this.velocity = this.VELOCITY_BASE;
-      } else if (keyCode === this.A_KEY) {
-        // this.dirX = -20;
-        // this.velocity = this.VELOCITY_BASE;
-      } else if (keyCode === this.D_KEY) {
-        // this.dirX = 20;
-        // this.velocity = this.VELOCITY_BASE;
       } else if (keyCode === this.SPACE_BAR) {
         this.trajectoryBankZ = 4;
       }
     };
   }
-
-  // mouseController() {
-  //   return e => {
-  //     const canvas = document.getElementsByTagName("canvas")[0];
-  //     let relativeX = e.clientX - canvas.offsetLeft - canvas.width / 2;
-
-  //     if (relativeX > -canvas.width / 2 && relativeX < canvas.width / 2) {
-  //       this.mesh.position.x = relativeX / 25;
-  //     }
-  //   };
-  // }
 }
