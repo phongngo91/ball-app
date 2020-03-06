@@ -76,11 +76,12 @@ export class Football {
         Math.floor(Math.random() * this.DIRS.length)
       ];
     } else {
-      this.mesh.position.x += this.dirX;
-
       if (this.mesh.position.x > 20 || this.mesh.position.x < -20){
         this.dirX = this.dirX * -1;
+        this.mesh.position.x += this.dirX;
       }
+
+      this.mesh.position.x += this.dirX;
       this.trajectoryBankX -= 1;
     }
 
@@ -90,10 +91,9 @@ export class Football {
         Math.floor(Math.random() * this.DIRS.length)
       ];
     } else {
-      this.mesh.position.z += this.dirZ;
-
       if (this.mesh.position.z > 40 || this.mesh.position.z < 5){
         this.dirZ = this.dirZ * -1;
+        this.mesh.position.z += this.dirZ;
       }
 
       this.trajectoryBankZ -= 1;
