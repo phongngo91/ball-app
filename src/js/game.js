@@ -15,13 +15,14 @@ const camera = new THREE.PerspectiveCamera(
 const soccerHealthElement = document.getElementById("soccerHealth");
 const footballHealthElement = document.getElementById("footballHealth");
 const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth , window.innerHeight);
+renderer.setSize(window.innerWidth, window.innerHeight);
 const E_KEY = 69;
 
 let refreshTimer = 0;
 let runGame = false;
 let laserBank = [];
 let footballShootFreq = 1;
+let mute = true;
 
 const soccerball = new Soccerball(camera);
 const football = new Football();
@@ -37,32 +38,44 @@ document.addEventListener("keydown", e => {
   }
 });
 
+document.getElementById("mute").addEventListener("click", () => {
+  if (mute === true) {
+    mute = false;
+  } else {
+    mute = true;
+  }
+});
+
 const pewPew = document.getElementById("pew-pew");
 const enemyPew = document.getElementById("enemy-pew");
+const enemyOuch = document.getElementById("enemy-ouch");
+
 // MOUSE AND KEYBOARD
 document.addEventListener("mousemove", soccerball.mouseController());
-document.addEventListener("click", e=>{
+document.addEventListener("click", e => {
   e.preventDefault();
   let laser = soccerball.shoot();
   laserBank.push(laser);
   scene.add(laser.mesh);
-  pewPew.play();
+  if (!mute) {
+    pewPew.play();
+  }
 });
 
 setup(scene);
 
-function stopGame(){
+function stopGame() {
   runGame = false;
   scene.remove(soccerball.mesh);
   scene.remove(football.mesh);
-  laserBank.forEach( laser =>{
+  laserBank.forEach(laser => {
     scene.remove(laser.mesh);
   });
   laserBank = [];
   footballShootFreq = 0;
 }
 
-function resetGame(){
+function resetGame() {
   runGame = true;
   refreshTimer = 0;
   soccerball.reset();
@@ -71,26 +84,27 @@ function resetGame(){
   scene.add(football.mesh);
 }
 
-function animate(){
+function animate() {
   requestAnimationFrame(animate);
-  if (runGame === true){
+  if (runGame === true) {
     refreshTimer += 1;
     footballShootFreq += 0.1;
   }
 
-  if (refreshTimer > 240){
-    renderer.setSize(window.innerWidth , window.innerHeight);
+  if (refreshTimer > 240) {
+    renderer.setSize(window.innerWidth, window.innerHeight);
     refreshTimer = 0;
   }
 
-  if (footballShootFreq > 4){
+  if (footballShootFreq > 4) {
     let laser = football.shoot();
     laserBank.push(laser);
     scene.add(laser.mesh);
     footballShootFreq = 0;
-    enemyPew.play();
+    if (!mute) {
+      enemyPew.play();
+    }
   }
-
 
   let newLaserBank = [];
   laserBank.forEach(laser => {
@@ -104,11 +118,14 @@ function animate(){
   soccerball.update();
   football.update();
   laserBank.forEach(laser => {
-    if (football.collide(laser)){
+    if (football.collide(laser)) {
       scene.remove(laser.mesh);
       laserBank.splice(laserBank.indexOf(laser), 1);
+      if (!mute) {
+        enemyOuch.play();
+      }
     }
-    if (soccerball.collide(laser)){
+    if (soccerball.collide(laser)) {
       scene.remove(laser.mesh);
       laserBank.splice(laserBank.indexOf(laser), 1);
     }
@@ -116,7 +133,7 @@ function animate(){
   });
 
   soccerHealthElement.innerHTML = "SOCCER HEALTH: " + soccerball.health;
-  footballHealthElement.innerHTML = "FOOTBALL HEALTH: " +football.health;
+  footballHealthElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
 
   renderer.render(scene, camera);
 }
