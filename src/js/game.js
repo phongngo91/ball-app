@@ -38,6 +38,7 @@ document.addEventListener("keydown", e => {
 });
 
 const pewPew = document.getElementById("pew-pew");
+const enemyPew = document.getElementById("enemy-pew");
 // MOUSE AND KEYBOARD
 document.addEventListener("mousemove", soccerball.mouseController());
 document.addEventListener("click", e=>{
@@ -87,6 +88,7 @@ function animate(){
     laserBank.push(laser);
     scene.add(laser.mesh);
     footballShootFreq = 0;
+    enemyPew.play();
   }
 
 
