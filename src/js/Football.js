@@ -26,6 +26,8 @@ export class Football {
     this.velocity = 0;
     this.dirX = 0;
     this.dirZ = 0;
+    this.rotateDir = 0;
+    this.rotationBank = 0;
     this.trajectoryBankX = 0;
     this.trajectoryBankZ = 0;
     this.mesh.position.y = 38;
@@ -97,6 +99,17 @@ export class Football {
       this.mesh.position.z += this.dirZ;
       this.trajectoryBankZ -= 1;
     }
+
+    if (this.rotationBank <=0){
+      this.rotationBank = Math.random() * 600;
+      this.rotateDir = this.DIRS[
+        Math.floor(Math.random() * this.DIRS.length)
+      ];
+    } else {
+      this.mesh.rotation.y += 0.01;
+      this.rotationBank -= 1;
+    }
+
 
   }
 
