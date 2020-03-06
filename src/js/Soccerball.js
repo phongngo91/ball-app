@@ -62,7 +62,7 @@ export class Soccerball {
   moveRight() {
     this.camera.position.x += this.dirX;
     this.mesh.position.x += this.dirX;
-    this.mesh.rotation.y += this.dirX;
+    this.mesh.rotation.y -= this.dirX;
     this.velocity -= 0.1;
   }
 
