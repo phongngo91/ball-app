@@ -3,9 +3,9 @@ import { Laser } from "./Laser";
 
 export class Football {
   constructor(){
-    this.footballTexture = new THREE.TextureLoader().load("src/images/football-cute.png");
-    const footballMaterial = new THREE.MeshBasicMaterial({ map: this.footballTexture , transparent: true});
-    this.soccerballTexture = new THREE.TextureLoader().load("src/textures/soccer.png");
+    this.footballHappyTexture = new THREE.TextureLoader().load("src/images/football-cute.png");
+    const footballMaterial = new THREE.MeshBasicMaterial({ map: this.footballHappyTexture , transparent: true});
+    this.footballOwTexture = new THREE.TextureLoader().load("src/images/football-ow.png");
     const footballGeometry = new THREE.BoxGeometry( 20, 0.01, 20 );
 
     this.mesh = new THREE.Mesh(footballGeometry, footballMaterial);
@@ -44,7 +44,7 @@ export class Football {
     if (distance < 9){
       this.health -= 10;
       this.hurtDelay = 60;
-      this.mesh.material.map = this.soccerballTexture;
+      this.mesh.material.map = this.footballOwTexture;
       this.mesh.material.needsUpdate = true;
       return true;
     }
@@ -54,7 +54,7 @@ export class Football {
   update(){
 
     if (this.hurtDelay === 1){
-      this.mesh.material.map = this.footballTexture;
+      this.mesh.material.map = this.footballHappyTexture;
       this.mesh.material.needsUpdate = true;
       this.hurtDelay -= 1;
     } else if (this.hurtDelay > 1){
