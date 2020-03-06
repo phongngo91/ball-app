@@ -69,7 +69,7 @@ function animate(){
     refreshTimer = 0;
   }
 
-  if (footballShootFreq > 10){
+  if (footballShootFreq > 4){
     let laser = football.shoot();
     laserBank.push(laser);
     scene.add(laser.mesh);
@@ -99,12 +99,6 @@ function animate(){
     }
     laser.update();
   });
-
-  while (soccerHealthElement.children.length > 0) {
-    soccerHealthElement.children.forEach(child => {
-      soccerHealthElement.remove(child);
-    });
-  }
 
   soccerHealthElement.innerHTML = "SOCCER HEALTH: " + soccerball.health;
   footballHealthElement.innerHTML = "FOOTBALL HEALTH: " +football.health;
