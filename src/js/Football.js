@@ -93,9 +93,8 @@ export class Football {
     } else {
       if (this.mesh.position.z > 40 || this.mesh.position.z < 5){
         this.dirZ = this.dirZ * -1;
-        this.mesh.position.z += this.dirZ;
       }
-
+      this.mesh.position.z += this.dirZ;
       this.trajectoryBankZ -= 1;
     }
 
