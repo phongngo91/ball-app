@@ -18,6 +18,8 @@ const E_KEY = 69;
 let refreshTimer = 0;
 let runGame = false;
 let laserBank = [];
+let footballShootFreq = 1;
+
 const soccerball = new Soccerball(camera);
 const football = new Football();
 document.addEventListener("keydown", soccerball.controller());
@@ -53,12 +55,21 @@ function animate(){
   requestAnimationFrame(animate);
   if (runGame === true){
     refreshTimer += 1;
+    footballShootFreq += 0.1;
   }
 
   if (refreshTimer > 240){
     renderer.setSize(window.innerWidth , window.innerHeight);
     refreshTimer = 0;
   }
+
+  if (footballShootFreq > 10){
+    let laser = football.shoot();
+    laserBank.push(laser);
+    scene.add(laser.mesh);
+    footballShootFreq = 0;
+  }
+
 
   let newLaserBank = [];
   laserBank.forEach(laser => {

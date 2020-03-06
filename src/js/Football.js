@@ -32,6 +32,10 @@ export class Football {
     this.mesh.rotation.z = (90 * Math.PI) / 180;
   }
 
+  shoot(){
+    return new Laser(this, false);
+  }
+
   update(){
     if (this.trajectoryBankX <= 0){
       this.trajectoryBankX = Math.random() * 600;
