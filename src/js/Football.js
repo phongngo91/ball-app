@@ -3,8 +3,8 @@ import { Laser } from "./Laser";
 
 export class Football {
   constructor(){
-    const footballTexture = new THREE.TextureLoader().load("src/images/football.png");
-    const footballMaterial = new THREE.MeshBasicMaterial({ map: footballTexture });
+    this.footballTexture = new THREE.TextureLoader().load("src/images/football.png");
+    const footballMaterial = new THREE.MeshBasicMaterial({ map: this.footballTexture });
     let points = [];
     for (let deg = 0; deg <= 180; deg += 6) {
       let rad = (Math.PI * deg) / 180;
@@ -14,6 +14,7 @@ export class Football {
       );
       points.push(point);
     }
+    this.soccerballTexture = new THREE.TextureLoader().load("src/textures/soccer.png");
     const footballGeometry = new THREE.LatheBufferGeometry(points, 50);
     this.mesh = new THREE.Mesh(footballGeometry, footballMaterial);
     this.DIRS = [0.3, 0.2, 0.1, -0.1, -0.2, -0.3];
@@ -26,6 +27,8 @@ export class Football {
     this.velocity = 0;
     this.dirX = 0;
     this.dirZ = 0;
+    this.rotateDir = 0;
+    this.rotationBank = 0;
     this.trajectoryBankX = 0;
     this.trajectoryBankZ = 0;
     this.mesh.position.y = 38;
@@ -51,8 +54,7 @@ export class Football {
     if (distance < 9){
       this.health -= 10;
       this.hurtDelay = 60;
-      const texture = new THREE.TextureLoader().load("src/textures/soccer.png");
-      this.mesh.material.map = texture;
+      this.mesh.material.map = this.soccerballTexture;
       this.mesh.material.needsUpdate = true;
       return true;
     }
@@ -62,8 +64,7 @@ export class Football {
   update(){
 
     if (this.hurtDelay === 1){
-      const revertTexture = new THREE.TextureLoader().load("src/images/football.png");
-      this.mesh.material.map = revertTexture;
+      this.mesh.material.map = this.footballTexture;
       this.mesh.material.needsUpdate = true;
       this.hurtDelay -= 1;
     } else if (this.hurtDelay > 1){
@@ -76,11 +77,12 @@ export class Football {
         Math.floor(Math.random() * this.DIRS.length)
       ];
     } else {
-      this.mesh.position.x += this.dirX;
-
       if (this.mesh.position.x > 20 || this.mesh.position.x < -20){
         this.dirX = this.dirX * -1;
+        this.mesh.position.x += this.dirX;
       }
+
+      this.mesh.position.x += this.dirX;
       this.trajectoryBankX -= 1;
     }
 
@@ -90,14 +92,23 @@ export class Football {
         Math.floor(Math.random() * this.DIRS.length)
       ];
     } else {
-      this.mesh.position.z += this.dirZ;
-
       if (this.mesh.position.z > 40 || this.mesh.position.z < 5){
         this.dirZ = this.dirZ * -1;
       }
-
+      this.mesh.position.z += this.dirZ;
       this.trajectoryBankZ -= 1;
     }
+
+    if (this.rotationBank <=0){
+      this.rotationBank = Math.random() * 600;
+      this.rotateDir = this.DIRS[
+        Math.floor(Math.random() * this.DIRS.length)
+      ];
+    } else {
+      this.mesh.rotation.y += 0.01;
+      this.rotationBank -= 1;
+    }
+
 
   }
 
