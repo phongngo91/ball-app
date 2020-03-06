@@ -128,11 +128,13 @@ export class Soccerball {
     // if we are going out of bounds, reverse the direction
     if (this.mesh.position.x > 20 || this.mesh.position.x < -20) {
       this.dirX = this.dirX * -1;
+      this.mesh.position.x += this.dirX;
     }
 
     // if we are going out of bounds, reverse the direction
     if (this.mesh.position.y > 40 || this.mesh.position.y < -40) {
       this.dirY = this.dirY * -1;
+      this.mesh.position.y += this.dirY;
     }
   }
 
