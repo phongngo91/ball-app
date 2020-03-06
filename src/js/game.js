@@ -47,6 +47,10 @@ document.addEventListener("keydown", e => {
     let laser = soccerball.shoot();
     laserBank.push(laser);
     scene.add(laser.mesh);
+
+    if (!mute) {
+      pewPew.play();
+    }
   }
 });
 
@@ -114,6 +118,11 @@ function resetGame() {
   muteBtn.style.visibility = "visible";
   pauseBtn.style.visibility = "visible";
   controlsElement.style.visibility = "visible";
+
+  bossHPElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
+  bossHPElement.style.width = `${football.health}%`;
+  bossHPElement.style.height = "24px";
+  bossHPElement.style.backgroundColor = "red";
 }
 
 function animate() {
@@ -166,10 +175,11 @@ function animate() {
     if (football.health === 0 ){
       gameOver();
       gameOverInstructionsOn();
-      footballHealthElement.innerHTML = "GAME OVER, YOU WIN!!!";
+      bossHPElement.innerHTML = "GAME OVER, YOU WIN!!!";
+      bossHPElement.style.width = "0%";
     } else {
       bossHPElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
-      bossHPElement.style.width = `${football.health/10}%`;
+      bossHPElement.style.width = `${football.health}%`;
       bossHPElement.style.height = "24px";
       bossHPElement.style.backgroundColor = "red";
     }

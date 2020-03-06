@@ -15,7 +15,7 @@ export class Football {
   }
 
   reset(){
-    this.health = 1000;
+    this.health = 100;
     this.velocity = 0;
     this.dirX = 0;
     this.dirZ = 0;
