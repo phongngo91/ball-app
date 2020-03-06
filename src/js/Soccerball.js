@@ -128,11 +128,12 @@ export class Soccerball {
   }
 
   outBoundsCorrection() {
-    if (this.mesh.position.x > 19.99 || this.mesh.position.x < -19.99) {
+    // Creates a "soft" wall, so if users use mouse and breaks the wall, there is no "infinite back and forth" gitch, caused by repeated "mousemove" event, keeping correction from happening.
+    if (Math.round(this.mesh.position.x) === 20 || Math.round(this.mesh.position.x) === -20) {
       this.dirX = this.dirX * -1;
     }
 
-    if (this.mesh.position.y > 39.99 || this.mesh.position.y < -39.99) {
+    if (Math.round(this.mesh.position.y) === 40 || Math.round(this.mesh.position.y) === -40) {
       this.dirY = this.dirY * -1;
     }
   }
