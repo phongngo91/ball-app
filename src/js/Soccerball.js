@@ -15,7 +15,8 @@ export class Soccerball {
     this.UP_ARROW = 38;
     this.RIGHT_ARROW = 39;
     this.DOWN_ARROW = 40;
-    this.VELOCITY_BASE = 40;
+    this.VELOCITY_BASE_KEYBOARD = 40;
+    this.VELOCITY_BASE_MOUSE = 30;
     this.E_KEY = 69;
 
     this.cameraMomentumZ = 0;
@@ -162,16 +163,16 @@ export class Soccerball {
       const keyCode = e.which;
       if (keyCode === this.DOWN_ARROW) {
         this.dirY = -0.1;
-        this.velocity = this.VELOCITY_BASE;
+        this.velocity = this.VELOCITY_BASE_KEYBOARD;
       } else if (keyCode === this.UP_ARROW) {
         this.dirY = 0.1;
-        this.velocity = this.VELOCITY_BASE;
+        this.velocity = this.VELOCITY_BASE_KEYBOARD;
       } else if (keyCode === this.RIGHT_ARROW) {
         this.dirX = 0.1;
-        this.velocity = this.VELOCITY_BASE;
+        this.velocity = this.VELOCITY_BASE_KEYBOARD;
       } else if (keyCode === this.LEFT_ARROW) {
         this.dirX = -0.1;
-        this.velocity = this.VELOCITY_BASE;
+        this.velocity = this.VELOCITY_BASE_KEYBOARD;
       } else if (keyCode === this.SPACE_BAR) {
         this.trajectoryBankZ = 4;
       }
@@ -186,17 +187,25 @@ export class Soccerball {
       let relativeX = e.clientX - canvas.offsetLeft - canvas.width / 2;
 
       if (relativeX > -canvas.width / 2 && relativeX < canvas.width / 2) {
-        this.velocity = this.VELOCITY_BASE;
-        this.dirX = relativeX/1000;
+        // velocity base for mouse should be smaller so ball stops rolling when mouse leaves screen
+        this.velocity = this.VELOCITY_BASE_MOUSE;
+        this.dirX = relativeX / 1000;
       }
 
       //Ball is 1/3 of the way dowm from the screen, not half, so 75% of screen height down
-      let relativeY = e.clientY - canvas.offsetTop - (canvas.height * 0.75);
+      let relativeY = e.clientY - canvas.offsetTop - canvas.height * 0.75;
 
       if (relativeY > -canvas.height / 2 && relativeY < canvas.height / 2) {
-        this.velocity = this.VELOCITY_BASE;
+        // velocity base for mouse should be smaller so ball stops rolling when mouse leaves screen
 
-        this.dirY = -relativeY/1000;
+        this.velocity = this.VELOCITY_BASE_MOUSE;
+
+        if (relativeY > 0) {
+          // Screen is shorter on the bottom, so speed should increase at faster rate
+          this.dirY = -relativeY / 500;
+        } else {
+          this.dirY = -relativeY / 1000;
+        }
       }
     };
   }

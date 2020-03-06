@@ -25,9 +25,9 @@ let footballShootFreq = 1;
 
 const soccerball = new Soccerball(camera);
 const football = new Football();
-document.addEventListener("keydown", soccerball.keyboardController());
-document.addEventListener("mousemove", soccerball.mouseController());
 
+// KEYBOARD ONLY
+document.addEventListener("keydown", soccerball.keyboardController());
 document.addEventListener("keydown", e => {
   const keyCode = e.which;
   if (keyCode === E_KEY) {
@@ -35,6 +35,15 @@ document.addEventListener("keydown", e => {
     laserBank.push(laser);
     scene.add(laser.mesh);
   }
+});
+
+// MOUSE AND KEYBOARD
+document.addEventListener("mousemove", soccerball.mouseController());
+document.addEventListener("click", e=>{
+  e.preventDefault();
+  let laser = soccerball.shoot();
+  laserBank.push(laser);
+  scene.add(laser.mesh);
 });
 
 setup(scene);
