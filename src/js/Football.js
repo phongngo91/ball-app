@@ -29,14 +29,47 @@ export class Football {
     this.trajectoryBankX = 0;
     this.trajectoryBankZ = 0;
     this.mesh.position.y = 38;
-    this.mesh.position.z = 6;
+    this.mesh.position.z = 7;
+    this.hurtDelay = 0;
   }
 
   shoot(){
     return new Laser(this, false);
   }
 
+  collide(laser) {
+    const laserX = laser.mesh.position.x;
+    const laserY = laser.mesh.position.y;
+    const laserZ = laser.mesh.position.z;
+
+    const distance = Math.sqrt(
+      Math.pow(this.mesh.position.x - laserX, 2) +
+        Math.pow(this.mesh.position.y - laserY, 2) +
+        Math.pow(this.mesh.position.z - laserZ, 2)
+    );
+
+    if (distance < 9){
+      this.health -= 10;
+      this.hurtDelay = 60;
+      const texture = new THREE.TextureLoader().load("src/textures/soccer.png");
+      this.mesh.material.map = texture;
+      this.mesh.material.needsUpdate = true;
+      return true;
+    }
+    return false;
+  }
+
   update(){
+
+    if (this.hurtDelay === 1){
+      const revertTexture = new THREE.TextureLoader().load("src/images/football.png");
+      this.mesh.material.map = revertTexture;
+      this.mesh.material.needsUpdate = true;
+      this.hurtDelay -= 1;
+    } else if (this.hurtDelay > 1){
+      this.hurtDelay -=1;
+    }
+
     if (this.trajectoryBankX <= 0){
       this.trajectoryBankX = Math.random() * 600;
       this.dirX = this.DIRS[

@@ -86,6 +86,9 @@ function animate(){
   soccerball.update();
   football.update();
   laserBank.forEach(laser => {
+    if (football.collide(laser)){
+      scene.remove(laser.mesh);
+    }
     laser.update();
   });
 

@@ -34,6 +34,7 @@ export class Soccerball {
     this.camera.position.x = 0;
     this.camera.position.z = 5;
     this.camera.rotation.x = (90 * Math.PI) / 180;
+    this.hurtDelay = 0;
   }
 
   moveUp() {
@@ -65,12 +66,11 @@ export class Soccerball {
   }
 
   update() {
-
     // If camera is not where the ball is on the z, move the camera
-    if (Math.abs(this.mesh.position.z - this.camera.position.z) > 4){
+    if (Math.abs(this.mesh.position.z - this.camera.position.z) > 4) {
       // this.cameraMomentumZ += (this.mesh.position.z - this.camera.position.z) / 10;
-      this.camera.position.z += (this.mesh.position.z - this.camera.position.z) / 100;
-
+      this.camera.position.z +=
+        (this.mesh.position.z - this.camera.position.z) / 100;
     }
 
     if (this.velocity > 0) {
@@ -138,6 +138,23 @@ export class Soccerball {
 
   shoot() {
     return new Laser(this, true);
+  }
+
+  collide(laser) {
+    const laserX = laser.mesh.position.x;
+    const laserY = laser.mesh.position.y;
+    const laserZ = laser.mesh.position.z;
+
+    const distance = Math.sqrt(
+      Math.pow(this.mesh.position.x - laserX, 2) +
+        Math.pow(this.mesh.position.y - laserY, 2) +
+        Math.pow(this.mesh.position.z - laserZ, 2)
+    );
+
+    if (distance < 2){
+      this.health -= 10;
+      this.hurtDelay = 120;
+    }
   }
 
   controller() {

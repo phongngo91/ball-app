@@ -11,7 +11,7 @@ export class Laser {
       initDir = 0.4;
       material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     } else {
-      offSet = -5;
+      offSet = -10;
       initDir = -0.4;
       material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 
