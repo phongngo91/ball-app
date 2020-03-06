@@ -161,6 +161,13 @@ function animate() {
       laser.update();
     });
 
+    if (football.health === 0 ){
+      gameOver();
+      // gameOverInstructionsOn();
+      footballHealthElement.innerHTML = "GAME OVER, YOU WIN!!!";
+      startInstructionsOn();
+    }
+
     soccerHealthElement.innerHTML = "SOCCER HEALTH: " + soccerball.health;
     footballHealthElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
   }

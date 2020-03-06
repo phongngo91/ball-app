@@ -23,8 +23,9 @@ div {
   color: white;
   border: 2px white solid;
   padding: 4px;
-  top: 25px;
-  left: 25px;
+  top: 90%;
+  left: 30px;
+  width: fit-content;
   border-radius: 4px;
 }
 
@@ -34,8 +35,12 @@ div {
   color: white;
   border: 2px white solid;
   padding: 4px;
-  top: 25px;
-  left: 200px;
+  top: 5%;
+  left: 0;
+  right: 0;
+  width: 65%;
+  margin-left: auto;
+  margin-right: auto;
   border-radius: 4px;
 }
 
