@@ -28,6 +28,7 @@ body {
 }
 
 .instructions{
+  pointer-events: none;
   top: 66%;
   width: fit-content;
   position: absolute;
@@ -41,6 +42,7 @@ body {
 }
 
 .arrow-keys{
+  pointer-events: none;
   width: 150px;
   height: 150px;
   opacity: 0.5;
