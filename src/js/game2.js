@@ -36,19 +36,22 @@ setup(scene);
 
 function stopGame(){
   runGame = false;
-  scene.remove(ball.mesh);
+  scene.remove(soccerball.mesh);
+  scene.remove(football.mesh);
   laserBank.forEach( laser =>{
     scene.remove(laser.mesh);
   });
   laserBank = [];
+  footballShootFreq = 0;
 }
 
 function resetGame(){
   runGame = true;
   refreshTimer = 0;
+  soccerball.reset();
+  football.reset();
   scene.add(soccerball.mesh);
   scene.add(football.mesh);
-  soccerball.reset();
 }
 
 function animate(){

@@ -9,12 +9,12 @@ export class Football {
     for (let deg = 0; deg <= 180; deg += 6) {
       let rad = (Math.PI * deg) / 180;
       let point = new THREE.Vector2(
-        (0.72 + 0.08 * Math.cos(rad)) * Math.sin(rad),
+        (0.72 + 20 * Math.cos(rad)) * Math.sin(rad),
         -Math.cos(rad)
       );
       points.push(point);
     }
-    const footballGeometry = new THREE.LatheBufferGeometry(points, 16);
+    const footballGeometry = new THREE.LatheBufferGeometry(points, 50);
     this.mesh = new THREE.Mesh(footballGeometry, footballMaterial);
     this.DIRS = [0.3, 0.2, 0.1, -0.1, -0.2, -0.3];
 
@@ -28,8 +28,8 @@ export class Football {
     this.dirZ = 0;
     this.trajectoryBankX = 0;
     this.trajectoryBankZ = 0;
-    this.mesh.position.y = 20;
-    this.mesh.rotation.z = (90 * Math.PI) / 180;
+    this.mesh.position.y = 38;
+    this.mesh.position.z = 6;
   }
 
   shoot(){
@@ -59,7 +59,7 @@ export class Football {
     } else {
       this.mesh.position.z += this.dirZ;
 
-      if (this.mesh.position.z > 40 || this.mesh.position.z < 0){
+      if (this.mesh.position.z > 40 || this.mesh.position.z < 5){
         this.dirZ = this.dirZ * -1;
       }
 
