@@ -189,7 +189,7 @@ export class Soccerball {
       if (relativeX > -canvas.width / 2 && relativeX < canvas.width / 2) {
         // velocity base for mouse should be smaller so ball stops rolling when mouse leaves screen
         this.velocity = this.VELOCITY_BASE_MOUSE;
-        this.dirX = relativeX / 1000;
+        this.dirX = relativeX / 1500;
       }
 
       //Ball is 1/3 of the way dowm from the screen, not half, so 75% of screen height down
@@ -204,7 +204,7 @@ export class Soccerball {
           // Screen is shorter on the bottom, so speed should increase at faster rate
           this.dirY = -relativeY / 500;
         } else {
-          this.dirY = -relativeY / 1000;
+          this.dirY = -relativeY / 1500;
         }
       }
     };
