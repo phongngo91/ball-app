@@ -1,107 +1,118 @@
 import "../styles/game.scss";
 import * as THREE from "./three";
-import { airplane, airPlaneController } from "./airplane";
-import { Debri, collision } from "./Debri";
+import { Soccerball } from "./Soccerball";
+import { setup } from "./setup";
+import { Football } from "./Football";
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+
+const soccerHealthElement = document.getElementById("soccerHealth");
+const footballHealthElement = document.getElementById("footballHealth");
 const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth , window.innerHeight);
+const E_KEY = 69;
 
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.addEventListener("mousemove", airPlaneController, false);
-const scoreElement = document.getElementById("score");
-const menu = document.getElementById("menu");
-const instructions = document.getElementById("instructions");
-scoreElement.style.visibility = "hidden";
-
-let gameTimer = 0;
-let spawnFreq = 1;
-camera.position.z = 20;
+let refreshTimer = 0;
 let runGame = false;
-let debris = [];
-let scoreValue = 0;
+let laserBank = [];
+let footballShootFreq = 1;
 
-function stopGame() {
-  menu.innerHTML = "Restart";
-  instructions.innerHTML = "Final Score: " + scoreValue;
+const soccerball = new Soccerball(camera);
+const football = new Football();
+document.addEventListener("keydown", soccerball.controller());
+document.addEventListener("keydown", e => {
+  const keyCode = e.which;
+  if (keyCode === E_KEY) {
+    let laser = soccerball.shoot();
+    laserBank.push(laser);
+    scene.add(laser.mesh);
+  }
+});
+
+setup(scene);
+
+function stopGame(){
   runGame = false;
-  gameTimer = 0;
-  scoreValue = 0;
-  debris.forEach(debri =>{
-    scene.remove(debri.mesh);
+  scene.remove(soccerball.mesh);
+  scene.remove(football.mesh);
+  laserBank.forEach( laser =>{
+    scene.remove(laser.mesh);
   });
-  debris = [];
-  scoreElement.style.visibility = "hidden";
-  menu.style.visibility = "visible";
-  instructions.style.visibility = "visible";
-  scene.remove(airplane);
+  laserBank = [];
+  footballShootFreq = 0;
 }
 
-function startGame() {
-  spawnFreq = 1;
+function resetGame(){
   runGame = true;
-  scoreValue = 0;
-  scoreElement.style.visibility = "visible";
-  scene.add(airplane);
+  refreshTimer = 0;
+  soccerball.reset();
+  football.reset();
+  scene.add(soccerball.mesh);
+  scene.add(football.mesh);
 }
 
-const animate = function() {
+function animate(){
   requestAnimationFrame(animate);
-
-  if (runGame === true) {
-    gameTimer += 1;
+  if (runGame === true){
+    refreshTimer += 1;
+    footballShootFreq += 0.1;
   }
 
-  if (gameTimer > (15 / spawnFreq)) {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    const newDebri = new Debri();
-    debris.push(newDebri);
-    scene.add(newDebri.mesh);
-
-    spawnFreq += 0.01;
-    gameTimer = 0;
+  if (refreshTimer > 240){
+    renderer.setSize(window.innerWidth , window.innerHeight);
+    refreshTimer = 0;
   }
 
-  debris.forEach(debri => {
-    debri.update();
-    if (collision(airplane, debri)) {
-      if (debri.color === "BLUE") {
-        console.log("Blue collision");
-        scoreValue += 20;
-      } else if (debri.color === "RED") {
-        stopGame();
-      } else if (debri.color === "YELLOW") {
-        scoreValue += 10;
-      }
-      scene.remove(debri.mesh);
-      debris.splice(debris.indexOf(debri), 1);
-    }
+  if (footballShootFreq > 10){
+    let laser = football.shoot();
+    laserBank.push(laser);
+    scene.add(laser.mesh);
+    footballShootFreq = 0;
+  }
 
-    // This means the debri has left the camera view
-    if (debri.mesh.z > 20){
-      scene.remove(debri.mesh);
-      debris.splice(debris.indexOf(debri), 1);
+
+  let newLaserBank = [];
+  laserBank.forEach(laser => {
+    if (laser.velocity > 0) {
+      newLaserBank.push(laser);
+    } else {
+      scene.remove(laser.mesh);
     }
   });
 
-  while (scoreElement.children.length > 0) {
-    scoreElement.children.forEach(child => {
-      scoreElement.remove(child);
+  soccerball.update();
+  football.update();
+  laserBank.forEach(laser => {
+    if (football.collide(laser)){
+      scene.remove(laser.mesh);
+      laserBank.splice(laserBank.indexOf(laser), 1);
+    }
+    if (soccerball.collide(laser)){
+      scene.remove(laser.mesh);
+      laserBank.splice(laserBank.indexOf(laser), 1);
+    }
+    laser.update();
+  });
+
+  while (soccerHealthElement.children.length > 0) {
+    soccerHealthElement.children.forEach(child => {
+      soccerHealthElement.remove(child);
     });
   }
 
-  scoreElement.innerHTML = scoreValue;
+  soccerHealthElement.innerHTML = "SOCCER HEALTH: " + soccerball.health;
+  footballHealthElement.innerHTML = "FOOTBALL HEALTH: " +football.health;
 
   renderer.render(scene, camera);
-};
+}
 
+resetGame();
 animate();
-document.body.appendChild(renderer.domElement);
 
-menu.style.visibility = "visible";
-instructions.style.visibility = "visible";
-menu.addEventListener("click", () => {
-  menu.style.visibility = "hidden";
-  instructions.style.visibility = "hidden";
-  startGame();
-});
+document.body.appendChild(renderer.domElement);
