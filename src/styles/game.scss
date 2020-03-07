@@ -26,7 +26,7 @@ div {
   padding: 4px;
   top: 90%;
   left: 30px;
-  width: fit-content;
+  width: 20%;
   border-radius: 4px;
 }
 
@@ -214,4 +214,8 @@ div {
 .li-color{
   color: white;
   background-color: #0e76a8;
+}
+
+.hp-num{
+  position: absolute;
 }
