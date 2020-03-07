@@ -123,7 +123,7 @@ function animate() {
         soccerball.incrementShotsLanded();
         laserBank.splice(laserBank.indexOf(laser), 1);
         if (!muteObj.mute) {
-          playEnemyOuchSound();
+          playEnemyOuchSound(football, soccerball);
         }
       }
       if (soccerball.collide(laser)) {

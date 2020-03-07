@@ -1,14 +1,27 @@
+import { distance } from "./calculations";
+
 //RANDOM ENEMY DAMAGE SOUNDS
 
 const enemyOuch1 = document.createElement("audio");
 enemyOuch1.src = "src/sounds/ouch.mp3";
+enemyOuch1.volume = 0.3;
 const enemyOuch2 = document.createElement("audio");
 enemyOuch2.src = "src/sounds/enemy-ouch.mp3";
+enemyOuch2.volume = 0.3;
 
 const ENEMY_OUCHES = [enemyOuch1, enemyOuch2];
 
-export const playEnemyOuchSound = () => {
-  return ENEMY_OUCHES[Math.floor(Math.random() * ENEMY_OUCHES.length)].play();
+export const playEnemyOuchSound = (football, soccerball) => {
+  const randEnemyOuch = ENEMY_OUCHES[Math.floor(Math.random() * ENEMY_OUCHES.length)];
+
+  // If we are close, increase the volume
+  if (distance(football, soccerball) < 1){
+    randEnemyOuch.volume = distance(football, soccerball);
+  } else {
+    randEnemyOuch.volume = 0.5;
+  }
+
+  return randEnemyOuch.play();
 };
 
 // RANDOM PLAYER DAMAGE SOUNDS
@@ -41,10 +54,10 @@ enemyPew1.volume = 0.3;
 // enemyVolume laser sound depends on how far it is from you
 export const playEnemyPewSound = (football, soccerball) => {
 
-  // enemy firing laser, when soccer is in front of football
-  //avoids division by zero exception
-  if (football.mesh.position.y > soccerball.mesh.position.y && football.mesh.position.y !== 0){
-    enemyPew1.vol = soccerball.mesh.position.y / football.mesh.position.y;
+  if (distance(football, soccerball) < 1){
+    enemyPew1.volume = distance(football, soccerball);
+  } else {
+    enemyPew1.volume = 0.3;
   }
 
   enemyPew1.play();
