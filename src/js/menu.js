@@ -1,3 +1,5 @@
+import { playSplat } from "./sounds";
+
 const menu = document.getElementById("main-menu");
 const soccerHealthElement = document.getElementById("soccerHealth");
 const bossHPElement = document.getElementById("bossHP");
@@ -6,6 +8,16 @@ const footballHealthElement = document.getElementById("footballHealth");
 const mouseMoveHintElement = document.getElementById("mouse-move-hint");
 const pauseBtn = document.getElementById("pause");
 const muteBtn = document.getElementById("mute");
+const playWithMouseElement = document.getElementById("mouse-controller");
+const playWithKeyboardElement = document.getElementById("keyboard-controller");
+
+playWithKeyboardElement.addEventListener("mouseover", () => {
+  playSplat();
+});
+
+playWithMouseElement.addEventListener("mouseover", () => {
+  playSplat();
+});
 
 export const hideMenu = () => {
   menu.style.visibility = "hidden";

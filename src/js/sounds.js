@@ -17,3 +17,10 @@ const PLAYER_OUCHES = [playerOuch1];
 export const playerOuch = () => {
   return PLAYER_OUCHES[Math.floor(Math.random() * PLAYER_OUCHES.length)].play();
 };
+
+const splat = document.createElement("audio");
+splat.src = "/src/sounds/splat.wav";
+
+export const playSplat = () => {
+  splat.play();
+};
