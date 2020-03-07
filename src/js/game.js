@@ -3,7 +3,11 @@ import * as THREE from "./three";
 import { Soccerball } from "./soccerball";
 import { Football } from "./football";
 import { setup } from "./setup";
-import { enemyOuch, playerOuch, playEnemyPew } from "./sounds";
+import { 
+  playEnemyOuchSound, 
+  playPlayerOuchSound, 
+  playEnemyPewSound, 
+  playPlayerPewSound } from "./sounds";
 import {
   hideMenu,
   showMenu,
@@ -16,11 +20,12 @@ import {
   hideMouseMoveHint,
   showWinScreen,
   showLoseScreen,
-  hideGamePlayElements
+  hideGamePlayElements,
+  hideGameOverScreen,
+  showGameOverScreen
 } from "./menu";
 
 const E_KEY = 69;
-const pewPew = document.getElementById("pew-pew");
 const playWithMouseElement = document.getElementById("mouse-controller");
 const playWithKeyboardElement = document.getElementById("keyboard-controller");
 const scene = new THREE.Scene();
@@ -94,7 +99,7 @@ function animate() {
       scene.add(laser.mesh);
       footballShootFreq = 0;
       if (!mute) {
-        playEnemyPew(football, soccerball);
+        playEnemyPewSound(football, soccerball);
       }
     }
 
@@ -114,14 +119,14 @@ function animate() {
         scene.remove(laser.mesh);
         laserBank.splice(laserBank.indexOf(laser), 1);
         if (!mute) {
-          enemyOuch();
+          playEnemyOuchSound();
         }
       }
       if (soccerball.collide(laser)) {
         scene.remove(laser.mesh);
         laserBank.splice(laserBank.indexOf(laser), 1);
         if (!mute) {
-          playerOuch();
+          playPlayerOuchSound();
         }
       }
       laser.update();
@@ -131,6 +136,7 @@ function animate() {
       gameOver();
       showMenu();
       showWinScreen();
+      showGameOverScreen();
     } else {
       updateFootballHealth(football);
     }
@@ -139,6 +145,7 @@ function animate() {
       gameOver();
       showMenu();
       showLoseScreen();
+      showGameOverScreen();
     } else {
       updateSoccerballHealth(soccerball);
     }
@@ -157,7 +164,7 @@ const mouseShoot = () => {
     laserBank.push(laser);
     scene.add(laser.mesh);
     if (!mute) {
-      pewPew.play();
+      playPlayerPewSound();
     }
   }
 };
@@ -170,7 +177,7 @@ const keyboardShoot = e => {
     laserBank.push(laser);
     scene.add(laser.mesh);
     if (!mute) {
-      pewPew.play();
+      playPlayerPewSound();
     }
   }
 };
@@ -203,4 +210,5 @@ playWithKeyboardElement.addEventListener("click", () => {
 });
 
 // FOR TESTING THE END GAME MENU TODO: REMOVE THIS
-hideMenu();
+// hideMenu();
+hideGameOverScreen();
