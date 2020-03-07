@@ -1,20 +1,21 @@
 import "../styles/game.scss";
-import { startInstructionsOn, gameOverInstructionsOn, clearInstructions } from "./instructions";
 import * as THREE from "./three";
 import { Soccerball } from "./Soccerball";
 import { Football } from "./Football";
 import { setup } from "./setup";
 import { enemyOuch, playerOuch } from "./sounds";
+import { hideMenu } from "./menu";
 
+const playWithMouseElement = document.getElementById("mouse-controller");
+const playWithKeyboardElement = document.getElementById("keyboard-controller");
 const soccerHealthElement = document.getElementById("soccerHealth");
 soccerHealthElement.style.visibility = "hidden";
 const bossHPElement = document.getElementById("bossHP");
 const playerHPElement = document.getElementById("playerHP");
 const footballHealthElement = document.getElementById("footballHealth");
 footballHealthElement.style.visibility = "hidden";
-const controlsElement = document.getElementById("controls");
-controlsElement.style.visibility = "hidden";
-// const instructionsElement = document.getElementById("instructions");
+const mouseMoveHintElement = document.getElementById("mouse-move-hint");
+mouseMoveHintElement.style.visibility = "hidden";
 const pewPew = document.getElementById("pew-pew");
 const enemyPew = document.getElementById("enemy-pew");
 enemyPew.volume = 0.3;
@@ -39,21 +40,8 @@ let laserBank = [];
 let footballShootFreq = 1;
 let mute = false;
 
-// KEYBOARD ONLY
-document.addEventListener("keydown", soccerball.keyboardController());
-document.addEventListener("keydown", soccerball.spacebarJump());
-document.addEventListener("keydown", e => {
-  const keyCode = e.which;
-  if (keyCode === E_KEY) {
-    let laser = soccerball.shoot();
-    laserBank.push(laser);
-    scene.add(laser.mesh);
 
-    if (!mute) {
-      pewPew.play();
-    }
-  }
-});
+document.addEventListener("keydown", soccerball.spacebarJump());
 
 const muteBtn = document.getElementById("mute");
 muteBtn.style.visibility = "hidden";
@@ -76,21 +64,6 @@ pauseBtn.addEventListener("click", () => {
   } else {
     runGame = true;
     pauseBtn.innerHTML = "Pause";
-  }
-});
-
-
-// MOUSE AND KEYBOARD
-document.addEventListener("mousemove", soccerball.mouseController());
-document.addEventListener("click", e => {
-  e.preventDefault();
-  if (runGame){
-    let laser = soccerball.shoot();
-    laserBank.push(laser);
-    scene.add(laser.mesh);
-    if (!mute) {
-      pewPew.play();
-    }
   }
 });
 
@@ -118,7 +91,7 @@ function resetGame() {
   footballHealthElement.style.visibility = "visible";
   muteBtn.style.visibility = "visible";
   pauseBtn.style.visibility = "visible";
-  controlsElement.style.visibility = "visible";
+  mouseMoveHintElement.style.visibility = "visible";
 
   bossHPElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
   bossHPElement.style.width = `${football.health / 3}%`;
@@ -178,7 +151,6 @@ function animate() {
 
     if (football.health === 0 ){
       gameOver();
-      gameOverInstructionsOn();
       bossHPElement.innerHTML = "GAME OVER, YOU WIN!!!";
       bossHPElement.style.width = "0%";
     } else {
@@ -190,7 +162,6 @@ function animate() {
 
     if (soccerball.health ===0){
       gameOver();
-      gameOverInstructionsOn();
       bossHPElement.innerHTML = "GAME OVER, YOU LOSE!!!";
     }
 
@@ -204,11 +175,43 @@ function animate() {
 }
 
 animate();
-// startInstructionsOn();
-
-// instructionsElement.addEventListener("click", () =>{
-//   resetGame();
-//   clearInstructions();
-// });
-
 document.body.appendChild(renderer.domElement);
+
+playWithMouseElement.addEventListener("click", ()=>{
+  resetGame();
+  document.addEventListener("mousemove", soccerball.mouseController());
+  document.addEventListener("keydown", soccerball.spacebarJump());
+  document.addEventListener("click", e => {
+    e.preventDefault();
+    if (runGame){
+      let laser = soccerball.shoot();
+      laserBank.push(laser);
+      scene.add(laser.mesh);
+      if (!mute) {
+        pewPew.play();
+      }
+    }
+  });
+  mouseMoveHintElement.style.visibility = "visible";
+  hideMenu();
+});
+
+playWithKeyboardElement.addEventListener("click", ()=>{
+  resetGame();
+  document.addEventListener("keydown", soccerball.keyboardController());
+  document.addEventListener("keydown", soccerball.spacebarJump());
+  document.addEventListener("keydown", e => {
+    const keyCode = e.which;
+    if (keyCode === E_KEY) {
+      let laser = soccerball.shoot();
+      laserBank.push(laser);
+      scene.add(laser.mesh);
+      if (!mute) {
+        pewPew.play();
+      }
+    }
+  });
+  mouseMoveHintElement.style.visibility = "hidden";
+  hideMenu();
+});
+
