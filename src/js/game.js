@@ -4,7 +4,7 @@ import * as THREE from "./three";
 import { Soccerball } from "./Soccerball";
 import { Football } from "./Football";
 import { setup } from "./setup";
-import { enemyOuch } from "./sounds";
+import { enemyOuch, playerOuch } from "./sounds";
 
 const soccerHealthElement = document.getElementById("soccerHealth");
 soccerHealthElement.style.visibility = "hidden";
@@ -168,6 +168,9 @@ function animate() {
       if (soccerball.collide(laser)) {
         scene.remove(laser.mesh);
         laserBank.splice(laserBank.indexOf(laser), 1);
+        if (!mute){
+          playerOuch();
+        }
       }
       laser.update();
     });
@@ -182,6 +185,12 @@ function animate() {
       bossHPElement.style.width = `${football.health}%`;
       bossHPElement.style.height = "24px";
       bossHPElement.style.backgroundColor = "red";
+    }
+
+    if (soccerball.health ===0){
+      gameOver();
+      gameOverInstructionsOn();
+      bossHPElement.innerHTML = "GAME OVER, YOU LOSE!!!";
     }
 
     playerHPElement.innerHTML = "SOCCER HEALTH: " + soccerball.health;
