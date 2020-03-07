@@ -19,14 +19,10 @@ import {
   hideGamePlayElements
 } from "./menu";
 
+const E_KEY = 69;
 const pewPew = document.getElementById("pew-pew");
 const playWithMouseElement = document.getElementById("mouse-controller");
 const playWithKeyboardElement = document.getElementById("keyboard-controller");
-
-hideGamePlayElements();
-
-const E_KEY = 69;
-
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -35,8 +31,6 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-
 const soccerball = new Soccerball(camera);
 const football = new Football();
 
@@ -46,32 +40,41 @@ let refreshTimer = 0;
 let laserBank = [];
 let footballShootFreq = 1;
 
+renderer.setSize(window.innerWidth, window.innerHeight);
+setup(scene);
 addMuteBtn(mute);
 addPauseBtn(runGame);
-
-setup(scene);
+hideGamePlayElements();
 
 function gameOver() {
   runGame = false;
+  footballShootFreq = 0;
+
   scene.remove(soccerball.mesh);
   scene.remove(football.mesh);
+
   laserBank.forEach(laser => {
     scene.remove(laser.mesh);
   });
   laserBank = [];
-  footballShootFreq = 0;
+
+  hideGamePlayElements();
 }
 
 function resetGame() {
   runGame = true;
   refreshTimer = 0;
+  footballShootFreq = 1;
+
   soccerball.reset();
   football.reset();
+
   scene.add(soccerball.mesh);
   scene.add(football.mesh);
 
   showDuringGamePlayElements();
   updateFootballHealth(football);
+  updateSoccerballHealth(soccerball);
 }
 
 function animate() {
@@ -128,7 +131,6 @@ function animate() {
       gameOver();
       showMenu();
       showWinScreen();
-      hideGamePlayElements();
     } else {
       updateFootballHealth(football);
     }
@@ -137,7 +139,6 @@ function animate() {
       gameOver();
       showMenu();
       showLoseScreen();
-      hideGamePlayElements();
     } else {
       updateSoccerballHealth(soccerball);
     }
@@ -183,20 +184,20 @@ playWithMouseElement.addEventListener("click", () => {
   document.addEventListener("mousemove", mouseController);
   document.addEventListener("click", mouseShoot);
 
-  showMouseMoveHint();
   resetGame();
   hideMenu();
+  showMouseMoveHint();
 });
 
 playWithKeyboardElement.addEventListener("click", () => {
   // Removes mouse controllers
   document.removeEventListener("mousemove", mouseController);
   document.removeEventListener("click", mouseShoot);
-  hideMouseMoveHint();
 
   // Add keyboard controllers
   document.addEventListener("keydown", keyboardController);
   document.addEventListener("keydown", keyboardShoot);
   resetGame();
   hideMenu();
+  hideMouseMoveHint();
 });
