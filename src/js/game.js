@@ -50,9 +50,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 setup(scene);
 addMuteBtn(mute);
 addPauseBtn(runGame);
-hideGamePlayElements();
 hideEverything();
-showMenu();
 
 function gameOver() {
   runGame = false;
@@ -137,8 +135,8 @@ function animate() {
 
     if (football.health === 0) {
       gameOver();
-      showWinScreen();
-      showMenu();
+      // showWinScreen();
+      // showMenu();
       showGameOverScreen();
     } else {
       updateFootballHealth(football);
@@ -146,8 +144,8 @@ function animate() {
 
     if (soccerball.health === 0) {
       gameOver();
-      showLoseScreen();
-      showMenu();
+      // showLoseScreen();
+      // showMenu();
       showGameOverScreen();
     } else {
       updateSoccerballHealth(soccerball);
@@ -213,5 +211,5 @@ playWithKeyboardElement.addEventListener("click", () => {
 });
 
 // FOR TESTING THE END GAME MENU TODO: REMOVE THIS
-// hideMenu();
-// hideGameOverScreen();
+// showGameOverScreen();
+showMenu();
