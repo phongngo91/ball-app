@@ -130,11 +130,17 @@ export class Soccerball {
 
   outBoundsCorrection() {
     // Creates a "soft" wall, so if users use mouse and breaks the wall, there is no "infinite back and forth" gitch, caused by repeated "mousemove" event, keeping correction from happening.
-    if (Math.round(this.mesh.position.x) === 20 || Math.round(this.mesh.position.x) === -20) {
+    if (
+      Math.round(this.mesh.position.x) === 20 ||
+      Math.round(this.mesh.position.x) === -20
+    ) {
       this.dirX = this.dirX * -1;
     }
 
-    if (Math.round(this.mesh.position.y) === 40 || Math.round(this.mesh.position.y) === -40) {
+    if (
+      Math.round(this.mesh.position.y) === 40 ||
+      Math.round(this.mesh.position.y) === -40
+    ) {
       this.dirY = this.dirY * -1;
     }
   }
@@ -184,7 +190,7 @@ export class Soccerball {
   spacebarJump() {
     return e => {
       const keyCode = e.which;
-      if (keyCode === this.SPACE_BAR){
+      if (keyCode === this.SPACE_BAR) {
         this.trajectoryBankZ = 4;
       }
     };

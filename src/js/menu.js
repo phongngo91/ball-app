@@ -78,16 +78,16 @@ export const hideMouseMoveHint = () => {
   mouseMoveHintElement.style.visibility = "hidden";
 };
 
-export const showWinScreen = () =>{
+export const showWinScreen = () => {
   bossHPElement.innerHTML = "GAME OVER, YOU WIN!!!";
   bossHPElement.style.width = "0%";
 };
 
-export const showLoseScreen = () =>{
+export const showLoseScreen = () => {
   bossHPElement.innerHTML = "GAME OVER, YOU LOSE!!!";
 };
 
-export const hideGamePlayElements = () =>{
+export const hideGamePlayElements = () => {
   footballHealthElement.style.visibility = "hidden";
   muteBtn.style.visibility = "hidden";
   pauseBtn.style.visibility = "hidden";

@@ -6,7 +6,7 @@ export class Laser {
     let material;
     let offSet;
     let initDir;
-    if (goodguy === true){
+    if (goodguy === true) {
       offSet = 5;
       initDir = 0.4;
       material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
@@ -14,7 +14,6 @@ export class Laser {
       offSet = -10;
       initDir = -0.4;
       material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-
     }
     this.mesh = new THREE.Mesh(geometry, material);
     this.shooter = shooter;

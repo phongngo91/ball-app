@@ -42,11 +42,11 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 const soccerball = new Soccerball(camera);
 const football = new Football();
 
-let refreshTimer = 0;
 let runGame = false;
+let mute = false;
+let refreshTimer = 0;
 let laserBank = [];
 let footballShootFreq = 1;
-let mute = false;
 
 addMuteBtn(mute);
 addPauseBtn(runGame);
@@ -140,9 +140,9 @@ function animate() {
       showMenu();
       showLoseScreen();
       hideGamePlayElements();
+    } else {
+      updateSoccerballHealth(soccerball);
     }
-
-    updateSoccerballHealth(soccerball);
   }
 
   renderer.render(scene, camera);
