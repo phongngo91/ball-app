@@ -22,7 +22,8 @@ import {
   showLoseScreen,
   hideGamePlayElements,
   hideGameOverScreen,
-  showGameOverScreen
+  showGameOverScreen,
+  hideEverything
 } from "./menu";
 
 const E_KEY = 69;
@@ -50,6 +51,8 @@ setup(scene);
 addMuteBtn(mute);
 addPauseBtn(runGame);
 hideGamePlayElements();
+hideEverything();
+showMenu();
 
 function gameOver() {
   runGame = false;
@@ -134,8 +137,8 @@ function animate() {
 
     if (football.health === 0) {
       gameOver();
-      showMenu();
       showWinScreen();
+      showMenu();
       showGameOverScreen();
     } else {
       updateFootballHealth(football);
@@ -143,8 +146,8 @@ function animate() {
 
     if (soccerball.health === 0) {
       gameOver();
-      showMenu();
       showLoseScreen();
+      showMenu();
       showGameOverScreen();
     } else {
       updateSoccerballHealth(soccerball);
@@ -211,4 +214,4 @@ playWithKeyboardElement.addEventListener("click", () => {
 
 // FOR TESTING THE END GAME MENU TODO: REMOVE THIS
 // hideMenu();
-hideGameOverScreen();
+// hideGameOverScreen();

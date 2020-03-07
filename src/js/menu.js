@@ -31,6 +31,7 @@ export const hideEverything = () => {
   mouseMoveHintElement.style.visibility = "hidden";
   pauseBtn.style.visibility = "hidden";
   muteBtn.style.visibility = "hidden";
+  gameOverScreen.style.visibility = "hidden";
 };
 
 export const addMuteBtn = mute => {
