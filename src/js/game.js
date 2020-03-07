@@ -14,7 +14,7 @@ const footballHealthElement = document.getElementById("footballHealth");
 footballHealthElement.style.visibility = "hidden";
 const controlsElement = document.getElementById("controls");
 controlsElement.style.visibility = "hidden";
-const instructionsElement = document.getElementById("instructions");
+// const instructionsElement = document.getElementById("instructions");
 const pewPew = document.getElementById("pew-pew");
 const enemyPew = document.getElementById("enemy-pew");
 enemyPew.volume = 0.3;
@@ -204,12 +204,11 @@ function animate() {
 }
 
 animate();
+// startInstructionsOn();
 
-startInstructionsOn();
-
-instructionsElement.addEventListener("click", () =>{
-  resetGame();
-  clearInstructions();
-});
+// instructionsElement.addEventListener("click", () =>{
+//   resetGame();
+//   clearInstructions();
+// });
 
 document.body.appendChild(renderer.domElement);

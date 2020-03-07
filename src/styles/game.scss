@@ -99,3 +99,53 @@ div {
   font-size: 30px;
   cursor: pointer;
 }
+
+.main-menu{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  top: 10%;
+  border-radius: 10px;
+  border: 4px solid white;
+  padding: 10px;
+}
+
+.game-title{
+  font-size: 30px;
+}
+
+.controls-container{
+  display: flex;
+}
+
+.mouse-controller, .keyboard-controller{
+  display: flex;
+  flex-direction: column;
+  border: 4px solid white;
+  border-radius: 10px;
+  margin: 4px;
+  padding: 4px;
+}
+
+.play-with-text{
+  padding: 4px;
+}
+
+.mouse-controller:hover, .keyboard-controller:hover{
+  cursor: pointer;
+  background-color: green;
+}
+
+.mouse-controller-image, .keyboard-controller-image{
+  width: 200px;
+  height: 300px;
+  pointer-events: none;
+}

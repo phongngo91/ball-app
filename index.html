@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="./dist/main.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico&display=swap">
     <title>Ball App</title>
   </head>
 
@@ -17,7 +16,28 @@
       Mute
     </div>
     <div id="pause" class="menu">Pause</div>
-    <div id="instructions" class="instructions">
+    <!-- <div id="instructions" class="instructions"> -->
+    </div>
+    <div id="main-menu" class="main-menu">
+      <div id="game-title" class="game-title">Football</div>
+      <div id="controls-container" class="controls-container">
+        <div id="mouse-controller" class="mouse-controller">
+          <div id="play-with-mouse" class="play-with-text">Play with Mouse</div>
+          <img 
+            src="src/images/mouse_instructions.png" 
+            alt="mouse-controller-image" 
+            id="mouse-controller-image" 
+            class="mouse-controller-image">
+        </div>
+        <div id="keyboard-controller" class="keyboard-controller">
+          <div id="play-with-keyboard" class="play-with-text">Play with Keyboard</div>
+          <img 
+            src="src/images/keyboard_instructions.png" 
+            alt="keyboard-controller-image" 
+            id="keyboard-controller-image" 
+            class="keyboard-controller-image">
+        </div>
+      </div>
     </div>
     <div id="controls" class="controls">
       <img
@@ -25,7 +45,6 @@
         alt="mouse-instructions"
         class="arrow-keys"
       />
-
     </div>
     <div id="soccerHealth" class="soccerHealth">
       <div id="playerHP">
