@@ -3,7 +3,7 @@ import * as THREE from "./three";
 import { Soccerball } from "./soccerball";
 import { Football } from "./football";
 import { setup } from "./setup";
-import { enemyOuch, playerOuch } from "./sounds";
+import { enemyOuch, playerOuch, playEnemyPew } from "./sounds";
 import {
   hideMenu,
   showMenu,
@@ -20,13 +20,11 @@ import {
 } from "./menu";
 
 const pewPew = document.getElementById("pew-pew");
-const enemyPew = document.getElementById("enemy-pew");
 const playWithMouseElement = document.getElementById("mouse-controller");
 const playWithKeyboardElement = document.getElementById("keyboard-controller");
 
 hideGamePlayElements();
 
-enemyPew.volume = 0.3;
 const E_KEY = 69;
 
 const scene = new THREE.Scene();
@@ -93,7 +91,7 @@ function animate() {
       scene.add(laser.mesh);
       footballShootFreq = 0;
       if (!mute) {
-        enemyPew.play();
+        playEnemyPew(football, soccerball);
       }
     }
 
