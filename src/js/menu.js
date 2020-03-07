@@ -1,10 +1,15 @@
 import { playSplatSound } from "./sounds";
 
 const menu = document.getElementById("main-menu");
-const soccerHealthElement = document.getElementById("soccerHealth");
-const bossHPElement = document.getElementById("bossHP");
-const playerHPElement = document.getElementById("playerHP");
-const footballHealthElement = document.getElementById("footballHealth");
+
+const soccerHPContainerElement = document.getElementById("soccer-hp-container");
+const soccerHPNumElement = document.getElementById("soccer-hp-num");
+const soccerHPBarElement = document.getElementById("soccer-hp-bar");
+
+const footballHPContainerElement = document.getElementById("football-hp-container");
+const footballHPNumElement = document.getElementById("football-hp-num");
+const footballHPBarElement = document.getElementById("football-hp-bar");
+
 const mouseMoveHintElement = document.getElementById("mouse-move-hint");
 const pauseBtn = document.getElementById("pause");
 const muteBtn = document.getElementById("mute");
@@ -26,8 +31,8 @@ export const hideMenu = () => {
 
 export const hideEverything = () => {
   menu.style.visibility = "hidden";
-  soccerHealthElement.style.visibility = "hidden";
-  footballHealthElement.style.visibility = "hidden";
+  soccerHPContainerElement.style.visibility = "hidden";
+  footballHPContainerElement.style.visibility = "hidden";
   mouseMoveHintElement.style.visibility = "hidden";
   pauseBtn.style.visibility = "hidden";
   muteBtn.style.visibility = "hidden";
@@ -59,25 +64,27 @@ export const addPauseBtn = runGameObj => {
 };
 
 export const showDuringGamePlayElements = () => {
-  soccerHealthElement.style.visibility = "visible";
-  footballHealthElement.style.visibility = "visible";
+  soccerHPContainerElement.style.visibility = "visible";
+  footballHPContainerElement.style.visibility = "visible";
   muteBtn.style.visibility = "visible";
   pauseBtn.style.visibility = "visible";
   mouseMoveHintElement.style.visibility = "visible";
 };
 
 export const updateFootballHealth = football => {
-  bossHPElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
-  bossHPElement.style.width = `${football.health / 3}%`;
-  bossHPElement.style.height = "24px";
-  bossHPElement.style.backgroundColor = "red";
+  footballHPNumElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
+
+  footballHPBarElement.style.width = `${football.health / 3}%`;
+  footballHPBarElement.style.height = "24px";
+  footballHPBarElement.style.backgroundColor = "red";
 };
 
 export const updateSoccerballHealth = soccerball => {
-  playerHPElement.innerHTML = "SOCCER HEALTH: " + soccerball.health;
-  playerHPElement.style.width = `${soccerball.health}%`;
-  playerHPElement.style.height = "24px";
-  playerHPElement.style.backgroundColor = "green";
+  soccerHPNumElement.innerHTML = "SOCCER HEALTH: " + soccerball.health;
+
+  soccerHPBarElement.style.width = `${soccerball.health}%`;
+  soccerHPBarElement.style.height = "24px";
+  soccerHPBarElement.style.backgroundColor = "green";
 };
 
 export const showMenu = () => {
@@ -92,20 +99,11 @@ export const hideMouseMoveHint = () => {
   mouseMoveHintElement.style.visibility = "hidden";
 };
 
-export const showWinScreen = () => {
-  bossHPElement.innerHTML = "GAME OVER, YOU WIN!!!";
-  bossHPElement.style.width = "0%";
-};
-
-export const showLoseScreen = () => {
-  bossHPElement.innerHTML = "GAME OVER, YOU LOSE!!!";
-};
-
 export const hideGamePlayElements = () => {
-  footballHealthElement.style.visibility = "hidden";
+  footballHPContainerElement.style.visibility = "hidden";
   muteBtn.style.visibility = "hidden";
   pauseBtn.style.visibility = "hidden";
-  soccerHealthElement.style.visibility = "hidden";
+  soccerHPContainerElement.style.visibility = "hidden";
   mouseMoveHintElement.style.visibility = "hidden";
 };
 

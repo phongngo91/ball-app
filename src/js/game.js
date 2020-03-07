@@ -17,8 +17,6 @@ import {
   updateSoccerballHealth,
   showMouseMoveHint,
   hideMouseMoveHint,
-  showWinScreen,
-  showLoseScreen,
   hideGamePlayElements,
   hideGameOverScreen,
   showGameOverScreen,
@@ -30,8 +28,6 @@ import {
 const E_KEY = 69;
 const playWithMouseElement = document.getElementById("mouse-controller");
 const playWithKeyboardElement = document.getElementById("keyboard-controller");
-const pauseBtn = document.getElementById("pause");
-const muteBtn = document.getElementById("mute");
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
