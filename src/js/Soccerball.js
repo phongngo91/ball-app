@@ -17,7 +17,7 @@ export class Soccerball {
     this.E_KEY = 69;
 
     this.VELOCITY_BASE_KEYBOARD = 40;
-    this.VELOCITY_BASE_MOUSE = 30;
+    this.VELOCITY_BASE_MOUSE = 40;
 
     this.reset();
   }
