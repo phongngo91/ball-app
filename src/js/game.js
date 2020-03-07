@@ -201,3 +201,6 @@ playWithKeyboardElement.addEventListener("click", () => {
   hideMenu();
   hideMouseMoveHint();
 });
+
+// FOR TESTING THE END GAME MENU TODO: REMOVE THIS
+hideMenu();

@@ -9,34 +9,9 @@
   </head>
 
   <body>
-    <div id="menu" class="menu"></div>
     <audio id="pew-pew" src="src/sounds/pew-pew.wav"></audio>
-    <div id="mute" class="menu">
-      Mute
-    </div>
+    <div id="mute" class="menu">Mute</div>
     <div id="pause" class="menu">Pause</div>
-    </div>
-    <div id="main-menu" class="main-menu">
-      <div id="game-title" class="game-title">Football</div>
-      <div id="controls-container" class="controls-container">
-        <div id="mouse-controller" class="mouse-controller">
-          <div id="play-with-mouse" class="play-with-text">Play with Mouse</div>
-          <img 
-            src="src/images/mouse_instructions.png" 
-            alt="mouse-controller-image" 
-            id="mouse-controller-image" 
-            class="mouse-controller-image">
-        </div>
-        <div id="keyboard-controller" class="keyboard-controller">
-          <div id="play-with-keyboard" class="play-with-text">Play with Keyboard</div>
-          <img 
-            src="src/images/keyboard_instructions.png" 
-            alt="keyboard-controller-image" 
-            id="keyboard-controller-image" 
-            class="keyboard-controller-image">
-        </div>
-      </div>
-    </div>
     <div id="mouse-move-hint" class="mouse-move-hint">
       <img
         src="src/images/arrow_keys.png"
@@ -44,14 +19,36 @@
         class="arrow-keys"
       />
     </div>
-    <div id="soccerHealth" class="soccerHealth">
-      <div id="playerHP">
-      </div>
-    </div>
+    <div id="soccerHealth" class="soccerHealth"><div id="playerHP"></div></div>
     <div id="footballHealth" class="footballHealth">
-      <div id="bossHP">
+      <div id="bossHP"></div>
+    </div>
+    <div id="main-menu" class="main-menu">
+      <div id="game-title" class="game-title">Football</div>
+      <div id="controls-container" class="controls-container">
+        <div id="mouse-controller" class="mouse-controller">
+          <div id="play-with-mouse" class="play-with-text">Play with Mouse</div>
+          <img
+            src="src/images/mouse_instructions.png"
+            alt="mouse-controller-image"
+            id="mouse-controller-image"
+            class="mouse-controller-image"
+          />
+        </div>
+        <div id="keyboard-controller" class="keyboard-controller">
+          <div id="play-with-keyboard" class="play-with-text">
+            Play with Keyboard
+          </div>
+          <img
+            src="src/images/keyboard_instructions.png"
+            alt="keyboard-controller-image"
+            id="keyboard-controller-image"
+            class="keyboard-controller-image"
+          />
+        </div>
       </div>
     </div>
+    <div id="game-over-screen" class="game-over-screen">GAME OVER SCREEN - TEST</div>
     <script src="./dist/main.js"></script>
   </body>
 </html>
