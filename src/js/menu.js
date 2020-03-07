@@ -34,25 +34,25 @@ export const hideEverything = () => {
   gameOverScreen.style.visibility = "hidden";
 };
 
-export const addMuteBtn = mute => {
+export const addMuteBtn = muteObj => {
   muteBtn.addEventListener("click", () => {
-    if (mute === true) {
-      mute = false;
+    if (muteObj.mute === true) {
+      muteObj.mute = false;
       muteBtn.innerHTML = "Mute";
     } else {
-      mute = true;
+      muteObj.mute = true;
       muteBtn.innerHTML = "UnMute";
     }
   });
 };
 
-export const addPauseBtn = runGame => {
+export const addPauseBtn = runGameObj => {
   pauseBtn.addEventListener("click", () => {
-    if (runGame === true) {
-      runGame = false;
+    if (runGameObj.runGame === true) {
+      runGameObj.runGame = false;
       pauseBtn.innerHTML = "UnPause";
     } else {
-      runGame = true;
+      runGameObj.runGame = true;
       pauseBtn.innerHTML = "Pause";
     }
   });

@@ -3,16 +3,15 @@ import * as THREE from "./three";
 import { Soccerball } from "./soccerball";
 import { Football } from "./football";
 import { setup } from "./setup";
-import { 
-  playEnemyOuchSound, 
-  playPlayerOuchSound, 
-  playEnemyPewSound, 
-  playPlayerPewSound } from "./sounds";
+import {
+  playEnemyOuchSound,
+  playPlayerOuchSound,
+  playEnemyPewSound,
+  playPlayerPewSound
+} from "./sounds";
 import {
   hideMenu,
   showMenu,
-  addPauseBtn,
-  addMuteBtn,
   showDuringGamePlayElements,
   updateFootballHealth,
   updateSoccerballHealth,
@@ -23,12 +22,16 @@ import {
   hideGamePlayElements,
   hideGameOverScreen,
   showGameOverScreen,
-  hideEverything
+  hideEverything,
+  addMuteBtn,
+  addPauseBtn
 } from "./menu";
 
 const E_KEY = 69;
 const playWithMouseElement = document.getElementById("mouse-controller");
 const playWithKeyboardElement = document.getElementById("keyboard-controller");
+const pauseBtn = document.getElementById("pause");
+const muteBtn = document.getElementById("mute");
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -40,20 +43,22 @@ const renderer = new THREE.WebGLRenderer();
 const soccerball = new Soccerball(camera);
 const football = new Football();
 
-let runGame = false;
-let mute = false;
+let runGameObj = { runGame: false };
+let muteObj = { mute: false };
 let refreshTimer = 0;
 let laserBank = [];
 let footballShootFreq = 1;
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 setup(scene);
-addMuteBtn(mute);
-addPauseBtn(runGame);
+
+addMuteBtn(muteObj);
+addPauseBtn(runGameObj);
+
 hideEverything();
 
 function gameOver() {
-  runGame = false;
+  runGameObj.runGame = false;
   footballShootFreq = 0;
 
   scene.remove(soccerball.mesh);
@@ -68,7 +73,7 @@ function gameOver() {
 }
 
 function resetGame() {
-  runGame = true;
+  runGameObj.runGame = true;
   refreshTimer = 0;
   footballShootFreq = 1;
 
@@ -86,7 +91,7 @@ function resetGame() {
 
 function animate() {
   requestAnimationFrame(animate);
-  if (runGame === true) {
+  if (runGameObj.runGame === true) {
     refreshTimer += 1;
     footballShootFreq += 0.1;
 
@@ -100,7 +105,7 @@ function animate() {
       laserBank.push(laser);
       scene.add(laser.mesh);
       footballShootFreq = 0;
-      if (!mute) {
+      if (!muteObj.mute) {
         playEnemyPewSound(football, soccerball);
       }
     }
@@ -121,14 +126,14 @@ function animate() {
         scene.remove(laser.mesh);
         soccerball.incrementShotsLanded();
         laserBank.splice(laserBank.indexOf(laser), 1);
-        if (!mute) {
+        if (!muteObj.mute) {
           playEnemyOuchSound();
         }
       }
       if (soccerball.collide(laser)) {
         scene.remove(laser.mesh);
         laserBank.splice(laserBank.indexOf(laser), 1);
-        if (!mute) {
+        if (!muteObj.mute) {
           playPlayerOuchSound();
         }
       }
@@ -170,11 +175,11 @@ document.body.appendChild(renderer.domElement);
 
 const mouseController = soccerball.mouseController();
 const mouseShoot = () => {
-  if (runGame) {
+  if (runGameObj.runGame) {
     let laser = soccerball.shoot();
     laserBank.push(laser);
     scene.add(laser.mesh);
-    if (!mute) {
+    if (!muteObj.mute) {
       playPlayerPewSound();
     }
   }
@@ -183,11 +188,11 @@ const mouseShoot = () => {
 const keyboardController = soccerball.keyboardController();
 document.addEventListener("keydown", soccerball.spacebarJump());
 const keyboardShoot = e => {
-  if (runGame && e.which === E_KEY) {
+  if (runGameObj.runGame && e.which === E_KEY) {
     let laser = soccerball.shoot();
     laserBank.push(laser);
     scene.add(laser.mesh);
-    if (!mute) {
+    if (!muteObj.mute) {
       playPlayerPewSound();
     }
   }
