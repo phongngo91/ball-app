@@ -120,7 +120,7 @@ function resetGame() {
   controlsElement.style.visibility = "visible";
 
   bossHPElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
-  bossHPElement.style.width = `${football.health}%`;
+  bossHPElement.style.width = `${football.health / 3}%`;
   bossHPElement.style.height = "24px";
   bossHPElement.style.backgroundColor = "red";
 }
@@ -182,7 +182,7 @@ function animate() {
       bossHPElement.style.width = "0%";
     } else {
       bossHPElement.innerHTML = "FOOTBALL HEALTH: " + football.health;
-      bossHPElement.style.width = `${football.health}%`;
+      bossHPElement.style.width = `${football.health / 3}%`;
       bossHPElement.style.height = "24px";
       bossHPElement.style.backgroundColor = "red";
     }
