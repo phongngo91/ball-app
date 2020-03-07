@@ -79,6 +79,7 @@ function resetGame() {
   scene.add(football.mesh);
 
   showDuringGamePlayElements();
+  hideGameOverScreen();
   updateFootballHealth(football);
   updateSoccerballHealth(soccerball);
 }
@@ -136,8 +137,6 @@ function animate() {
 
     if (football.health === 0) {
       gameOver();
-      // showWinScreen();
-      // showMenu();
       const endGameStats = {
         shotsFired: soccerball.shotsFired,
         shotsLanded: soccerball.shotsLanded,
@@ -151,9 +150,13 @@ function animate() {
 
     if (soccerball.health === 0) {
       gameOver();
-      // showLoseScreen();
-      // showMenu();
-      showGameOverScreen();
+      const endGameStats = {
+        shotsFired: soccerball.shotsFired,
+        shotsLanded: soccerball.shotsLanded,
+        winOrLost: "Lost! =("
+      };
+      showGameOverScreen(endGameStats);
+      showMenu();
     } else {
       updateSoccerballHealth(soccerball);
     }
