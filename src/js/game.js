@@ -41,6 +41,7 @@ let mute = false;
 
 // KEYBOARD ONLY
 document.addEventListener("keydown", soccerball.keyboardController());
+document.addEventListener("keydown", soccerball.spacebarJump());
 document.addEventListener("keydown", e => {
   const keyCode = e.which;
   if (keyCode === E_KEY) {

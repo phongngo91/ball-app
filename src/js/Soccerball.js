@@ -7,7 +7,6 @@ export class Soccerball {
     const geometry = new THREE.SphereGeometry(1, 16, 16);
     const material = new THREE.MeshBasicMaterial({ map: texture });
     this.mesh = new THREE.Mesh(geometry, material);
-
     this.camera = camera;
 
     this.SPACE_BAR = 32;
@@ -15,20 +14,22 @@ export class Soccerball {
     this.UP_ARROW = 38;
     this.RIGHT_ARROW = 39;
     this.DOWN_ARROW = 40;
-    this.VELOCITY_BASE_KEYBOARD = 40;
-    this.VELOCITY_BASE_MOUSE = 30;
     this.E_KEY = 69;
 
-    this.cameraMomentumZ = 0;
+    this.VELOCITY_BASE_KEYBOARD = 40;
+    this.VELOCITY_BASE_MOUSE = 30;
+
     this.reset();
   }
 
   reset() {
+    this.health = 100;
+    this.velocity = 0;
+    this.hurtDelay = 0;
+    this.cameraMomentumZ = 0;
+    this.trajectoryBankZ = 0;
     this.dirX = 0;
     this.dirY = 0;
-    this.velocity = 0;
-    this.health = 100;
-    this.trajectoryBankZ = 0;
     this.mesh.position.y = -35;
     this.mesh.position.x = 0;
     this.mesh.position.z = 0;
@@ -36,7 +37,6 @@ export class Soccerball {
     this.camera.position.x = 0;
     this.camera.position.z = 5;
     this.camera.rotation.x = (90 * Math.PI) / 180;
-    this.hurtDelay = 0;
   }
 
   moveUp() {
@@ -108,6 +108,7 @@ export class Soccerball {
         }
       }
     } else {
+      // stop ball momentum if velocity runs out (Prevents rolling horizontally/veritcally after diagonally)
       this.dirX = 0;
       this.dirY = 0;
     }
@@ -176,7 +177,14 @@ export class Soccerball {
       } else if (keyCode === this.LEFT_ARROW) {
         this.dirX = -0.1;
         this.velocity = this.VELOCITY_BASE_KEYBOARD;
-      } else if (keyCode === this.SPACE_BAR) {
+      }
+    };
+  }
+
+  spacebarJump() {
+    return e => {
+      const keyCode = e.which;
+      if (keyCode === this.SPACE_BAR){
         this.trajectoryBankZ = 4;
       }
     };
