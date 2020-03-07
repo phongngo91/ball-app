@@ -1,5 +1,5 @@
 import * as THREE from "./three";
-import { Laser } from "./Laser";
+import { Laser } from "./laser";
 
 export class Soccerball {
   constructor(camera) {
