@@ -4,6 +4,7 @@ import * as THREE from "./three";
 import { Soccerball } from "./Soccerball";
 import { Football } from "./Football";
 import { setup } from "./setup";
+import { enemyOuch } from "./sounds";
 
 const soccerHealthElement = document.getElementById("soccerHealth");
 soccerHealthElement.style.visibility = "hidden";
@@ -17,7 +18,6 @@ const instructionsElement = document.getElementById("instructions");
 const pewPew = document.getElementById("pew-pew");
 const enemyPew = document.getElementById("enemy-pew");
 enemyPew.volume = 0.3;
-const enemyOuch = document.getElementById("enemy-ouch");
 const E_KEY = 69;
 
 const scene = new THREE.Scene();
@@ -162,7 +162,7 @@ function animate() {
         scene.remove(laser.mesh);
         laserBank.splice(laserBank.indexOf(laser), 1);
         if (!mute) {
-          enemyOuch.play();
+          enemyOuch();
         }
       }
       if (soccerball.collide(laser)) {
