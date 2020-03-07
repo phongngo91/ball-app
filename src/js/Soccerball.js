@@ -24,6 +24,8 @@ export class Soccerball {
 
   reset() {
     this.health = 100;
+    this.shotsFired = 0;
+    this.shotsLanded = 0;
     this.velocity = 0;
     this.hurtDelay = 0;
     this.cameraMomentumZ = 0;
@@ -65,6 +67,10 @@ export class Soccerball {
     this.mesh.position.x += this.dirX;
     this.mesh.rotation.y -= this.dirX;
     this.velocity -= 0.1;
+  }
+
+  incrementShotsLanded() {
+    this.shotsLanded += 1;
   }
 
   update() {
@@ -146,6 +152,7 @@ export class Soccerball {
   }
 
   shoot() {
+    this.shotsFired += 1;
     return new Laser(this, true);
   }
 

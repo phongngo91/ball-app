@@ -118,6 +118,7 @@ function animate() {
     laserBank.forEach(laser => {
       if (football.collide(laser)) {
         scene.remove(laser.mesh);
+        soccerball.incrementShotsLanded();
         laserBank.splice(laserBank.indexOf(laser), 1);
         if (!mute) {
           playEnemyOuchSound();
@@ -137,7 +138,13 @@ function animate() {
       gameOver();
       // showWinScreen();
       // showMenu();
-      showGameOverScreen();
+      const endGameStats = {
+        shotsFired: soccerball.shotsFired,
+        shotsLanded: soccerball.shotsLanded,
+        winOrLost: "Win!"
+      };
+      showGameOverScreen(endGameStats);
+      showMenu();
     } else {
       updateFootballHealth(football);
     }

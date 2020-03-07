@@ -109,8 +109,15 @@ export const hideGamePlayElements = () => {
   mouseMoveHintElement.style.visibility = "hidden";
 };
 
-export const showGameOverScreen = () =>{
+export const showGameOverScreen = (endGameStats) =>{
   gameOverScreen.style.visibility = "visible";
+  let accuracy = 0;
+  if (endGameStats.shotsFired > 0) {
+    accuracy = (endGameStats.shotsLanded/ endGameStats.shotsFired) * 100;
+  }
+
+  gameOverScreen.innerHTML = `Game Over, you ${endGameStats.winOrLost}! ${endGameStats.shotsFired} shots fired,
+  ${endGameStats.shotsLanded} shots landed, for a ${Math.floor(accuracy)}% accuracy`;
 };
 
 export const hideGameOverScreen = () =>{
