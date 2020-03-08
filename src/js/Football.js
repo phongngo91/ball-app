@@ -74,7 +74,6 @@ export class Football {
     } else {
       if (this.mesh.position.x > 20 || this.mesh.position.x < -20) {
         this.dirX = this.dirX * -1;
-        this.mesh.position.x += this.dirX;
       }
       this.mesh.position.x += this.dirX;
       this.trajectoryBankX -= 1;
