@@ -6,7 +6,7 @@ Soccer vs Football is a game built on WebGL using the help of Three.js. Players 
 
 ## Functionality & MVP
 
-With Ball Rolling Down A Hill, users will be able to:
+In Soccer vs Football, users will be able to:
 
 * Start, pause, mute, and reset back back to the beginning of the battle.
 * Movements include left, right, back, forward, and jumping.
