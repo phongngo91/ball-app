@@ -136,7 +136,7 @@ function animate() {
       laser.update();
     });
 
-    if (football.health === 0) {
+    if (football.health <= 0) {
       gameOver();
       const endGameStats = {
         shotsFired: soccerball.shotsFired,
