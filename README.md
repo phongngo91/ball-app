@@ -1,30 +1,23 @@
-# JS Project Proposal: Ball Rolling Down a Hill
+# Soccer vs Football
 
 ## Background
 
-Ball Rolling Down A Hill is a game built on the 3d plane, where the objective is to control a ball with arrow keys, while avoiding obstacles and reaching the finish line within a set amount of time, while still having the ball's health greater than 0(Ball life will start at 100 and decrease per collision with obstacles). The faster the player achieves to avoid all obstactles and read the finish line, the more winning they are doing. 
-
-Collisions with certain obstacles will also have suprises, an example being, if a player's ball collides with a tree, the ball will turn green, and if the ball collides with a fireball, the ball with be ignited and the ball will speed up, but life will be greatly reduced (-20). Getting the fastest time will involve balancing between which objects to intentionally collide with and which to avoid.
+Soccer vs Football is a game built on WebGL using the help of Three.js. Players can choose to move the soccerball with arrow keys or mouse, and can fire a laser to shoot a moving football. The objective is to lower the football's health to 0. Players will start with 100 life and will lose 10 life per damage they are hit. Laser collision with football is saved into the state of the soccerball and an accuracy of lasers fired is displayed at the end.
 
 ## Functionality & MVP
 
 With Ball Rolling Down A Hill, users will be able to:
 
-* Start, pause, and reset back to the beginning of the hill.
-* Move the ball left or right, or back and forth on on the hill.
-* (dispite being on a hill, the ball will not move without user's input, users have full control and can roll backwards if they wish).
-* The game will end when the time runs out, or the user collides with too many obstactles and the health reaches 0.
+* Start, pause, mute, and reset back back to the beginning of the battle.
+* Movements include left, right, back, forward, and jumping.
+* Ball can fire laser with collision based on distance.
+* The game will end when the soccerball's health reduces to zero, or the football health reduces to zero.
 
-In addition, the project will include:
+## Wireframe
 
-* An About modal describing the background and rules of the game
-* A production README
+This app will consist of the single full screen, with a UI for for nav links to Github, LinkedIn, AngelList and Portfolio website at the start screen, and the player's health, boss health, and mouse direction indicator while playing if user is choosing to play with a mouse or keyboard.
 
-##  Wireframes
-
-This app will consist of a single screen with a play screen, nav links to the Github, LinkedIn and the controls, a controls help screen, and a timer countdown on the upper left, and a current power on the left side.
-
-<img width="812" alt="Screen Shot 2020-03-01 at 6 12 15 PM" src="https://user-images.githubusercontent.com/43156715/75635921-39e3eb80-5be8-11ea-9089-67a215e542cd.png">
+<img width="1183" alt="Screen Shot 2020-03-09 at 10 44 28 AM" src="https://user-images.githubusercontent.com/43156715/76225501-f8100200-61f2-11ea-8047-c47153edfe3a.png">
 
 ## Architecture and Technologies
 
