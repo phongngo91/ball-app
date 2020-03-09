@@ -96,7 +96,7 @@ div {
   border-radius: 10px;
   border: 4px solid black;
   padding: 10px;
-  background-color: #E1C699;
+  background-color: #e1c699;
 }
 
 .game-title {
@@ -127,7 +127,7 @@ div {
   background-color: lightgray;
 }
 
-.mouse-controller{
+.mouse-controller {
   border-color: green;
 }
 
@@ -166,7 +166,7 @@ div {
   pointer-events: none;
 }
 
-.game-over-screen{
+.game-over-screen {
   visibility: hidden;
   position: absolute;
   display: flex;
@@ -186,7 +186,7 @@ div {
   background-color: white;
 }
 
-.icons-style{
+.icons-style {
   font-size: 60px;
   color: white;
   border: 4px solid white;
@@ -197,7 +197,7 @@ div {
   margin-right: 4px;
 }
 
-.icon-container{
+.icon-container {
   display: flex;
   width: 100%;
   border-radius: 10px;
@@ -206,16 +206,38 @@ div {
   margin-top: 4px;
 }
 
-.gh-color{
+.gh-color {
   color: white;
   background-color: black;
 }
 
-.li-color{
+.li-color {
   color: white;
-  background-color: #0e76a8;
+  background-color: black;
 }
 
-.hp-num{
+.hp-num {
   position: absolute;
+}
+
+.icon-wrapper{
+  display: flex;
+  width: 75.44px;
+  height: 84px;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.angel-color{
+  background-color: black
+}
+
+.white{
+  color: white;
+}
+
+.portfolio-color {
+  color: white;
+  background-color: black;
 }
