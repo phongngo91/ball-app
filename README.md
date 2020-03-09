@@ -19,6 +19,8 @@ This app will consist of the single full screen, with a UI for for nav links to 
 
 <img width="1183" alt="Screen Shot 2020-03-09 at 10 44 28 AM" src="https://user-images.githubusercontent.com/43156715/76225501-f8100200-61f2-11ea-8047-c47153edfe3a.png">
 
+<img width="928" alt="Screen Shot 2020-03-09 at 1 25 16 AM" src="https://user-images.githubusercontent.com/43156715/76225593-2097fc00-61f3-11ea-9ca2-0f787e0454de.png">
+
 ## Architecture and Technologies
 
 * JavaScript for game logic
@@ -41,12 +43,27 @@ Day 3-5: Make awesome levels and power ups, and make the game challenging for pl
 
 * /dist
 * /src
-  * /assets
-  * index.js
+  * /images
+    * soccer_field.png
+    * mouse_instructions.png
+    * football-cute.png
+    * football-ow.png
   * /js
+    * calculations.js
+    * football.js
+    * game.js
+    * laser.js
+    * menu.js
+    * setup.js
+    * soccerball.js
+    * sounds.js
     * three.js (3D Library)
+  * /sounds
+    * pew-pew.mp3
+    * ouch.mp3
+    * splay.wav
   * /styles
-    * index.scss
+    * game.scss
 * Index.html
 * .gitignore
 * node_modules
