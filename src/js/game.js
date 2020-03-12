@@ -68,7 +68,7 @@ function gameOver() {
   hideGamePlayElements();
 }
 
-function resetGame() {
+export const resetGame = () => {
   runGameObj.runGame = true;
   refreshTimer = 0;
   footballShootFreq = 1;
@@ -83,7 +83,7 @@ function resetGame() {
   hideGameOverScreen();
   updateFootballHealth(football);
   updateSoccerballHealth(soccerball);
-}
+};
 
 function animate() {
   requestAnimationFrame(animate);
@@ -144,7 +144,7 @@ function animate() {
         winOrLost: "Win!"
       };
       showGameOverScreen(endGameStats);
-      showMenu();
+      // showMenu();
     } else {
       updateFootballHealth(football);
     }
@@ -157,7 +157,7 @@ function animate() {
         winOrLost: "Lost! =("
       };
       showGameOverScreen(endGameStats);
-      showMenu();
+      // showMenu();
     } else {
       updateSoccerballHealth(soccerball);
     }
