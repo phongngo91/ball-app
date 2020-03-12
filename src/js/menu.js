@@ -138,6 +138,12 @@ export const showGameOverScreen = endGameStats => {
     accuracy = (endGameStats.shotsLanded / endGameStats.shotsFired) * 100;
   }
 
+  if (endGameStats.winOrLost === "Lost! =("){
+    nextLevelBtn.style.visibility = "hidden";
+  } else {
+    nextLevelBtn.style.visibility = "visible";
+  }
+
   statsScreen.innerHTML = `Game Over, you ${endGameStats.winOrLost}! ${
     endGameStats.shotsFired
   } shots fired,
