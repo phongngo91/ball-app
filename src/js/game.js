@@ -183,7 +183,7 @@ const mouseShoot = () => {
 };
 
 const keyboardController = soccerball.keyboardController();
-document.addEventListener("keydown", soccerball.spacebarJump());
+document.addEventListener("keydown", throttle(soccerball.spacebarJump(), 300));
 const keyboardShoot = e => {
   if (runGameObj.runGame && e.which === E_KEY) {
     let laser = soccerball.shoot();
