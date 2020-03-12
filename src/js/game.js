@@ -3,6 +3,7 @@ import * as THREE from "./three";
 import { throttle } from "lodash";
 import { Soccerball } from "./soccerball";
 import { Football } from "./football";
+import { Debri } from "./debri";
 import { setup } from "./setup";
 import {
   playEnemyOuchSound,
@@ -45,6 +46,9 @@ let runGameObj = { runGame: false };
 let muteObj = { mute: false };
 let refreshTimer = 0;
 let laserBank = [];
+let debriBank = [];
+let gameTimer = 0;
+let debriSpawnFreq = 1;
 let footballShootFreq = 1;
 let deathModeObj = { deathMode: false, deathModeLevel: 0 };
 
@@ -94,6 +98,36 @@ function animate() {
   if (runGameObj.runGame === true) {
     refreshTimer += 1;
     footballShootFreq += 0.1;
+
+    if (deathModeObj.deathMode === true){
+      gameTimer += 1;
+
+      if (gameTimer > (15 / debriSpawnFreq)){
+      const newDebri = new Debri();
+      debriBank.push(newDebri);
+      scene.add(newDebri.mesh);
+
+      debriSpawnFreq += 0.01;
+      gameTimer = 0;
+      }
+
+      // Debri animation
+      debriBank.forEach(debri => {
+        debri.update();
+
+        if (debri.collide(soccerball)){
+          soccerball.health -= 10;
+          scene.remove(debri.mesh);
+          debriBank.splice(debriBank.indexOf(debri), 1);
+        }
+    
+        // This means the debri has left the camera view
+        if (debri.mesh.y < -40){
+          scene.remove(debri.mesh);
+          debriBank.splice(debriBank.indexOf(debri), 1);
+        }
+      });
+    } 
 
     if (refreshTimer > 240) {
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -148,7 +182,6 @@ function animate() {
         winOrLost: "Win!"
       };
       showGameOverScreen(endGameStats);
-      // showMenu();
     } else {
       updateFootballHealth(football);
     }
@@ -161,7 +194,6 @@ function animate() {
         winOrLost: "Lost! =("
       };
       showGameOverScreen(endGameStats);
-      // showMenu();
     } else {
       updateSoccerballHealth(soccerball);
     }
@@ -186,7 +218,7 @@ const mouseShoot = () => {
 };
 
 const keyboardController = soccerball.keyboardController();
-document.addEventListener("keydown", throttle(soccerball.spacebarJump(), 300));
+document.addEventListener("keydown", throttle(soccerball.spacebarJump(), 20));
 const keyboardShoot = e => {
   if (runGameObj.runGame && e.which === E_KEY) {
     let laser = soccerball.shoot();
@@ -225,6 +257,4 @@ playWithKeyboardElement.addEventListener("click", () => {
   hideMouseMoveHint();
 });
 
-// FOR TESTING THE END GAME MENU TODO: REMOVE THIS
-// showGameOverScreen();
 showMenu();
