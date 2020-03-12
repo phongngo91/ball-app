@@ -1,5 +1,6 @@
 import "../styles/game.scss";
 import * as THREE from "./three";
+import { throttle } from "lodash";
 import { Soccerball } from "./soccerball";
 import { Football } from "./football";
 import { setup } from "./setup";
@@ -222,5 +223,5 @@ playWithKeyboardElement.addEventListener("click", () => {
 });
 
 // FOR TESTING THE END GAME MENU TODO: REMOVE THIS
-showGameOverScreen();
-// showMenu();
+// showGameOverScreen();
+showMenu();

@@ -20,6 +20,7 @@ const gameOverScreen = document.getElementById("game-over-screen");
 const nextLevelBtn = document.getElementById("next-level-btn");
 const restartBtn = document.getElementById("restart-btn");
 const mainMenuBtn = document.getElementById("main-menu-btn");
+const statsScreen = document.getElementById("stats-screen");
 
 playWithKeyboardElement.addEventListener("mouseover", () => {
   playSplatSound();
@@ -31,7 +32,10 @@ playWithMouseElement.addEventListener("mouseover", () => {
 
 restartBtn.addEventListener("click", () =>{
   resetGame();
-  this.hideMenu();
+});
+
+mainMenuBtn.addEventListener("click", () =>{
+  showMenu();
 });
 
 export const hideMenu = () => {
@@ -118,13 +122,13 @@ export const hideGamePlayElements = () => {
 
 export const showGameOverScreen = (endGameStats) =>{
   gameOverScreen.style.visibility = "visible";
-  // let accuracy = 0;
-  // if (endGameStats.shotsFired > 0) {
-  //   accuracy = (endGameStats.shotsLanded/ endGameStats.shotsFired) * 100;
-  // }
+  let accuracy = 0;
+  if (endGameStats.shotsFired > 0) {
+    accuracy = (endGameStats.shotsLanded/ endGameStats.shotsFired) * 100;
+  }
 
-  // gameOverScreen.innerHTML = `Game Over, you ${endGameStats.winOrLost}! ${endGameStats.shotsFired} shots fired,
-  // ${endGameStats.shotsLanded} shots landed, for a ${Math.floor(accuracy)}% accuracy`;
+  statsScreen.innerHTML = `Game Over, you ${endGameStats.winOrLost}! ${endGameStats.shotsFired} shots fired,
+  ${endGameStats.shotsLanded} shots landed, for a ${Math.floor(accuracy)}% accuracy`;
 };
 
 export const hideGameOverScreen = () =>{
