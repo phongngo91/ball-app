@@ -7,7 +7,9 @@ const soccerHPContainerElement = document.getElementById("soccer-hp-container");
 const soccerHPNumElement = document.getElementById("soccer-hp-num");
 const soccerHPBarElement = document.getElementById("soccer-hp-bar");
 
-const footballHPContainerElement = document.getElementById("football-hp-container");
+const footballHPContainerElement = document.getElementById(
+  "football-hp-container"
+);
 const footballHPNumElement = document.getElementById("football-hp-num");
 const footballHPBarElement = document.getElementById("football-hp-bar");
 
@@ -30,11 +32,19 @@ playWithMouseElement.addEventListener("mouseover", () => {
   playSplatSound();
 });
 
-restartBtn.addEventListener("click", () =>{
+export const addDeathMode = deathModeObj => {
+  nextLevelBtn.addEventListener("click", () => {
+    deathModeObj.deathMode = true;
+    deathModeObj.deathModeLevel += 1;
+    resetGame();
+  });
+};
+
+restartBtn.addEventListener("click", () => {
   resetGame();
 });
 
-mainMenuBtn.addEventListener("click", () =>{
+mainMenuBtn.addEventListener("click", () => {
   hideGameOverScreen();
   showMenu();
 });
@@ -121,17 +131,21 @@ export const hideGamePlayElements = () => {
   mouseMoveHintElement.style.visibility = "hidden";
 };
 
-export const showGameOverScreen = (endGameStats) =>{
+export const showGameOverScreen = endGameStats => {
   gameOverScreen.style.visibility = "visible";
   let accuracy = 0;
   if (endGameStats.shotsFired > 0) {
-    accuracy = (endGameStats.shotsLanded/ endGameStats.shotsFired) * 100;
+    accuracy = (endGameStats.shotsLanded / endGameStats.shotsFired) * 100;
   }
 
-  statsScreen.innerHTML = `Game Over, you ${endGameStats.winOrLost}! ${endGameStats.shotsFired} shots fired,
-  ${endGameStats.shotsLanded} shots landed, for a ${Math.floor(accuracy)}% accuracy`;
+  statsScreen.innerHTML = `Game Over, you ${endGameStats.winOrLost}! ${
+    endGameStats.shotsFired
+  } shots fired,
+  ${endGameStats.shotsLanded} shots landed, for a ${Math.floor(
+    accuracy
+  )}% accuracy`;
 };
 
-export const hideGameOverScreen = () =>{
+export const hideGameOverScreen = () => {
   gameOverScreen.style.visibility = "hidden";
 };

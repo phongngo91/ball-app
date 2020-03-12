@@ -23,7 +23,8 @@ import {
   showGameOverScreen,
   hideEverything,
   addMuteBtn,
-  addPauseBtn
+  addPauseBtn,
+  addDeathMode
 } from "./menu";
 
 const E_KEY = 69;
@@ -45,12 +46,14 @@ let muteObj = { mute: false };
 let refreshTimer = 0;
 let laserBank = [];
 let footballShootFreq = 1;
+let deathModeObj = { deathMode: false, deathModeLevel: 0 };
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 setup(scene);
 
 addMuteBtn(muteObj);
 addPauseBtn(runGameObj);
+addDeathMode(deathModeObj);
 
 hideEverything();
 
