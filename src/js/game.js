@@ -122,7 +122,7 @@ function animate() {
         }
     
         // This means the debri has left the camera view
-        if (debri.mesh.y < -40){
+        if (debri.mesh.position.y < -40){
           scene.remove(debri.mesh);
           debriBank.splice(debriBank.indexOf(debri), 1);
         }
@@ -186,7 +186,7 @@ function animate() {
       updateFootballHealth(football);
     }
 
-    if (soccerball.health === 0) {
+    if (soccerball.health <= 0) {
       gameOver();
       const endGameStats = {
         shotsFired: soccerball.shotsFired,

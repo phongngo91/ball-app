@@ -18,8 +18,8 @@ export class Debri {
     this.color = COLORS[diceRoll];
     this.mesh = debri;
     this.mesh.position.y = 40;
-    this.mesh.position.x = Math.random() * 40 - 20;
-    this.mesh.position.z = Math.random() * 20;
+    this.mesh.position.x = Math.random() * 60 - 30;
+    this.mesh.position.z = Math.random() * 40;
   }
 
   collide(soccerball){
