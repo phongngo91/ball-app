@@ -222,5 +222,5 @@ playWithKeyboardElement.addEventListener("click", () => {
 });
 
 // FOR TESTING THE END GAME MENU TODO: REMOVE THIS
-// showGameOverScreen();
-showMenu();
+showGameOverScreen();
+// showMenu();
