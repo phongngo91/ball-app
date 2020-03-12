@@ -76,6 +76,18 @@ function gameOver() {
   hideGamePlayElements();
 }
 
+export const hardReset = () =>{
+  debriBank.forEach(debri => {
+    scene.remove(debri.mesh);
+  });
+  debriBank = [];
+
+  deathModeObj.deathMode = false;
+  deathModeObj.debriSpawnFreq = 1;
+  gameTimer = 0;
+  resetGame();
+};
+
 export const resetGame = () => {
   runGameObj.runGame = true;
   refreshTimer = 0;
@@ -239,7 +251,7 @@ playWithMouseElement.addEventListener("click", () => {
   document.addEventListener("mousemove", mouseController);
   document.addEventListener("click", mouseShoot);
 
-  resetGame();
+  hardReset();
   hideMenu();
   showMouseMoveHint();
 });
@@ -252,7 +264,8 @@ playWithKeyboardElement.addEventListener("click", () => {
   // Add keyboard controllers
   document.addEventListener("keydown", keyboardController);
   document.addEventListener("keydown", keyboardShoot);
-  resetGame();
+
+  hardReset();
   hideMenu();
   hideMouseMoveHint();
 });

@@ -1,5 +1,5 @@
 import { playSplatSound } from "./sounds";
-import { resetGame } from "./game";
+import { resetGame, hardReset } from "./game";
 
 const menu = document.getElementById("main-menu");
 
@@ -36,12 +36,13 @@ export const addDeathMode = deathModeObj => {
   nextLevelBtn.addEventListener("click", () => {
     deathModeObj.deathMode = true;
     deathModeObj.deathModeLevel += 1;
+    nextLevelBtn.style.visibility = "hidden";
     resetGame();
   });
 };
 
 restartBtn.addEventListener("click", () => {
-  resetGame();
+  hardReset();
 });
 
 mainMenuBtn.addEventListener("click", () => {
@@ -60,6 +61,7 @@ export const hideEverything = () => {
   mouseMoveHintElement.style.visibility = "hidden";
   pauseBtn.style.visibility = "hidden";
   muteBtn.style.visibility = "hidden";
+  nextLevelBtn.style.visibility = "hidden";
   gameOverScreen.style.visibility = "hidden";
 };
 
@@ -154,4 +156,5 @@ export const showGameOverScreen = endGameStats => {
 
 export const hideGameOverScreen = () => {
   gameOverScreen.style.visibility = "hidden";
+  nextLevelBtn.style.visibility = "hidden";
 };
