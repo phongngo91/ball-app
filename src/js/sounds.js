@@ -70,3 +70,12 @@ playerPew1.src = "src/sounds/pew-pew.wav";
 export const playPlayerPewSound = () => {
   playerPew1.play();
 };
+
+// Player collide with zebri
+
+const zapCollide = document.createElement("audio");
+zapCollide.src = "src/sounds/electricshock.wav";
+
+export const playZapCollide = () => {
+  zapCollide.play();
+};

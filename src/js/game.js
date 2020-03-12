@@ -9,7 +9,8 @@ import {
   playEnemyOuchSound,
   playPlayerOuchSound,
   playEnemyPewSound,
-  playPlayerPewSound
+  playPlayerPewSound,
+  playZapCollide
 } from "./sounds";
 import {
   hideMenu,
@@ -131,6 +132,7 @@ function animate() {
           soccerball.health -= 10;
           scene.remove(debri.mesh);
           debriBank.splice(debriBank.indexOf(debri), 1);
+          playZapCollide();
         }
     
         // This means the debri has left the camera view
