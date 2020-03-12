@@ -35,6 +35,7 @@ restartBtn.addEventListener("click", () =>{
 });
 
 mainMenuBtn.addEventListener("click", () =>{
+  hideGameOverScreen();
   showMenu();
 });
 
