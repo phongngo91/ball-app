@@ -6,6 +6,8 @@ const menu = document.getElementById("main-menu");
 const soccerHPContainerElement = document.getElementById("soccer-hp-container");
 const soccerHPNumElement = document.getElementById("soccer-hp-num");
 const soccerHPBarElement = document.getElementById("soccer-hp-bar");
+const instructionsBtn = document.getElementById("instructions");
+const instructionPNG = document.getElementById("instructions-png");
 
 const footballHPContainerElement = document.getElementById(
   "football-hp-container"
@@ -23,6 +25,16 @@ const nextLevelBtn = document.getElementById("next-level-btn");
 const restartBtn = document.getElementById("restart-btn");
 const mainMenuBtn = document.getElementById("main-menu-btn");
 const statsScreen = document.getElementById("stats-screen");
+
+instructionsBtn.addEventListener("click", () => {
+  if (instructionPNG.style.display === "") {
+    instructionPNG.style.display = "block";
+    instructionsBtn.style.backgroundColor = "white";
+  } else {
+    instructionPNG.style.display = "";
+    instructionsBtn.style.backgroundColor = "orange";
+  }
+});
 
 playWithKeyboardElement.addEventListener("mouseover", () => {
   playSplatSound();
@@ -140,7 +152,7 @@ export const showGameOverScreen = endGameStats => {
     accuracy = (endGameStats.shotsLanded / endGameStats.shotsFired) * 100;
   }
 
-  if (endGameStats.winOrLost === "Lost! =("){
+  if (endGameStats.winOrLost === "Lost! =(") {
     nextLevelBtn.style.visibility = "hidden";
   } else {
     nextLevelBtn.style.visibility = "visible";
