@@ -264,3 +264,30 @@ div {
 #restart-btn{
   background-color: chartreuse;
 }
+
+.instructions{
+  position: absolute;
+  margin-left: 0;
+  right: 10px;
+  border: 2px solid black;
+  border-radius: 4px;
+  padding: 4px;
+  background-color: orange;
+}
+
+.instructions:hover{
+  cursor: pointer;
+}
+
+.instructions-img{
+}
+
+.instruct-png{
+  position: absolute;
+  display: none;
+  top: 50px;
+  right: -55px;
+  width: 600px;
+  border: 2px black solid;
+  border-radius: 10px;
+}

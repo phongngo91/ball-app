@@ -9,10 +9,7 @@
       property="og:description"
       content="Soccerball shooting lasers at a Football, this is a fighting game where users are free to fly around the map."
     />
-    <meta
-      property="og:image"
-      content="src/images/meta_img.png"
-    />
+    <meta property="og:image" content="src/images/meta_img.png" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -27,8 +24,11 @@
   </head>
 
   <body>
+    <!-- SETTINGS -->
     <div id="mute" class="menu">Mute</div>
     <div id="pause" class="menu">Pause</div>
+
+    <!-- TRANSPARENT MOUSE MOVEMENT HINTS -->
     <div id="mouse-move-hint" class="mouse-move-hint">
       <img
         src="src/images/arrow_keys.png"
@@ -36,6 +36,8 @@
         class="arrow-keys"
       />
     </div>
+
+    <!-- GAMEPLAY UI -->
     <div id="soccer-hp-container" class="soccer-hp-container">
       <div id="soccer-hp-num" class="hp-num"></div>
       <div id="soccer-hp-bar"></div>
@@ -44,8 +46,17 @@
       <div id="football-hp-num" class="hp-num"></div>
       <div id="football-hp-bar"></div>
     </div>
+
+    <!-- MAIN MENU -->
     <div id="main-menu" class="main-menu">
-      <div id="game-title" class="game-title">Football</div>
+      <div id="instructions" class="instructions">
+        Instructions
+      </div>
+      <div id="instruction-img" class="instruction-img">
+        <img src="src/images/instructions.png" alt="instruction-image" class="instruct-png"/>
+      </div>
+      <div id="game-title" class="game-title">Soccer Fight</div>
+      <!-- CONTROLLER MENU -->
       <div id="controls-container" class="controls-container">
         <div id="mouse-controller" class="mouse-controller">
           <div id="play-with-mouse" class="play-with-text">Play with Mouse</div>
@@ -68,6 +79,8 @@
           />
         </div>
       </div>
+
+      <!-- PROFILE LINKS -->
       <div id="icon-container" class="icon-container">
         <a target="_blank" href="https://github.com/phongngo91">
           <i class="fa fa-github icons-style gh-color" aria-hidden="true"></i>
@@ -87,19 +100,21 @@
         </div>
       </div>
     </div>
+
+    <!-- GAME OVER MENU -->
     <div id="game-over-screen" class="game-over-screen">
-      <div id="stats-screen" class="stats-screen">
-      </div>
+      <div id="stats-screen" class="stats-screen"></div>
       <div id="next-level-btn" class="over-btn">
         Next Level
       </div>
-      <div id="restart-btn" class ="over-btn">
+      <div id="restart-btn" class="over-btn">
         Restart
       </div>
       <div id="main-menu-btn" class="over-btn">
         Main Menu
       </div>
     </div>
+
     <script src="./dist/main.js"></script>
   </body>
 </html>
