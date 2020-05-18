@@ -74,3 +74,12 @@ Day 3-5: Make awesome levels and power ups, and make the game challenging for pl
 * webpack.common.js
 * webpack.dev.js
 * webpack.prod.js
+
+# Cool things
+* Presented a visually appealing UI using CSS classes and HTML DOM Element manipulation.
+* Created collision detection using Three.js scene and camera manipulation to trigger sound effects and state changes.
+* Used RequestAnimationFrame to change state of objects to smoothen gameplay and repainting of the canvas.
+* Created classes for Football, Soccerball, and Lasers to keep code neat and separate the concerns.
+* Pushed Lasers in an array when a laser is fired and popped Lasers off the array while clearing the mesh of the Laser from the scene as it leaves the screen to remove lag and over memory consumption.
+* Implemented responsive canvas resizing through dynamic refresh frames within asynchronous rerendering loop.
+* Throttled soccerball’s jump to reduce infinite flying using the Lodash library.
